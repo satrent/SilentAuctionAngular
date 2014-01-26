@@ -104,11 +104,13 @@ body {
 .lot-box {
   border: 1px solid #888888;
   float: left;
-  width: 20 0px;
+  width: 200px;
   height: 275px;
   margin: 10px;
   position: relative;
+  cursor: pointer;
 }
+
 
 .lot-box .title {
   background-color: #888888;

@@ -9,11 +9,15 @@ silentAuctionControllers.controller('ItemListController', ['$scope', '$http',
     $http.get('http://localhost:8887/api/items').success(function(data) {
       $scope.items = data;
     });
+
+    $scope.gotoDetails = function(id){
+      document.location = "#/item/" + id;
+    };
   }]);
 
 silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routeParams', '$http',
   function($scope, $routeParams, $http) {
-    $http.get('http://localhost:8887/api/item/' + $routeParams.lotId).success(function(data) {
-      $scope.item = data;
-    });
+    //$http.get('http://localhost:8887/api/item/' + $routeParams.lotId).success(function(data) {
+    //  $scope.item = data;
+    //});
   }]);
