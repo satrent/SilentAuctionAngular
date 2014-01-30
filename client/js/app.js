@@ -2,6 +2,8 @@
 
 /* App Module */
 
+
+
 var silentAuctionApp = angular.module('silentAuctionApp', [
   'ngRoute',
   'silentAuctionControllers'
@@ -21,4 +23,28 @@ silentAuctionApp.config(['$routeProvider',
       otherwise({
         redirectTo: '/'
       });
-  }]);
+  }
+]);
+
+var auctionAdminApp = angular.module('auctionAdminApp', [
+  'ngRoute', 
+  'auctionAdminControllers'
+]);
+
+auctionAdminApp.config(['$routeProvider', 
+  function($routeProvider) {
+    $routeProvider.
+      when('/', {
+        templateUrl: 'partials/admin/items.html',
+        controller: 'AdminItemListController'
+      }).
+      when('/item/:itemId', {
+        templateUrl: 'partials/admin/item-detail.html',
+        controller: 'AdminItemDetailsController'
+      }).
+      otherwise({
+        redirectTo: '/'
+      });
+  }
+]);
+

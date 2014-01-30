@@ -1,0 +1,63 @@
+<h4>Item Details</h4>
+
+<div>
+  <div class='admin-item-detail-label'>
+    ID:
+  </div>
+  <div class='admin-item-detail'>
+    {{item.Id}}
+  </div>
+</div>
+<div>
+  <div class='admin-item-detail-label'>
+    Title:
+  </div>
+  <div class='admin-item-detail'>
+    <input name='item.Title' ng-model='item.Title'>
+  </div>
+</div>
+<div>
+  <div class='admin-item-detail-label'>
+    Description:
+  </div>
+  <div class='admin-item-detail'>
+    <input name='item.Description' ng-model='item.Description'>
+  </div>
+</div>
+<div>
+  <div class='admin-item-detail-label'>
+    Start Date:
+  </div>
+  <div class='admin-item-detail'>
+    <input name='item.StartDate' ng-model='item.StartDate'>
+  </div>
+</div>
+<div>
+  <div class='admin-item-detail-label'>
+    End Date:
+  </div>
+  <div class='admin-item-detail'>
+    <input name='item.EndDate' ng-model='item.EndDate'>
+  </div>
+</div>
+<div>
+  <div class='admin-item-detail-label'>
+    Donated By:
+  </div>
+  <div class='admin-item-detail'>
+    <input name='item.DonatedBy' ng-model='item.DonatedBy'>
+  </div>
+</div>
+<div>
+  <div class='admin-item-detail-label'>
+    Donated Link:
+  </div>
+  <div class='admin-item-detail'>
+    <input name='item.DonatedLink' ng-model='item.DonatedLink'>
+  </div>
+</div>
+<div>
+  <button ng-click='updateItem()'>Update Item</button>
+</div>
+
+
