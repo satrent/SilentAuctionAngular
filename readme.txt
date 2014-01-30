@@ -19,13 +19,16 @@ The client folder contains a simple web server to return the index.html.
 
 ok... now the server.  The server is a small group of node REST services to return and save data.
 
+	get the database set up.  
+		-- you'll need to have MySQL running locally on port 3306
+		-- run the createdatabase.sql script in the root folder in MySQL Workbench
+
 	to run the server.
 		-- make sure you have node installed.
 		-- open terminal (command prompt on windows)
 		-- get yourself to the server root directory.
-		-- run npm install to install the node dependencies
+		-- run "npm install" to install the node dependencies
 		-- run "node server.js" to start the server.
-		-- browse http://localhost:8887/api/items to test (you should see a list of items)
 
 
 
