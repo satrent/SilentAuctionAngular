@@ -1,6 +1,6 @@
 var http = require('http');
 var express = require('express');
-var sql = require('mysql');
+var mysql = require('mysql');
 var app = express();
 
 app.use(express.cookieParser());
@@ -8,58 +8,36 @@ app.use(express.session({secret: '1234567890QWERTY'}));
 app.use(express.bodyParser());
 
 
+var _connection = mysql.createConnection({
+  host     : 'localhost',
+  port     : '3306',
+  user     : 'silentauction',
+  database : 'SilentAuction',
+  password : '11x6jcyKc08'
+});
 
 
 app.get('/api/items', function(req, res) {
 	res.setHeader('Access-Control-Allow-Origin', '*');
-  res.send(JSON.stringify([
-  	{
-  		Id: 1,
-  		Title: 'First Item',
-  		Description: 'this is just the first item, but it is a pretty good one anyways.',
-  		StartDate: '2014-01-01',
-  		EndDate: '2014-02-28',
-  		DonatedBy: 'Melissa Nelson',
-  		DonatedLink: 'https://www.facebook.com/mplsyogamama'
-  	},
-  	{
-  		Id: 2,
-  		Title: 'Second Item',
-  		Description: 'this is the second item... probalby better than that crappy first one.',
-  		StartDate: '2014-01-01',
-  		EndDate: '2014-02-28',
-  		DonatedBy: 'Trent Nelson',
-  		DonatedLink: 'www.copperconsultingmn.com'
-  	},
 
-  ]));
+  _connection.connect();
+  _connection.query('SELECT * from Items', function(err, rows, fields) {
+    if (err) throw err;
+    res.send(JSON.stringify(rows));
+  });
+
+  _connection.end();
 });
 
 app.get('/api/item/:id', function(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
 
-  if (req.params.id == 1)
-  {
-    res.send(JSON.stringify({
-        Id: 1,
-        Title: 'First Item',
-        Description: 'this is just the first item, but it is a pretty good one anyways.',
-        StartDate: '2014-01-01',
-        EndDate: '2014-02-28',
-        DonatedBy: 'Melissa Nelson',
-        DonatedLink: 'https://www.facebook.com/mplsyogamama'
-    }));
-  } else {
-    res.send(JSON.stringify({
-      Id: 2,
-      Title: 'Second Item',
-      Description: 'this is the second item... probalby better than that crappy first one.',
-      StartDate: '2014-01-01',
-      EndDate: '2014-02-28',
-      DonatedBy: 'Trent Nelson',
-      DonatedLink: 'www.copperconsultingmn.com'
-    }));
-  }
+  _connection.connect();
+  _connection.query('Select * from Items where Id=?', req.params.id, function(err, rows, fields) {
+    if (err || rows.length != 1) throw err;
+
+    res.send(JSON.stringify(rows[0]));
+  });
 });
 
 
