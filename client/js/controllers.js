@@ -34,14 +34,23 @@ auctionAdminControllers.controller('AdminItemListController', ['$scope', '$http'
     $scope.gotoDetails = function(id){
       document.location = "#/item/" + id;
     };
+
   } 
 ]);
 
 auctionAdminControllers.controller('AdminItemDetailsController', ['$scope', '$routeParams', '$http',
   function($scope, $routeParams, $http) {
+
     $http.get('http://localhost:8887/api/item/' + $routeParams.itemId).success(function(data) {
       $scope.item = data;
     });
+
+    $scope.updateItem = function() {
+      console.log($scope.item);
+      $http.post('http://localhost:8887/api/item', JSON.stringify($scope.item), {'Content-Type': 'application/json'}).success(function(data){
+      });
+    };
+
   } 
 ]);
 
