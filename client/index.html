@@ -13,7 +13,7 @@
 
 <div>
   <div class="header-outer"><div class="header-inner">
-    <div class="header-menu"><div class="menu-item"> 
+    <div class="header-menu" ng-show="showMenu"><div class="menu-item"> 
       <a href="/">Open Items</a></div><div class="menu-item">
       <a href="/lots/closed">Closed Items</a>
     </div>
@@ -31,7 +31,7 @@
     </div>
   </div>
   <div id="headerMenu" class="header-left">
-    <img id="menuImage" src="/css/images/down-arrow.png" style="position: relative; z-index: 140; top: 10px">
+    <img id="menuImage" src="/css/images/down-arrow.png" ng-click="showMenu = !showMenu" style="position: relative; z-index: 140; top: 10px">
   </div>
   <div class="header-left">
     Silent Auction - 2014

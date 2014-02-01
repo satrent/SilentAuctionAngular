@@ -55,3 +55,46 @@ auctionAdminControllers.controller('AdminItemDetailsController', ['$scope', '$ro
 ]);
 
 
+auctionAdminControllers.controller('AdminItemNewController', ['$scope', '$http',
+  function($scope, $http) {
+
+    $scope.item = {Id: -1,
+          Title: '',
+          Description: '',
+          StartDate: '',
+          EndDate: '',
+          DonatedBy: '',
+          DontaedLink: ''
+    };
+
+    $scope.addItem = function() {
+      console.log($scope.item);
+      $http.post('http://localhost:8887/api/item', JSON.stringify($scope.item), {'Content-Type': 'application/json'}).success(function(res){
+        
+        console.log('valid? ' + $scope.itemForm.$valid);
+
+
+        if (res.Result) {
+          $scope.message = 'new item saved';
+
+          $scope.item = {Id: -1,
+                Title: '',
+                Description: '',
+                StartDate: '',
+                EndDate: '',
+                DonatedBy: '',
+                DontaedLink: ''
+          };
+        } else {
+          $scope.message = res.message;
+        }
+
+        console.log(res);
+
+      });
+    };
+
+  } 
+]);
+
+

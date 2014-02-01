@@ -59,13 +59,21 @@ app.options('/api/item', function(req, res){
 
 app.post('/api/item', function(req, res){
   var item = req.body;
+
   console.log(item);
+  
+  if (item.Id > 0)
+  {
+    _connection.query("UPDATE items SET title = :Title, Description = :Description, DonatedBy = :DonatedBy, DonatedLink = :DonatedLink where id = :Id", item, function(err){
+      console.log(err);
+    });
+  } else {
+    _connection.query("insert into items (Title, description, startdate, enddate, DonatedBy, DonatedLink) values(:Title, :Description, :StartDate, :EndDate, :DonatedBy, :DonatedLink)", item, function(err){
+      console.log(err);
+    });
+  }
 
-  _connection.query("UPDATE items SET title = :Title, Description = :Description, DonatedBy = :DonatedBy, DonatedLink = :DonatedLink where id = :Id", item, function(err){
-    console.log(err);
-  });
-
-  res.send('all good');
+  res.send({message: 'all good', result: true});
 });
 
 

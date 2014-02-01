@@ -60,7 +60,6 @@ body {
 .header-menu {
   position: absolute;
   font-size: 18px;
-  display: none;
   top: 50px;
   z-index: 100;
   border-right: 2px solid #999;
@@ -109,6 +108,11 @@ body {
   margin: 10px;
   position: relative;
   cursor: pointer;
+}
+
+.lot-box:hover {
+  border: 2px solid #444;
+  margin: 9px;
 }
 
 

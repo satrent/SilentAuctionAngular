@@ -38,6 +38,10 @@ auctionAdminApp.config(['$routeProvider',
         templateUrl: 'partials/admin/items.html',
         controller: 'AdminItemListController'
       }).
+      when('/item/new', {
+        templateUrl: 'partials/admin/item-new.html',
+        controller: 'AdminItemNewController'
+      }).
       when('/item/:itemId', {
         templateUrl: 'partials/admin/item-detail.html',
         controller: 'AdminItemDetailsController'
