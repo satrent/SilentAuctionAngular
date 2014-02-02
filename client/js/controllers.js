@@ -20,6 +20,12 @@ silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routePa
     $http.get('http://localhost:8887/api/item/' + $routeParams.itemId).success(function(data) {
       $scope.item = data;
     });
+
+    $scope.makeBid = function() {
+        $http.post('http://localhost:8887/api/bid', JSON.stringify({ItemId: $scope.item.Id, Amount: $scope.newBidAmount, UserName: 'Trent'}), {'Content-Type': 'application/json'}).success(function(data){
+
+        });
+    };
   }
 ]);
 
@@ -48,7 +54,6 @@ auctionAdminControllers.controller('AdminItemDetailsController', ['$scope', '$ro
     });
 
     $scope.updateItem = function() {
-      console.log($scope.item);
       $http.post('http://localhost:8887/api/item', JSON.stringify($scope.item), {'Content-Type': 'application/json'}).success(function(data){
       });
     };

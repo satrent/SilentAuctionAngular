@@ -54,14 +54,12 @@ app.get('/api/item/:id', function(req, res) {
 });
 
 app.options('/api/item', function(req, res){
-  res.send('all good');
+  res.send('');
 });
 
 app.post('/api/item', function(req, res){
   var item = req.body;
 
-  console.log(item);
-  
   if (item.Id > 0)
   {
     _connection.query("UPDATE items SET title = :Title, Description = :Description, DonatedBy = :DonatedBy, DonatedLink = :DonatedLink where id = :Id", item, function(err){
@@ -74,6 +72,22 @@ app.post('/api/item', function(req, res){
   }
 
   res.send({message: 'all good', result: true});
+});
+
+app.options('/api/bid', function(req, res){
+    res.send('');
+});
+
+app.post('/api/bid', function(req, res) {
+   var bid = req.body;
+
+   //TODO - check that the bid is at least one dollar more than the current high bid.
+
+
+   // save the bid to the database.
+   _connection.query("insert into Bids (itemId, Amount, UserName, CreatedDate) values (:ItemId, :Amount, :UserName, now())", bid, function(err) {
+      console.log(err);
+   });
 });
 
 
