@@ -17,11 +17,13 @@ silentAuctionControllers.controller('ItemListController', ['$scope', '$http',
 
 silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routeParams', '$http',
   function($scope, $routeParams, $http) {
-    //$http.get('http://localhost:8887/api/item/' + $routeParams.lotId).success(function(data) {
-    //  $scope.item = data;
-    //});
+    $http.get('http://localhost:8887/api/item/' + $routeParams.itemId).success(function(data) {
+      $scope.item = data;
+    });
   }
 ]);
+
+
 
 var auctionAdminControllers = angular.module('auctionAdminControllers', []);
 

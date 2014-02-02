@@ -16,7 +16,7 @@ silentAuctionApp.config(['$routeProvider',
         templateUrl: 'partials/items-all.html',
         controller: 'ItemListController'
       }).
-      when('/item/:lotId', {
+      when('/item/:itemId', {
         templateUrl: 'partials/item-detail.html',
         controller: 'ItemDetailController'
       }).

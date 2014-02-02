@@ -24,7 +24,7 @@ new item
 	    Start Date:
 	  </div>
 	  <div class='admin-item-detail'>
-	    <input name='startDate' ng-model='item.StartDate' ng-required='true'>
+	    <input type="date" name='startDate' ng-model='item.StartDate' ng-required='true'>
       <span ng-show="itemForm.startDate.$error.required">*</span>
 	  </div>
 	</div>
@@ -33,7 +33,7 @@ new item
 	    End Date:
 	  </div>
 	  <div class='admin-item-detail'>
-	    <input name='endDate' ng-model='item.EndDate' ng-required='true'>
+	    <input type="date" name='endDate' ng-model='item.EndDate' ng-required='true'>
       <span ng-show="itemForm.endDate.$error.required">*</span>
 	  </div>
 	</div>
@@ -63,3 +63,4 @@ new item
 	</div>
 </div>
 
+{{ item | json }}
