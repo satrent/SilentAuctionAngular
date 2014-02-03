@@ -1,11 +1,17 @@
 var http = require('http');
 var express = require('express');
 var mysql = require('mysql');
+var jwtAuth = require('express-jwt');
+var jwt = require('jsonwebtoken');
+
 var app = express();
 
+app.use('/api', jwtAuth({secret: 'fk139d0sl30sl'}));
+app.use(express.json());
+app.use(express.urlencoded());
 app.use(express.cookieParser());
-app.use(express.session({secret: '1234567890QWERTY'}));
 app.use(express.bodyParser());
+
 
 app.configure(function(){
   app.use(function(req, res, next) {
@@ -18,12 +24,39 @@ app.configure(function(){
 });
 
 
+
 var _connection = mysql.createConnection({
   host     : 'localhost',
   port     : '3306',
   user     : 'silentauction',
   database : 'SilentAuction',
   password : '11x6jcyKc08'
+});
+
+app.options('/authenticate', function(req, res){
+    res.send('');
+});
+
+app.post('/authenticate', function (req, res) {
+    //TODO validate user name and password against the database.
+    //if is invalid, return 401
+
+    if (!(req.body.username === 'trent' && req.body.password === 'password')) {
+        res.send(401, 'Wrong user or password');
+        return;
+    }
+
+    var profile = {
+        first_name: 'Trent',
+        last_name: 'Nelson',
+        email: 'trent01@gmail.com',
+        id: 1
+    };
+
+    // We are sending the profile inside the token
+    var token = jwt.sign(profile, 'fk139d0sl30sl');
+
+    res.json({ token: token });
 });
 
 
@@ -89,6 +122,9 @@ app.post('/api/bid', function(req, res) {
       console.log(err);
    });
 });
+
+
+
 
 
 http.createServer(app).listen(8887, function() {

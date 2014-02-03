@@ -20,6 +20,10 @@ silentAuctionApp.config(['$routeProvider',
         templateUrl: 'partials/item-detail.html',
         controller: 'ItemDetailController'
       }).
+      when('/login', {
+        templateUrl: 'partials/login.html',
+        controller: 'AuthController'
+      }).
       otherwise({
         redirectTo: '/'
       });

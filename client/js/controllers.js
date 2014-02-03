@@ -4,6 +4,20 @@
 
 var silentAuctionControllers = angular.module('silentAuctionControllers', []);
 
+silentAuctionControllers.controller('AuthController', ['$scope', '$http',
+  function($scope, $http) {
+
+      $scope.login = function() {
+          var login = {username: $scope.userName,
+          password: $scope.password};
+        $http.post('http://localhost:8887/authenticate', JSON.stringify(login), {'Content-Type': 'application/json'}).success(function(data){
+            console.log(data);
+        });
+      };
+
+  }
+])
+
 silentAuctionControllers.controller('ItemListController', ['$scope', '$http',
   function($scope, $http) {
     $http.get('http://localhost:8887/api/items').success(function(data) {
@@ -60,6 +74,7 @@ auctionAdminControllers.controller('AdminItemDetailsController', ['$scope', '$ro
 
   } 
 ]);
+
 
 
 auctionAdminControllers.controller('AdminItemNewController', ['$scope', '$http',
