@@ -6,7 +6,6 @@ var jwt = require('jsonwebtoken');
 
 var app = express();
 
-app.use('/api', jwtAuth({secret: 'fk139d0sl30sl'}));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.cookieParser());
@@ -17,12 +16,14 @@ app.configure(function(){
   app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', req.headers.origin || "*");
     res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,HEAD,DELETE,OPTIONS');
-    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization");
     return next();
   });
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
+
+//app.use('/api', jwtAuth({secret: 'fk139d0sl30sl'}));
 
 
 var _connection = mysql.createConnection({
@@ -69,6 +70,10 @@ _connection.config.queryFormat = function (query, values) {
     return txt;
   }.bind(this));
 };
+
+app.options('/api/items', function(req, res) {
+    res.send('');
+})
 
 app.get('/api/items', function(req, res) {
   _connection.query('SELECT * from Items', function(err, rows, fields) {

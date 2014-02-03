@@ -1,17 +1,17 @@
 'use strict';
 
 /* Controllers */
-
 var silentAuctionControllers = angular.module('silentAuctionControllers', []);
 
-silentAuctionControllers.controller('AuthController', ['$scope', '$http',
-  function($scope, $http) {
+
+silentAuctionControllers.controller('AuthController', ['$scope', '$http', '$window',
+  function($scope, $http, $window) {
 
       $scope.login = function() {
           var login = {username: $scope.userName,
           password: $scope.password};
         $http.post('http://localhost:8887/authenticate', JSON.stringify(login), {'Content-Type': 'application/json'}).success(function(data){
-            console.log(data);
+          $window.localStorage.token = data.token;
         });
       };
 
@@ -19,15 +19,19 @@ silentAuctionControllers.controller('AuthController', ['$scope', '$http',
 ])
 
 silentAuctionControllers.controller('ItemListController', ['$scope', '$http',
-  function($scope, $http) {
-    $http.get('http://localhost:8887/api/items').success(function(data) {
-      $scope.items = data;
-    });
+    function($scope, $http) {
+        $http.get('http://localhost:8887/api/items')
+            .success(function (data, status, headers, config) {
+                console.log('inside the success?');
+                 $scope.items = data;
+            })
+            .error(function(e){console.log(e);});
 
-    $scope.gotoDetails = function(id){
-      document.location = "#/item/" + id;
-    };
-  }]);
+        $scope.gotoDetails = function(id){
+            document.location = "#/item/" + id;
+        };
+    }
+]);
 
 silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routeParams', '$http',
   function($scope, $routeParams, $http) {
@@ -42,7 +46,6 @@ silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routePa
     };
   }
 ]);
-
 
 
 var auctionAdminControllers = angular.module('auctionAdminControllers', []);

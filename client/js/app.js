@@ -2,57 +2,52 @@
 
 /* App Module */
 
-
-
 var silentAuctionApp = angular.module('silentAuctionApp', [
   'ngRoute',
   'silentAuctionControllers'
 ]);
 
-silentAuctionApp.config(['$routeProvider',
-  function($routeProvider) {
-    $routeProvider.
-      when('/', {
-        templateUrl: 'partials/items-all.html',
-        controller: 'ItemListController'
-      }).
-      when('/item/:itemId', {
-        templateUrl: 'partials/item-detail.html',
-        controller: 'ItemDetailController'
-      }).
-      when('/login', {
-        templateUrl: 'partials/login.html',
-        controller: 'AuthController'
-      }).
-      otherwise({
-        redirectTo: '/'
-      });
-  }
-]);
 
-var auctionAdminApp = angular.module('auctionAdminApp', [
-  'ngRoute', 
-  'auctionAdminControllers'
-]);
+silentAuctionApp.factory('authInterceptor', function ($rootScope, $q, $window) {
+    return {
+        request: function (config) {
+            config.headers = config.headers || {};
+            if ($window.localStorage.token) {
+                console.log('found the token! ' + $window.localStorage.token);
+                config.headers.Authorization = 'Bearer ' + $window.localStorage.token;
+            }
+            return config;
+        },
+        response: function (response) {
+            if (response.status === 401) {
+                // handle the case where the user is not authenticated
+            }
+            return response || $q.when(response);
+        }
+    };
+});
 
-auctionAdminApp.config(['$routeProvider', 
-  function($routeProvider) {
-    $routeProvider.
-      when('/', {
-        templateUrl: 'partials/admin/items.html',
-        controller: 'AdminItemListController'
-      }).
-      when('/item/new', {
-        templateUrl: 'partials/admin/item-new.html',
-        controller: 'AdminItemNewController'
-      }).
-      when('/item/:itemId', {
-        templateUrl: 'partials/admin/item-detail.html',
-        controller: 'AdminItemDetailsController'
-      }).
-      otherwise({
-        redirectTo: '/'
-      });
-  }
-]);
 
+silentAuctionApp.config(['$routeProvider','$httpProvider',
+    function($routeProvider, $httpProvider) {
+        $routeProvider.
+          when('/', {
+            templateUrl: 'partials/items-all.html',
+            controller: 'ItemListController'
+          }).
+          when('/item/:itemId', {
+            templateUrl: 'partials/item-detail.html',
+            controller: 'ItemDetailController'
+          }).
+          when('/login', {
+            templateUrl: 'partials/login.html',
+            controller: 'AuthController'
+          }).
+          otherwise({
+            redirectTo: '/'
+          });
+
+        $httpProvider.interceptors.push('authInterceptor');
+
+    }
+]);
