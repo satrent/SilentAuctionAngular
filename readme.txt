@@ -5,6 +5,8 @@ This project has two parts, client and server.
 The client folder contains a simple web server to return the index.html. 
 	from there, Angular controls everything.  Single page app.  
 
+  install the bower components.
+    -- bower install
 
 	to run the web server.
 		-- make sure you have node installed.
