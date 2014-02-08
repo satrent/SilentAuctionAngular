@@ -83,7 +83,8 @@ _connection.config.queryFormat = function (query, values) {
 };
 
 app.options('/api/items', function(req, res) {
-    res.send('');
+  console.log(req);
+  res.send('');
 })
 
 app.get('/api/items', function(req, res) {

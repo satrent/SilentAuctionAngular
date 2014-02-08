@@ -4,17 +4,20 @@
 var silentAuctionControllers = angular.module('silentAuctionControllers', []);
 
 
-silentAuctionControllers.controller('AuthController', ['$scope', '$http', '$window',
-  function($scope, $http, $window) {
+silentAuctionControllers.controller('AuthController', ['$scope', '$http', '$window', '$location',
+  function($scope, $http, $window, $location) {
 
       $scope.login = function() {
-          var login = {userName: $scope.userName, password: $scope.password};
+        var login = {userName: $scope.userName, password: $scope.password};
         $http.post('http://localhost:8887/authenticate', JSON.stringify(login), {'Content-Type': 'application/json'}).success(function(data){
             $window.localStorage.token = data.token;
             $window.localStorage.userName = $scope.userName;
-        });
+            $location.path('/');
+        })
+          .error(function(){
+            $scope.message = 'login failed.';
+          });
       };
-
   }
 ])
 
