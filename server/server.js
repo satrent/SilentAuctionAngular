@@ -3,6 +3,8 @@ var express = require('express');
 var mysql = require('mysql');
 var jwtAuth = require('express-jwt');
 var jwt = require('jsonwebtoken');
+var crypto = require('crypto');
+
 
 var app = express();
 
@@ -23,7 +25,7 @@ app.configure(function(){
 });
 
 
-//app.use('/api', jwtAuth({secret: 'fk139d0sl30sl'}));
+app.use('/api', jwtAuth({secret: 'fk139d0sl30sl'}));
 
 
 var _connection = mysql.createConnection({
@@ -39,25 +41,34 @@ app.options('/authenticate', function(req, res){
 });
 
 app.post('/authenticate', function (req, res) {
-    //TODO validate user name and password against the database.
+    //TODO - hash the password on the client.
     //if is invalid, return 401
 
-    if (!(req.body.username === 'trent' && req.body.password === 'password')) {
-        res.send(401, 'Wrong user or password');
-        return;
-    }
+    var password = crypto.createHash('md5').update(req.body.password).digest('hex');
 
-    var profile = {
-        first_name: 'Trent',
-        last_name: 'Nelson',
-        email: 'trent01@gmail.com',
-        id: 1
-    };
+    _connection.query('Select * from Users where UserName= :userName and password = :password', {userName: req.body.userName, password: password}, function(err, rows, fields) {
 
-    // We are sending the profile inside the token
-    var token = jwt.sign(profile, 'fk139d0sl30sl');
+        console.log(rows);
 
-    res.json({ token: token });
+        if (rows.length != 1){
+            res.send(401, 'Wrong user or password');
+            return;
+        }
+
+        var profile = {
+            userId: rows[0].Id,
+            userName: rows[0].UserName ,
+            isAdmin: rows[0].IsAdmin,
+            email: rows[0].Email
+        };
+
+        // We are sending the profile inside the token
+        var token = jwt.sign(profile, 'fk139d0sl30sl');
+
+        res.json({ token: token });
+
+    });
+
 });
 
 

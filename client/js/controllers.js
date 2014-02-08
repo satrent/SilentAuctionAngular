@@ -8,10 +8,10 @@ silentAuctionControllers.controller('AuthController', ['$scope', '$http', '$wind
   function($scope, $http, $window) {
 
       $scope.login = function() {
-          var login = {username: $scope.userName,
-          password: $scope.password};
+          var login = {userName: $scope.userName, password: $scope.password};
         $http.post('http://localhost:8887/authenticate', JSON.stringify(login), {'Content-Type': 'application/json'}).success(function(data){
-          $window.localStorage.token = data.token;
+            $window.localStorage.token = data.token;
+            $window.localStorage.userName = $scope.userName;
         });
       };
 
