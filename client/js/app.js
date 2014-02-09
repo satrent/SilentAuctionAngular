@@ -13,13 +13,11 @@ silentAuctionApp.factory('authInterceptor', function ($rootScope, $q, $window, $
         request: function (config) {
             config.headers = config.headers || {};
             if ($window.localStorage.token) {
-              console.log($window.localStorage.token);
               config.headers.Authorization = 'Bearer ' + $window.localStorage.token;
             }
             return config;
         },
         response: function (response) {
-          console.log(response.status);
             if (response.status >= 400) {
               $location.path("/#/login");
             }

@@ -35,16 +35,20 @@ silentAuctionControllers.controller('ItemListController', ['$scope', '$http',
     }
 ]);
 
-silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routeParams', '$http',
-  function($scope, $routeParams, $http) {
-    $http.get('http://localhost:8887/api/item/' + $routeParams.itemId).success(function(data) {
+silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routeParams', '$http', '$window',
+  function($scope, $routeParams, $http, $window) {
+    $http.get('api/item/' + $routeParams.itemId).success(function(data) {
       $scope.item = data;
     });
 
     $scope.makeBid = function() {
-        $http.post('http://localhost:8887/api/bid', JSON.stringify({ItemId: $scope.item.Id, Amount: $scope.newBidAmount, UserName: 'Trent'}), {'Content-Type': 'application/json'}).success(function(data){
-
-        });
+      $http.post('api/bid', JSON.stringify({itemId: $scope.item.Id,
+                                          amount: $scope.newBidAmount,
+                                          userName: $window.localStorage.userName}),
+                            {'Content-Type': 'application/json'}
+      ).success(function(data){
+        // do something on successful bid.  Maybe a message.
+      });
     };
   }
 ]);
@@ -95,12 +99,8 @@ auctionAdminControllers.controller('AdminItemNewController', ['$scope', '$http',
     };
 
     $scope.addItem = function() {
-      console.log($scope.item);
       $http.post('http://localhost:8887/api/item', JSON.stringify($scope.item), {'Content-Type': 'application/json'}).success(function(res){
         
-        console.log('valid? ' + $scope.itemForm.$valid);
-
-
         if (res.Result) {
           $scope.message = 'new item saved';
 
@@ -115,8 +115,6 @@ auctionAdminControllers.controller('AdminItemNewController', ['$scope', '$http',
         } else {
           $scope.message = res.message;
         }
-
-        console.log(res);
 
       });
     };
