@@ -23,9 +23,8 @@ silentAuctionControllers.controller('AuthController', ['$scope', '$http', '$wind
 
 silentAuctionControllers.controller('ItemListController', ['$scope', '$http',
     function($scope, $http) {
-        $http.get('http://localhost:8887/api/items')
+        $http.get('api/items')
             .success(function (data, status, headers, config) {
-                console.log('inside the success?');
                  $scope.items = data;
             })
             .error(function(e){console.log(e);});

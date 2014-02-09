@@ -8,7 +8,7 @@ var silentAuctionApp = angular.module('silentAuctionApp', [
 ]);
 
 
-silentAuctionApp.factory('authInterceptor', function ($rootScope, $q, $window) {
+silentAuctionApp.factory('authInterceptor', function ($rootScope, $q, $window, $location) {
     return {
         request: function (config) {
             config.headers = config.headers || {};
@@ -19,8 +19,9 @@ silentAuctionApp.factory('authInterceptor', function ($rootScope, $q, $window) {
             return config;
         },
         response: function (response) {
-            if (response.status === 401) {
-                // handle the case where the user is not authenticated
+          console.log(response.status);
+            if (response.status >= 400) {
+              $location.path("/#/login");
             }
             return response || $q.when(response);
         }
@@ -32,15 +33,15 @@ silentAuctionApp.config(['$routeProvider','$httpProvider',
     function($routeProvider, $httpProvider) {
         $routeProvider.
           when('/', {
-            templateUrl: 'partials/items-all.html',
+            templateUrl: '/partials/items-all.html',
             controller: 'ItemListController'
           }).
           when('/item/:itemId', {
-            templateUrl: 'partials/item-detail.html',
+            templateUrl: '/partials/item-detail.html',
             controller: 'ItemDetailController'
           }).
           when('/login', {
-            templateUrl: 'partials/login.html',
+            templateUrl: '/partials/login.html',
             controller: 'AuthController'
           }).
           otherwise({
