@@ -4,6 +4,10 @@ body {
   line-height: 1.1;
 }
 
+.error {
+  color: red;
+}
+
 .header-outer{
   height: 50px;
   width: 100%;

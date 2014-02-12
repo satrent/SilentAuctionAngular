@@ -46,8 +46,11 @@ silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routePa
                                           amount: $scope.newBidAmount,
                                           userName: $window.localStorage.userName}),
                             {'Content-Type': 'application/json'}
-      ).success(function(data){
-        // do something on successful bid.  Maybe a message.
+      ).success(function(data, status, header, config){
+          $scope.bidResponse = data;
+      })
+        .error(function(data, status, headers, config ){
+        console.log(data);
       });
     };
   }

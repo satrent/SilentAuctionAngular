@@ -18,3 +18,7 @@
   Bid: <input ng-model="newBidAmount" type="number">
   <button ng-click="makeBid()">Submit Bid</button>
 </div>
+
+<div ng-class="{error: !bidError}">
+  {{ bidResponse | json }}
+</div>
