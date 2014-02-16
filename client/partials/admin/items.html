@@ -1,6 +1,17 @@
 <h1>Items</h1>
 
-<div ng-repeat="item in items" ng-click="gotoDetails(item.Id)" class='admin-list-box'>
-	{{item.Id}} - {{item.Title}}
-</div>
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Title</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+  </tr>
+  <tr ng-repeat="item in items" ng-click="gotoDetails(item.Id)">
+    <td ng-bind="item.Id"></td>
+    <td ng-bind="item.Title"></td>
+    <td ng-bind="item.StartDate"></td>
+    <td ng-bind="item.EndDate"></td>
+  </tr>
+</table>
 
