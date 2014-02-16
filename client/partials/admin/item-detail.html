@@ -4,10 +4,7 @@
   <div class='admin-item-detail-label'>
     ID:
   </div>
-  <div class='admin-item-detail'>
-    
-    {{item.Id}}
-  </div>
+  <div class='admin-item-detail' ng-bind="item.Id"></div>
 </div>
 <div>
   <div class='admin-item-detail-label'>
@@ -30,7 +27,7 @@
     Start Date:
   </div>
   <div class='admin-item-detail'>
-    <input type="date" name='startDate' ng-model='startDateString'>
+    <input type="date" name='startDate' ng-model='item.StartDate'>
   </div>
 </div>
 <div>

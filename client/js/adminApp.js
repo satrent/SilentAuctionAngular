@@ -2,7 +2,7 @@
 
 /* App Module */
 
-var app = angular.module('admin', ['ngRoute', 'adminControllers']);
+var app = angular.module('admin', ['ngRoute']);
 
 app.factory('authInterceptor', function ($rootScope, $q, $window, $location) {
     return {
@@ -23,16 +23,16 @@ app.factory('authInterceptor', function ($rootScope, $q, $window, $location) {
 });
 
 
-app.config(['$routeProvider','$httpProvider',
+app.config(['$routeProvider', '$httpProvider',
     function($routeProvider, $httpProvider) {
         $routeProvider.
           when('/', {
             templateUrl: '/partials/admin/items.html',
             controller: 'AdminItemListController'
           }).
-          when('/login', {
-            templateUrl: '/partials/login.html',
-            controller: 'AuthController'
+          when('/item/:id', {
+            templateUrl: '/partials/admin/item-detail.html',
+            controller: 'AdminItemDetailController'
           }).
           otherwise({
             redirectTo: '/'
@@ -41,3 +41,21 @@ app.config(['$routeProvider','$httpProvider',
         $httpProvider.interceptors.push('authInterceptor');
     }
 ]);
+
+
+
+app.directive('input', function () {
+  return {
+    require: '?ngModel',
+    restrict: 'E',
+    link: function (scope, element, attrs, ngModel) {
+      if ( attrs.type="date" && ngModel ) {
+        element.bind('change', function () {
+          scope.$apply(function() {
+            ngModel.$setViewValue(element.val());
+          });
+        });
+      }
+    }
+  };
+});
