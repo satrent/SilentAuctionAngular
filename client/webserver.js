@@ -15,6 +15,8 @@ app.use('/js', express.static(__dirname + '/js'));
 app.use('/images', express.static(__dirname + '/images'));
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/partials', express.static(__dirname + '/partials'));
+app.use('/templates', express.static(__dirname + '/templates'));
+app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
 app.use(express.json());
 app.use(express.urlencoded());
@@ -89,7 +91,9 @@ app.post('/api/item', function(req, res){
 
   if (item.Id > 0)
   {
-    _connection.query("UPDATE items SET title = :Title, Description = :Description, StartDate = :StartDate, EndDate = :EndDate, DonatedBy = :DonatedBy, DonatedLink = :DonatedLink where id = :Id", item, function(err){
+    console.log(mysql.escape(item.StartDate));
+    
+    _connection.query("UPDATE items SET title = :Title, Description = :Description, StartDate = " + mysql.escape(item.StartDate) + ", EndDate = :EndDate, DonatedBy = :DonatedBy, DonatedLink = :DonatedLink where id = :Id", item, function(err){
       console.log(err);
     });
   } else {

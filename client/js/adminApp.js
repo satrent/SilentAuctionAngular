@@ -2,7 +2,7 @@
 
 /* App Module */
 
-var app = angular.module('admin', ['ngRoute']);
+var app = angular.module('admin', ['ngRoute', 'directives']);
 
 app.factory('authInterceptor', function ($rootScope, $q, $window, $location) {
     return {

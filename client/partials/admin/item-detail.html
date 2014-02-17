@@ -15,11 +15,11 @@
   </div>
 </div>
 <div>
-  <div class='admin-item-detail-label'>
+  <div class='admin-item-detail-label' style="vertical-align: top;">
     Description:
   </div>
   <div class='admin-item-detail'>
-    <input name='description' ng-model='item.Description'>
+    <textarea name="description" ng-model="item.Description" style="width: 450px; height: 100px;"></textarea>
   </div>
 </div>
 <div>
@@ -27,7 +27,7 @@
     Start Date:
   </div>
   <div class='admin-item-detail'>
-    <input type="date" name='startDate' ng-model='item.StartDate'>
+    <input date-selects="" select-date="item.StartDate">
   </div>
 </div>
 <div>
@@ -35,7 +35,7 @@
     End Date:
   </div>
   <div class='admin-item-detail'>
-    <input type="date" name='endDate' ng-model='item.EndDate'>
+    <input date-selects="" select-date="item.EndDate">
   </div>
 </div>
 <div>

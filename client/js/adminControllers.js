@@ -1,8 +1,6 @@
 'use strict';
 
-
-/* Controllers */
-var app = angular.module('admin');
+var app = angular.module('admin');  // don't add dependencies here.  Add them to the adminApp.js
 
 app.controller('AuthController', ['$scope', '$http', '$window', '$location',
   function($scope, $http, $window, $location) {
@@ -38,6 +36,7 @@ app.controller('AdminItemDetailController', ['$scope', '$http', '$routeParams', 
   $http.get('api/item/' + $routeParams.id).success(function(data){
     $scope.item = data;
   });
+
 
   $scope.updateItem = function() {
     console.log($scope.item.StartDate);
