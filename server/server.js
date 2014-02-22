@@ -115,7 +115,6 @@ app.post('/api/bid', function(req, res) {
   _connection.query("select max(amount) as highBid from Bids where itemId = :itemId", bid, function(err, rows) {
 
     if (rows.length > 0 && ((rows[0].highBid + 1) > bid.amount)) {
-
       res.send(JSON.stringify({result: false, message: 'Bid must be at least one dollar moe than the current high bid, ' + rows[0].highBid + '.'}));
     }
 
