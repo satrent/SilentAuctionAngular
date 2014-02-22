@@ -1,0 +1,26 @@
+<html ng-app='admin'>
+<head>
+  <meta charset="utf-8">
+  <title>Silent Auction</title>
+  <link rel='stylesheet' href='/css/site.css' />
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular-route.min.js"></script>
+  <script src="/js/adminApp.js"></script>
+  <script src="/js/adminControllers.js"></script>
+  <script src="/js/directives.js"></script>
+  <script src="/bower_components/momentjs/min/moment.min.js"></script>
+  <script src="/bower_components/underscore/underscore-min.js"></script>
+</head>
+
+</body>
+
+  <h2>Admin Site</h2>
+  <span>
+    <a href="#/item/new" >Add New Item</a>
+  </span>
+
+  <div ng-view></div>
+
+</body>
+
+</html>

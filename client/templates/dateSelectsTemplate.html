@@ -1,0 +1,12 @@
+<div>
+
+  <select ng-model="selectedMonth" ng-options="month.value as month.name for month in months"></select>
+
+  <select ng-model="selectedDay" ng-options="day for day in days"></select>
+
+  <select ng-model="selectedYear" ng-options="year for year in years"></select>
+
+  <select ng-model="selectedHour" ng-options="hour.value as hour.name for hour in hours"></select>
+
+  {{ selectedHour }}
+</div>

@@ -4,6 +4,10 @@ body {
   line-height: 1.1;
 }
 
+.error {
+  color: red;
+}
+
 .header-outer{
   height: 50px;
   width: 100%;
@@ -195,4 +199,17 @@ body {
   width: 800px; 
   padding-left: 10px;
   margin: 2px;
+}
+
+.admin-item-rows {
+
+}
+
+.admin-item-rows > td {
+  border-left: 1px dashed #888;
+  border-right: 1px dashed #888;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-bottom: 1px solid #888;
+  border-top: 1px solid #888;
 }

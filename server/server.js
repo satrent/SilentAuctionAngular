@@ -3,6 +3,8 @@ var express = require('express');
 var mysql = require('mysql');
 var jwtAuth = require('express-jwt');
 var jwt = require('jsonwebtoken');
+var crypto = require('crypto');
+
 
 var app = express();
 
@@ -23,7 +25,7 @@ app.configure(function(){
 });
 
 
-//app.use('/api', jwtAuth({secret: 'fk139d0sl30sl'}));
+app.use('/api', jwtAuth({secret: 'fk139d0sl30sl'}));
 
 
 var _connection = mysql.createConnection({
@@ -39,27 +41,29 @@ app.options('/authenticate', function(req, res){
 });
 
 app.post('/authenticate', function (req, res) {
-    //TODO validate user name and password against the database.
+    //TODO - hash the password on the client.
     //if is invalid, return 401
 
-    if (!(req.body.username === 'trent' && req.body.password === 'password')) {
+    var password = crypto.createHash('md5').update(req.body.password).digest('hex');
+
+    _connection.query('Select * from Users where UserName= :userName and password = :password', {userName: req.body.userName, password: password}, function(err, rows, fields) {
+
+    if (rows.length != 1){
         res.send(401, 'Wrong user or password');
         return;
     }
 
     var profile = {
-        first_name: 'Trent',
-        last_name: 'Nelson',
-        email: 'trent01@gmail.com',
-        id: 1
+        userId: rows[0].Id,
+        userName: rows[0].UserName ,
+        isAdmin: rows[0].IsAdmin,
+        email: rows[0].Email
     };
 
-    // We are sending the profile inside the token
     var token = jwt.sign(profile, 'fk139d0sl30sl');
-
     res.json({ token: token });
+  });
 });
-
 
 _connection.config.queryFormat = function (query, values) {
   if (!values) return query;
@@ -70,10 +74,6 @@ _connection.config.queryFormat = function (query, values) {
     return txt;
   }.bind(this));
 };
-
-app.options('/api/items', function(req, res) {
-    res.send('');
-})
 
 app.get('/api/items', function(req, res) {
   _connection.query('SELECT * from Items', function(err, rows, fields) {
@@ -91,9 +91,6 @@ app.get('/api/item/:id', function(req, res) {
   });
 });
 
-app.options('/api/item', function(req, res){
-  res.send('');
-});
 
 app.post('/api/item', function(req, res){
   var item = req.body;
@@ -108,24 +105,32 @@ app.post('/api/item', function(req, res){
       console.log(err);
     });
   }
-
-  res.send({message: 'all good', result: true});
+  res.send(JSON.stringify({message: 'all good', result: true}));
 });
 
-app.options('/api/bid', function(req, res){
-    res.send('');
-});
 
 app.post('/api/bid', function(req, res) {
-   var bid = req.body;
+  var bid = req.body;
 
-   //TODO - check that the bid is at least one dollar more than the current high bid.
+  _connection.query("select max(amount) as highBid from Bids where itemId = :itemId", bid, function(err, rows) {
 
+    if (rows.length > 0 && ((rows[0].highBid + 1) > bid.amount)) {
 
-   // save the bid to the database.
-   _connection.query("insert into Bids (itemId, Amount, UserName, CreatedDate) values (:ItemId, :Amount, :UserName, now())", bid, function(err) {
-      console.log(err);
-   });
+      res.send(JSON.stringify({result: false, message: 'Bid must be at least one dollar moe than the current high bid, ' + rows[0].highBid + '.'}));
+    }
+
+    // save the bid to the database.
+    _connection.query("insert into Bids (itemId, Amount, UserName, CreatedDate) values (:itemId, :amount, :userName, now())", bid, function(err) {
+      if (err == null) {
+        res.send(JSON.stringify({result: true, message: 'Bid received.'}));
+      } else {
+        console.log(err);
+        res.send(JSON.stringify({result: false, message: 'there was a problem with the bid.' }));
+      }
+    });
+
+  });
+
 });
 
 
