@@ -92,7 +92,7 @@ app.post('/api/item', function(req, res){
   if (item.Id > 0)
   {
     console.log(mysql.escape(item.StartDate));
-    
+
     _connection.query("UPDATE items SET title = :Title, Description = :Description, StartDate = " + mysql.escape(item.StartDate) + ", EndDate = :EndDate, DonatedBy = :DonatedBy, DonatedLink = :DonatedLink where id = :Id", item, function(err){
       console.log(err);
     });
