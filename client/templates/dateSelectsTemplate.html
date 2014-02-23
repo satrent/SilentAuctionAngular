@@ -8,7 +8,4 @@
 
   <select ng-model="selectedHour" ng-options="hour.value as hour.name for hour in hours"></select>
 
-  {{ selectDate }}
-  |
-  {{ moment(selectDate).local().format('MM/DD/YYYY hh:mm:ss') }}
 </div>
