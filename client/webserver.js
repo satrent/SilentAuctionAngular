@@ -77,6 +77,14 @@ app.get('/api/items', function(req, res) {
 
 });
 
+var _formatDate = function(d){
+  d = d.replace(/T/, ' ').
+        replace(/\..+/, '');  // replace everything after the dot.
+
+  console.log(d);
+  return mysql.escape(d);
+}
+
 app.get('/api/item/:id', function(req, res) {
   _connection.query('select *, ifnull((select max(amount) from bids where i.Id = ItemId), 0) as HighBid from items as i where i.id = :Id',
     {'Id': req.params.id}, function(err, rows, fields) {
@@ -93,7 +101,8 @@ app.post('/api/item', function(req, res){
   {
     console.log(mysql.escape(item.StartDate));
 
-    _connection.query("UPDATE items SET title = :Title, Description = :Description, StartDate = " + mysql.escape(item.StartDate) + ", EndDate = :EndDate, DonatedBy = :DonatedBy, DonatedLink = :DonatedLink where id = :Id", item, function(err){
+
+    _connection.query("UPDATE items SET title = :Title, Description = :Description, StartDate = " + _formatDate(item.StartDate) + ", EndDate = " + _formatDate(item.EndDate) + ", DonatedBy = :DonatedBy, DonatedLink = :DonatedLink where id = :Id", item, function(err){
       console.log(err);
     });
   } else {
