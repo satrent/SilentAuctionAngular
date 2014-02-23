@@ -13,23 +13,21 @@ angular.module('directives', [])
       link: function(scope, e, a, c) {
 
         setTimeout(function(){
-          scope.selectedMonth = moment(scope.selectDate).month();
-          scope.selectedDay = moment(scope.selectDate).date();
-          scope.selectedYear = moment(scope.selectDate).year();
-          scope.selectedHour = moment(scope.selectDate).hour();
+          var m = moment(scope.selectDate);
+          m = m.add('minutes', (m.zone() * -1));
+
+          scope.selectedMonth = m.month();
+          scope.selectedDay = m.date();
+          scope.selectedYear = m.year();
+          scope.selectedHour = m.hour();
           scope.$apply();
         }, 200);
 
 
         var updateDate = function(){
-          var noMonth = !scope.selectDate || !scope.selectedMonth;
-          var noYear = !scope.selectDate || !scope.selectedYear;
-          var noDay = !scope.selectDate || !scope.selectedDay;
-          var noHour = !scope.selectDate || !scope.selectedHour;
+          if (!scope.selectDate) return;
 
-          if (noMonth || noYear || noDay || noHour) {return;}
-
-          var dateObj = new Date(scope.selectedYear, (scope.selectedMonth - 1), scope.selectedDay, scope.selectedHour, 0, 0);
+          var dateObj = new Date(scope.selectedYear, (scope.selectedMonth), scope.selectedDay, scope.selectedHour, 0, 0);
           var newDate = dateObj.toJSON();
           scope.selectDate = newDate;
         }
@@ -45,6 +43,10 @@ angular.module('directives', [])
         scope.$watch('selectedYear', function(a, b){
           updateDate();
         });
+
+        scope.$watch('selectedHour', function(a, b){
+          updateDate();
+        })
 
         scope.months = [{value: 0, name: 'January'},
           {value: 1, name: 'February'},
