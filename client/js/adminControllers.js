@@ -33,15 +33,28 @@ app.controller('AdminItemListController', ['$scope', '$http',
 ]);
 
 app.controller('AdminItemDetailController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams){
-  $http.get('api/item/' + $routeParams.id).success(function(data){
-    $scope.item = data;
-  });
 
+  if ($routeParams.id == 'new') {
+
+    var m = moment();
+
+    var item = {
+      Id: -1,
+      StartDate: new Date(m.year(), m.month(), m.date(), 10 + (m.zone() / 60), 0, 0),
+      EndDate: new Date(m.year(), m.month(), m.date(), 15 + (m.zone() / 60), 0, 0)
+    }
+
+    $scope.item = item;
+
+  } else {
+    $http.get('api/item/' + $routeParams.id).success(function(data){
+      $scope.item = data;
+    });
+  }
 
   $scope.updateItem = function() {
-    console.log($scope.item.StartDate);
-    console.log($scope.item.EndDate);
     $http.post('api/item', JSON.stringify($scope.item), {'Content-Type': 'application/json'}).success(function(data){
+      $scope.message = "item updated."
     });
   };
 }]);

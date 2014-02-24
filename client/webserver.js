@@ -81,7 +81,6 @@ var _formatDate = function(d){
   d = d.replace(/T/, ' ').
         replace(/\..+/, '');  // replace everything after the dot.
 
-  console.log(d);
   return mysql.escape(d);
 }
 
@@ -99,14 +98,11 @@ app.post('/api/item', function(req, res){
 
   if (item.Id > 0)
   {
-    console.log(mysql.escape(item.StartDate));
-
-
     _connection.query("UPDATE items SET title = :Title, Description = :Description, StartDate = " + _formatDate(item.StartDate) + ", EndDate = " + _formatDate(item.EndDate) + ", DonatedBy = :DonatedBy, DonatedLink = :DonatedLink where id = :Id", item, function(err){
       console.log(err);
     });
   } else {
-    _connection.query("insert into items (Title, description, startDate, endDate, DonatedBy, DonatedLink) values(:Title, :Description, :StartDate, :EndDate, :DonatedBy, :DonatedLink)", item, function(err){
+    _connection.query("insert into items (Title, description, startDate, endDate, DonatedBy, DonatedLink) values(:Title, :Description, " + _formatDate(item.StartDate) + ", " + _formatDate(item.EndDate) + ", :DonatedBy, :DonatedLink)", item, function(err){
       console.log(err);
     });
   }
