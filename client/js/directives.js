@@ -13,6 +13,7 @@ angular.module('directives', [])
       link: function(scope, e, a, c) {
 
         setTimeout(function(){
+
           var m = moment(scope.selectDate);
           m = m.add('minutes', (m.zone() * -1));
 
@@ -25,10 +26,13 @@ angular.module('directives', [])
 
 
         var updateDate = function(){
-          if (!scope.selectDate) return;
+          if (!scope.selectDate || !scope.selectedYear || !scope.selectedMonth || !scope.selectedDay || !scope.selectedHour) {
+            return;
+          }
 
           var dateObj = new Date(scope.selectedYear, (scope.selectedMonth), scope.selectedDay, scope.selectedHour, 0, 0);
           var newDate = dateObj.toJSON();
+
           scope.selectDate = newDate;
         }
 
@@ -65,6 +69,7 @@ angular.module('directives', [])
         scope.days = [];
 
         var totalDays = moment(scope.selectDate).daysInMonth();
+
         var i = 1
         while(i <= totalDays){
           scope.days.push(i);
