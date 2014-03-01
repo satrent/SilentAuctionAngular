@@ -21,6 +21,31 @@ silentAuctionControllers.controller('AuthController', ['$scope', '$http', '$wind
   }
 ])
 
+silentAuctionControllers.controller('RegisterController', ['$scope', '$http', '$location', function($scope, $http, $location){
+
+  $scope.userData = {
+    userName: '',
+    password: '',
+    password2: '',
+    email: ''
+  };
+
+
+  $scope.register = function(){
+    console.log($scope.userData);
+
+    $http.post('http://localhost:8889/register', JSON.stringify($scope.userData), {'Content-Type': 'application/json'})
+      .success(function(data){
+        $location.path('/login');
+      })
+      .error(function(){
+        $scope.message = 'register failed.';
+      });
+
+  }
+
+}])
+
 silentAuctionControllers.controller('ItemListController', ['$scope', '$http',
     function($scope, $http) {
         $http.get('api/items')
