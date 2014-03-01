@@ -1,10 +1,10 @@
 <h1>all the Items</h1>
 
 <div class='lot-container'>
-	<div ng-repeat="item in items" class='lot-box' ng-click="gotoDetails(item.Id)">
+	<div ng-repeat="item in items" class='lot-box' ng-click="gotoDetails(item._id)">
 		<div class='title'>{{item.Title}}</div>
 		<div>{{item.Description}}</div>
-		<img ng-src='images/{{item.ImageName}}' alt='{{item.Title}} pic' />
+		<img ng-src='images/{{item.imageName}}' alt='{{item.Title}} pic' />
 	</div>
 </div>
 

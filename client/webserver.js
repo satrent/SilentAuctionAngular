@@ -3,7 +3,7 @@ var express = require('express');
 var querystring = require('querystring');
 var fs = require('fs');
 var path = require('path');
-
+var db = require('./data.js');
 var mysql = require('mysql');
 var jwtAuth = require('express-jwt');
 var jwt = require('jsonwebtoken');
@@ -43,37 +43,35 @@ app.post('/authenticate', function (req, res) {
 
   var password = crypto.createHash('md5').update(req.body.password).digest('hex');
 
-  _connection.query('Select * from Users where UserName= :userName and password = :password', {userName: req.body.userName, password: password}, function(err, rows, fields) {
+  db.getUser(req.body.userName, password, function(result){
+    if (result.result) {
+      var profile = {
+        userName: result.user.userName ,
+        isAdmin: result.user.IsAdmin,
+        email: result.user.email
+      };
 
-    if (rows.length != 1){
+      var token = jwt.sign(profile, 'fk139d0sl30sl');
+      res.json({ token: token });
+
+    } else {
       res.send(401, 'User/password not found.');
-      return;
     }
-
-    var profile = {
-      userId: rows[0].Id,
-      userName: rows[0].UserName ,
-      isAdmin: rows[0].IsAdmin,
-      email: rows[0].Email
-    };
-
-    var token = jwt.sign(profile, 'fk139d0sl30sl');
-    res.json({ token: token });
-  });
+  })
 });
 
 
 app.post('/register', function(req, res) {
 
-  req.body.password = crypto.createHash('md5').update(req.body.password).digest('hex');
+  var user = req.body.user;
 
-  _connection.query('insert into users (UserName, Password, IsAdmin, Email, IsActive, ActivatedOn) values (:userName, :password, true, :email, true, now())', req.body, function(err, rows, fields){
-    if (err) {
-      console.log(err);
-      res.send(401, 'user/password not found.');
-      return;
-    }
+  user.password = crypto.createHash('md5').update(user.password).digest('hex');
 
+  if (!user.activatedOn) {
+    user.activatedOn = new Date();
+  }
+
+  db.saveUser(user, function() {
     res.json({message: '', result: true});
   })
 })
@@ -89,11 +87,9 @@ _connection.config.queryFormat = function (query, values) {
 };
 
 app.get('/api/items', function(req, res) {
-  _connection.query("SELECT items.*, ifnull((select ImageName from Images where Items.Id = Images.ItemId order by id desc limit 1), '') as ImageName from Items", function(err, rows, fields) {
-    if (err) throw err;
-    res.send(JSON.stringify(rows));
-  });
-
+  db.getOpenItems(function(items){
+    res.send(JSON.stringify(items));
+  })
 });
 
 app.post('/images', function(req, res){
@@ -102,18 +98,14 @@ app.post('/images', function(req, res){
   var filename = Math.round(Math.random() * 10000000000) + '.' + ext;
   var targetPath = path.resolve('./images/' + filename);
 
+  console.log(filename);
   fs.rename(tempPath, targetPath, function(err) {
     if (err) throw err;
 
     // save the image name to the database.
-    _connection.query('insert into images (ItemId, ImageName) values (:itemId, :imageName)', {itemId: req.body.itemId, imageName: filename}, function(err, rows, fields){
-      if (err) {
-        console.log(err);
-        res.send(500, 'image save failed.');
-        return;
-      }
-      res.json({message: '', result: true, 'filename': filename});
-    })
+    db.saveImage(req.body.itemId, filename, function() {
+      res.send("image saved");
+    });
   });
 })
 
@@ -125,28 +117,21 @@ var _formatDate = function(d){
 }
 
 app.get('/api/item/:id', function(req, res) {
-  _connection.query("select *, ifnull((select max(amount) from bids where i.Id = ItemId), 0) as HighBid, ifnull((select ImageName from Images where ItemId = i.id), '') as ImageName from items as i where i.id = :Id",
-    {'Id': req.params.id}, function(err, rows, fields) {
-    if (err || rows.length != 1) throw err;
-
-    res.send(JSON.stringify(rows[0]));
+  db.getItem(req.params.id, function(item){
+    console.log(item);
+    res.send(JSON.stringify(item));
   });
 });
 
 app.post('/api/item', function(req, res){
   var item = req.body;
 
-  if (item.Id > 0)
-  {
-    _connection.query("UPDATE items SET title = :Title, Description = :Description, StartDate = " + _formatDate(item.StartDate) + ", EndDate = " + _formatDate(item.EndDate) + ", DonatedBy = :DonatedBy, DonatedLink = :DonatedLink where id = :Id", item, function(err){
-      console.log(err);
-    });
-  } else {
-    _connection.query("insert into items (Title, description, startDate, endDate, DonatedBy, DonatedLink) values(:Title, :Description, " + _formatDate(item.StartDate) + ", " + _formatDate(item.EndDate) + ", :DonatedBy, :DonatedLink)", item, function(err){
-      console.log(err);
-    });
-  }
-  res.send(JSON.stringify({message: 'all good', result: true}));
+  item._id = db.createObjectId(item._id);
+
+  db.saveItem(item, function(errors, item){
+    res.send(JSON.stringify({message: 'all good', result: true}));
+  });
+
 });
 
 app.post('/api/bid', function(req, res) {
