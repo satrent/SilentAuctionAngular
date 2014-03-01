@@ -33,6 +33,10 @@ silentAuctionControllers.controller('RegisterController', ['$scope', '$http', '$
 
   $scope.register = function(){
     console.log($scope.userData);
+    if ($scope.userData.password != $scope.userData.password2) {
+      $scope.message = 'passwords do not match, homie'; 
+      return;
+    }
 
     $http.post('http://localhost:8889/register', JSON.stringify($scope.userData), {'Content-Type': 'application/json'})
       .success(function(data){
