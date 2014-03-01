@@ -61,7 +61,7 @@ app.controller('AdminItemDetailController', ['$scope', '$http', '$routeParams', 
   $scope.uploadFile = function(files) {
     var fd = new FormData();
     fd.append("file", files[0]);
-    fd.append("itemId", $scope.item.Id);
+    fd.append("itemId", $scope.item._id);
 
     $http.post('images', fd, {
       withCredentials: true,

@@ -1,10 +1,10 @@
 <h4>Item Details</h4>
 
-<div ng-show="item.Id > 0">
+<div ng-show="item._id">
   <div class='admin-item-detail-label'>
     ID:
   </div>
-  <div class='admin-item-detail' ng-bind="item.Id"></div>
+  <div class='admin-item-detail' ng-bind="item._id"></div>
 </div>
 <div>
   <div class='admin-item-detail-label'>
@@ -62,7 +62,7 @@
 </div>
 
 <hr>
-<div ng-show="item.Id > 0">
+<div ng-show="item._id">
   <h3>Upload Image</h3>
 
   <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/>

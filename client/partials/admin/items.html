@@ -8,8 +8,8 @@
     <th>End Date</th>
     <th></th>
   </tr>
-  <tr ng-click="gotoDetails(item.Id)" class="admin-item-rows" ng-repeat="item in items" >
-    <td ng-bind="item.Id"></td>
+  <tr ng-click="gotoDetails(item._id)" class="admin-item-rows" ng-repeat="item in items" >
+    <td ng-bind="item._id"></td>
     <td ng-bind="item.Title"></td>
     <td ng-bind="item.StartDate | date:'MM/dd/yyyy hh:mm a'"></td>
     <td ng-bind="item.EndDate | date:'MM/dd/yyyy hh:mm a'"></td>

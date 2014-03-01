@@ -9,7 +9,7 @@ silentAuctionControllers.controller('AuthController', ['$scope', '$http', '$wind
 
     $scope.login = function() {
       var login = {userName: $scope.userName, password: $scope.password};
-      $http.post('http://localhost:8889/authenticate', JSON.stringify(login), {'Content-Type': 'application/json'}).success(function(data){
+      $http.post('/authenticate', JSON.stringify(login), {'Content-Type': 'application/json'}).success(function(data){
         $window.localStorage.token = data.token;
         $window.localStorage.userName = $scope.userName;
         $rootScope.$broadcast('login', []);
@@ -31,18 +31,25 @@ silentAuctionControllers.controller('RegisterController', ['$scope', '$http', '$
     userName: '',
     password: '',
     password2: '',
-    email: ''
+    email: '',
   };
 
 
   $scope.register = function(){
-    console.log($scope.userData);
     if ($scope.userData.password != $scope.userData.password2) {
       $scope.message = 'passwords do not match, homie'; 
       return;
     }
 
-    $http.post('http://localhost:8889/register', JSON.stringify($scope.userData), {'Content-Type': 'application/json'})
+    var user = {
+      userName: $scope.userData.userName,
+      password: $scope.userData.password,
+      email: $scope.userData.email,
+      isAdmin: false,
+
+    };
+
+    $http.post('/register', JSON.stringify({user: user}), {'Content-Type': 'application/json'})
       .success(function(data){
         $location.path('/login');
       })
@@ -55,17 +62,27 @@ silentAuctionControllers.controller('RegisterController', ['$scope', '$http', '$
 }])
 
 silentAuctionControllers.controller('ItemListController', ['$scope', '$http',
-    function($scope, $http) {
-        $http.get('api/items')
-            .success(function (data, status, headers, config) {
-                 $scope.items = data;
-            })
-            .error(function(e){console.log(e);});
+  function($scope, $http) {
 
-        $scope.gotoDetails = function(id){
-            document.location = "#/item/" + id;
-        };
-    }
+    $http.get('api/items')
+        .success(function (data, status, headers, config) {
+
+          angular.forEach(data, function(item){
+            if (item.images && item.images.length > 0) {
+              item.imageName = item.images[0];
+            }
+          })
+
+          $scope.items = data;
+        })
+        .error(function(e){console.log(e);});
+
+    $scope.gotoDetails = function(id){
+        document.location = "#/item/" + id;
+    };
+
+
+  }
 ]);
 
 silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$location', '$rootScope', function($scope, $window, $location, $rootScope){
@@ -95,6 +112,11 @@ silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$locati
 silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routeParams', '$http', '$window',
   function($scope, $routeParams, $http, $window) {
     $http.get('api/item/' + $routeParams.itemId).success(function(data) {
+
+      if (data.images && data.images.length > 0) {
+        data.imageName = data.images[0];
+      }
+
       $scope.item = data;
     });
 
