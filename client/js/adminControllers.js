@@ -35,9 +35,7 @@ app.controller('AdminItemListController', ['$scope', '$http',
 app.controller('AdminItemDetailController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams){
 
   if ($routeParams.id == 'new') {
-
-    var m = moment();
-
+   var m = moment();
     var item = {
       Id: -1,
       StartDate: new Date(m.year(), m.month(), m.date(), 10 + (m.zone() / 60), 0, 0),
@@ -52,24 +50,32 @@ app.controller('AdminItemDetailController', ['$scope', '$http', '$routeParams', 
     });
   }
 
+  $scope.fileMessage = 'no message';
+
   $scope.updateItem = function() {
     $http.post('api/item', JSON.stringify($scope.item), {'Content-Type': 'application/json'}).success(function(data){
       $scope.message = "item updated."
     });
   };
 
-//  $scope.uploadFile = function(files) {
-//    console.log('inside upload file');
-//    console.log(files[0]);
-//
-//    var fd = new FormData();
-//    fd.append("file", files[0]);
-//
-//    $http.post('api/item/image', fd, {
-//      headers: {'Content-Type': undefined }
-//    }).success(
-//      ).error(
-//      );
-//  };
+  $scope.uploadFile = function(files) {
+    var fd = new FormData();
+    fd.append("file", files[0]);
+    fd.append("itemId", $scope.item.Id);
+
+    $http.post('images', fd, {
+      withCredentials: true,
+      headers: {'Content-Type': undefined },
+      transformRequest: angular.identity
+    }).success(
+        function() {
+          $scope.fileMessage = 'file uploaded successfully.';
+        }
+      ).error(
+        function() {
+          $scope.fileMessage = 'something went wrong.';
+        }
+      );
+  };
 
 }]);

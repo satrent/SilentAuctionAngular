@@ -35,6 +35,13 @@ PRIMARY KEY (`Id`),
 UNIQUE KEY `Id_UNIQUE` (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
+
+CREATE TABLE `SilentAuction`.`Images` (
+  `Id` INT NOT NULL AUTO_INCREMENT,
+  `ItemId` INT NOT NULL,
+  `ImageName` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`Id`));
+
 CREATE USER `silentauction`@`localhost` IDENTIFIED BY '11x6jcyKc08';
 
 grant select, insert, update on SilentAuction.* to `silentauction`@`localhost`;

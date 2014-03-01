@@ -11,6 +11,7 @@ var crypto = require('crypto');
 
 
 var app = express();
+app.use(express.multipart());
 
 app.use("/", express.static(__dirname + '/pages'));
 app.use('/js', express.static(__dirname + '/js'));
@@ -88,7 +89,7 @@ _connection.config.queryFormat = function (query, values) {
 };
 
 app.get('/api/items', function(req, res) {
-  _connection.query('SELECT * from Items', function(err, rows, fields) {
+  _connection.query("SELECT items.*, ifnull((select ImageName from Images where Items.Id = Images.ItemId order by id desc limit 1), '') as ImageName from Items", function(err, rows, fields) {
     if (err) throw err;
     res.send(JSON.stringify(rows));
   });
@@ -96,12 +97,23 @@ app.get('/api/items', function(req, res) {
 });
 
 app.post('/images', function(req, res){
-  var tempPath = req.files.file.path
-  var targetPath = path.resolve('./images/12312aa23.png');
+  var tempPath = req.files.file.path;
+  var ext = tempPath.substring(tempPath.lastIndexOf('.', tempPath) + 1, tempPath.length);
+  var filename = Math.round(Math.random() * 10000000000) + '.' + ext;
+  var targetPath = path.resolve('./images/' + filename);
 
   fs.rename(tempPath, targetPath, function(err) {
     if (err) throw err;
-    res.send('success!');
+
+    // save the image name to the database.
+    _connection.query('insert into images (ItemId, ImageName) values (:itemId, :imageName)', {itemId: req.body.itemId, imageName: filename}, function(err, rows, fields){
+      if (err) {
+        console.log(err);
+        res.send(500, 'image save failed.');
+        return;
+      }
+      res.json({message: '', result: true, 'filename': filename});
+    })
   });
 })
 
@@ -113,7 +125,7 @@ var _formatDate = function(d){
 }
 
 app.get('/api/item/:id', function(req, res) {
-  _connection.query('select *, ifnull((select max(amount) from bids where i.Id = ItemId), 0) as HighBid from items as i where i.id = :Id',
+  _connection.query("select *, ifnull((select max(amount) from bids where i.Id = ItemId), 0) as HighBid, ifnull((select ImageName from Images where ItemId = i.id), '') as ImageName from items as i where i.id = :Id",
     {'Id': req.params.id}, function(err, rows, fields) {
     if (err || rows.length != 1) throw err;
 
