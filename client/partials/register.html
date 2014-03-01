@@ -1,0 +1,22 @@
+<h1>Register</h1>
+
+
+  <div>
+    User Name: <input ng-model="userData.userName">
+  </div>
+  <div>
+    Email: <input ng-model="userData.email">
+  </div>
+  <div>
+    Password: <input type="password" ng-model="userData.password">
+  </div>
+  <div>
+    Verify Password: <input type="password" ng-model="userData.password2">
+  </div>
+  <div>
+    <button ng-click="register()" >Register</button>
+  </div>
+  <div ng-bind="message">
+
+  </div>
+
