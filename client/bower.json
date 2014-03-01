@@ -1,0 +1,25 @@
+{
+  "name": "SilentAuction",
+  "version": "0.0.1",
+  "homepage": "https://github.com/satrent/SilentAuctionAngular",
+  "authors": [
+    "saTrent <trent01@gmail.com>"
+  ],
+  "description": "'web site to run United Way silent auction'",
+  "main": "'client/pages/index.html'",
+  "keywords": [
+    "'auction'"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "momentjs": "~2.5.1",
+    "underscore": "~1.6.0"
+  }
+}
