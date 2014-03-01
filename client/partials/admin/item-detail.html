@@ -60,3 +60,13 @@
 <div ng-bind="message">
 
 </div>
+
+<hr>
+<div ng-show="item.Id > 0">
+  <h3>Upload Image</h3>
+
+  <form method="post" enctype="multipart/form-data" action="/images">
+    <input type="file" name="file">
+    <input type="submit" value="Submit">
+  </form>
+</div>

@@ -1,6 +1,8 @@
 var http = require('http');
 var express = require('express');
 var querystring = require('querystring');
+var fs = require('fs');
+var path = require('path');
 
 var mysql = require('mysql');
 var jwtAuth = require('express-jwt');
@@ -21,7 +23,7 @@ app.use('/bower_components', express.static(__dirname + '/bower_components'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.cookieParser());
-app.use(express.bodyParser());
+app.use(express.bodyParser({uploadDir:'./images'}));
 
 app.use('/api', jwtAuth({secret: 'fk139d0sl30sl'}));
 
@@ -92,6 +94,16 @@ app.get('/api/items', function(req, res) {
   });
 
 });
+
+app.post('/images', function(req, res){
+  var tempPath = req.files.file.path
+  var targetPath = path.resolve('./images/12312aa23.png');
+
+  fs.rename(tempPath, targetPath, function(err) {
+    if (err) throw err;
+    res.send('success!');
+  });
+})
 
 var _formatDate = function(d){
   d = d.replace(/T/, ' ').

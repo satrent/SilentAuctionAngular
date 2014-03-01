@@ -206,10 +206,11 @@ body {
 }
 
 .admin-item-rows > td {
-  border-left: 1px dashed #888;
-  border-right: 1px dashed #888;
+  border-left: none;
+  border-right: none;
   padding-left: 10px;
   padding-right: 10px;
   border-bottom: 1px solid #888;
   border-top: 1px solid #888;
+  cursor: pointer;
 }

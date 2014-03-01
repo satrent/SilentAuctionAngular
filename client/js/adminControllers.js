@@ -57,4 +57,19 @@ app.controller('AdminItemDetailController', ['$scope', '$http', '$routeParams', 
       $scope.message = "item updated."
     });
   };
+
+//  $scope.uploadFile = function(files) {
+//    console.log('inside upload file');
+//    console.log(files[0]);
+//
+//    var fd = new FormData();
+//    fd.append("file", files[0]);
+//
+//    $http.post('api/item/image', fd, {
+//      headers: {'Content-Type': undefined }
+//    }).success(
+//      ).error(
+//      );
+//  };
+
 }]);

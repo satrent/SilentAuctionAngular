@@ -89,6 +89,7 @@ silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$locati
     $rootScope.$broadcast('logout', []);
     $location.path('/login');
   }
+
 }])
 
 silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routeParams', '$http', '$window',
