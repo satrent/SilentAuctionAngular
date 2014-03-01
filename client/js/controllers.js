@@ -64,6 +64,21 @@ silentAuctionControllers.controller('ItemListController', ['$scope', '$http',
     }
 ]);
 
+silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$location', function($scope, $window, $location){
+  $scope.loggedIn = false;
+
+  if ($window.localStorage.userName) {
+    $scope.loggedIn = true;
+    $scope.userName = $window.localStorage.userName;
+  }
+
+  $scope.logout = function() {
+    $window.localStorage.userName = '';
+    $window.localStorage.token = {};
+    $location.path('/login');
+  }
+}])
+
 silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routeParams', '$http', '$window',
   function($scope, $routeParams, $http, $window) {
     $http.get('api/item/' + $routeParams.itemId).success(function(data) {
