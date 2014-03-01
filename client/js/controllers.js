@@ -4,20 +4,24 @@
 var silentAuctionControllers = angular.module('silentAuctionControllers', []);
 
 
-silentAuctionControllers.controller('AuthController', ['$scope', '$http', '$window', '$location',
-  function($scope, $http, $window, $location) {
+silentAuctionControllers.controller('AuthController', ['$scope', '$http', '$window', '$location', '$rootScope',
+  function($scope, $http, $window, $location, $rootScope) {
 
-      $scope.login = function() {
-        var login = {userName: $scope.userName, password: $scope.password};
-        $http.post('http://localhost:8889/authenticate', JSON.stringify(login), {'Content-Type': 'application/json'}).success(function(data){
-            $window.localStorage.token = data.token;
-            $window.localStorage.userName = $scope.userName;
-            $location.path('/');
-        })
-          .error(function(){
-            $scope.message = 'login failed.';
-          });
-      };
+    $scope.login = function() {
+      var login = {userName: $scope.userName, password: $scope.password};
+      $http.post('http://localhost:8889/authenticate', JSON.stringify(login), {'Content-Type': 'application/json'}).success(function(data){
+        $window.localStorage.token = data.token;
+        $window.localStorage.userName = $scope.userName;
+        $rootScope.$broadcast('login', []);
+        $location.path('/');
+      })
+        .error(function(){
+          $scope.message = 'login failed.';
+        });
+    };
+
+    $scope.$on('loutout', function(event, date){$scope.userName = '';});
+
   }
 ])
 
@@ -64,17 +68,25 @@ silentAuctionControllers.controller('ItemListController', ['$scope', '$http',
     }
 ]);
 
-silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$location', function($scope, $window, $location){
+silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$location', '$rootScope', function($scope, $window, $location, $rootScope){
   $scope.loggedIn = false;
 
-  if ($window.localStorage.userName) {
-    $scope.loggedIn = true;
-    $scope.userName = $window.localStorage.userName;
+  var _checkStatus = function() {
+    if ($window.localStorage.userName) {
+      $scope.loggedIn = true;
+      $scope.userName = $window.localStorage.userName;
+    }
   }
+
+  _checkStatus();
+
+  $scope.$on('login', function(event, date){_checkStatus();});
 
   $scope.logout = function() {
     $window.localStorage.userName = '';
     $window.localStorage.token = {};
+    $scope.loggedIn = false;
+    $rootScope.$broadcast('logout', []);
     $location.path('/login');
   }
 }])
