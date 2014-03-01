@@ -32,6 +32,21 @@ CREATE TABLE `Items` (
 
 go
 
+CREATE TABLE `users` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `UserName` varchar(45) NOT NULL,
+  `Password` varchar(255) NOT NULL,
+  `IsAdmin` bit(1) NOT NULL,
+  `Email` varchar(255) NOT NULL,
+  `IsActive` bit(1) DEFAULT NULL,
+  `ActivatedOn` datetime DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  UNIQUE KEY `Id_UNIQUE` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1
+
+go
+
+
 CREATE USER 'silentauction'@'localhost' IDENTIFIED BY '11x6jcyKc08';
 
 go
