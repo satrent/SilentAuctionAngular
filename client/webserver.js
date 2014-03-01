@@ -59,6 +59,22 @@ app.post('/authenticate', function (req, res) {
   });
 });
 
+
+app.post('/register', function(req, res) {
+
+  req.body.password = crypto.createHash('md5').update(req.body.password).digest('hex');
+
+  _connection.query('insert into users (UserName, Password, IsAdmin, Email, IsActive, ActivatedOn) values (:userName, :password, true, :email, true, now())', req.body, function(err, rows, fields){
+    if (err) {
+      console.log(err);
+      res.send(401, 'user/password not found.');
+      return;
+    }
+
+    res.json({message: '', result: true});
+  })
+})
+
 _connection.config.queryFormat = function (query, values) {
   if (!values) return query;
   return query.replace(/\:(\w+)/g, function (txt, key) {

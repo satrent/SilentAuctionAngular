@@ -9,7 +9,7 @@ silentAuctionControllers.controller('AuthController', ['$scope', '$http', '$wind
 
       $scope.login = function() {
         var login = {userName: $scope.userName, password: $scope.password};
-        $http.post('http://localhost:8887/authenticate', JSON.stringify(login), {'Content-Type': 'application/json'}).success(function(data){
+        $http.post('http://localhost:8889/authenticate', JSON.stringify(login), {'Content-Type': 'application/json'}).success(function(data){
             $window.localStorage.token = data.token;
             $window.localStorage.userName = $scope.userName;
             $location.path('/');
@@ -20,6 +20,35 @@ silentAuctionControllers.controller('AuthController', ['$scope', '$http', '$wind
       };
   }
 ])
+
+silentAuctionControllers.controller('RegisterController', ['$scope', '$http', '$location', function($scope, $http, $location){
+
+  $scope.userData = {
+    userName: '',
+    password: '',
+    password2: '',
+    email: ''
+  };
+
+
+  $scope.register = function(){
+    console.log($scope.userData);
+    if ($scope.userData.password != $scope.userData.password2) {
+      $scope.message = 'passwords do not match, homie'; 
+      return;
+    }
+
+    $http.post('http://localhost:8889/register', JSON.stringify($scope.userData), {'Content-Type': 'application/json'})
+      .success(function(data){
+        $location.path('/login');
+      })
+      .error(function(){
+        $scope.message = 'register failed.';
+      });
+
+  }
+
+}])
 
 silentAuctionControllers.controller('ItemListController', ['$scope', '$http',
     function($scope, $http) {
