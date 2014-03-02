@@ -131,6 +131,10 @@ silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routePa
                             {'Content-Type': 'application/json'}
       ).success(function(data, status, header, config){
           $scope.bidResponse = data;
+
+          if (!$scope.bidResponse.error) {
+            $scope.item.highBid = $scope.newBidAmount;
+          }
       })
         .error(function(data, status, headers, config ){
         console.log(data);

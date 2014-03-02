@@ -137,21 +137,21 @@ app.post('/api/item', function(req, res){
 app.post('/api/bid', function(req, res) {
   var bid = req.body;
 
-  console.log(bid);
-
   db.getItem(bid.itemId, function(item){
     if (!item.bids){
       item.bids = [];
     }
 
-    console.log(item);
+    if (item.bids.length > 0 && (item.bids[item.bids.length - 1].amount + 1) > bid.amount) {
+      res.send(JSON.stringify({result: false, message: 'Bid amount must be at least one dollar more than the current high bid.'}));
+      return;
+    }
 
     item.bids.push({itemId: bid.itemId, userName: bid.userName, amount: bid.amount, bidDate: new moment().format("YYYY-MM-DD hh:mm:ss") });
 
-    console.log(item);
-
     db.saveItem(item, function(errors, item) {
       res.send(JSON.stringify({result: true, message: 'Bid received.'}));
+      return;
     })
   })
 
