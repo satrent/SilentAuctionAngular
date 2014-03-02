@@ -15,7 +15,7 @@ To get up and running...
 - run bower install to install bower dependencies (first time only)
 - run npm intall to install node dependencies. (first time only)
 - run node webserver.js to run the web server.
-- browse to http://localhost:8889
+- open a browser and go to http://localhost:8889
 
 
 
