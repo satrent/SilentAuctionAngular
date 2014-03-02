@@ -1,4 +1,6 @@
 var db = require("mongojs").connect("localhost:27017/silentauction", ["users", "items", 'bids']);
+var moment = require("./bower_components/momentjs/moment.js");
+var moment = require("./bower_components/momentjs/moment.js");
 
 exports.getUsers = function(f) {
   db.users.find(function(err, users) {
@@ -66,7 +68,7 @@ exports.saveImage = function(itemId, imageName, f){
 }
 
 exports.createObjectId = function(id){
-  return require("mongojs").ObjectId(id);
+  return db.ObjectId(id);
 }
 
 exports.saveItem = function(item, f) {
@@ -138,9 +140,8 @@ exports.getTotalBids = function(f) {
 
 
 exports.getOpenItems = function(f) {
-  var d = new Date();
-  //{EndDate: { $gt: d }},
-  db.items.find(function(err, items) {
+  var m = new moment();
+  db.items.find({EndDate: { $gt: m.format('YYYY-MM-DD hh:mm:ss') }}, function(err, items) {
     if (!err && items) {
       f(items);
     }
@@ -160,7 +161,7 @@ exports.getClosedLots = function(f) {
 
 exports.getItem = function(id, f) {
   console.log(id);
-  db.items.find({_id: require("mongojs").ObjectId(id)}, function(err, lot) {
+  db.items.find({_id: db.ObjectId(id)}, function(err, lot) {
 
     if (!err && lot) {
       console.log('no error');
