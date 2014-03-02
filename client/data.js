@@ -1,6 +1,5 @@
 var db = require("mongojs").connect("localhost:27017/silentauction", ["users", "items", 'bids']);
 var moment = require("./bower_components/momentjs/moment.js");
-var moment = require("./bower_components/momentjs/moment.js");
 
 exports.getUsers = function(f) {
   db.users.find(function(err, users) {
@@ -157,15 +156,10 @@ exports.getClosedLots = function(f) {
   });
 };
 
-
-
 exports.getItem = function(id, f) {
-  console.log(id);
   db.items.find({_id: db.ObjectId(id)}, function(err, lot) {
 
     if (!err && lot) {
-      console.log('no error');
-      console.log(lot);
       if (lot.length > 0) f(lot[0]);
     } else {
       console.log(err);
@@ -173,4 +167,3 @@ exports.getItem = function(id, f) {
 
   });
 };
-

@@ -121,7 +121,7 @@ silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routePa
     });
 
     $scope.makeBid = function() {
-      $http.post('api/bid', JSON.stringify({itemId: $scope.item.Id,
+      $http.post('api/bid', JSON.stringify({itemId: $scope.item._id,
                                           amount: $scope.newBidAmount,
                                           userName: $window.localStorage.userName}),
                             {'Content-Type': 'application/json'}

@@ -8,6 +8,7 @@ var mysql = require('mysql');
 var jwtAuth = require('express-jwt');
 var jwt = require('jsonwebtoken');
 var crypto = require('crypto');
+var moment = require("./bower_components/momentjs/moment.js");
 
 
 var app = express();
@@ -118,7 +119,6 @@ var _formatDate = function(d){
 
 app.get('/api/item/:id', function(req, res) {
   db.getItem(req.params.id, function(item){
-    console.log(item);
     res.send(JSON.stringify(item));
   });
 });
@@ -137,23 +137,24 @@ app.post('/api/item', function(req, res){
 app.post('/api/bid', function(req, res) {
   var bid = req.body;
 
-  _connection.query("select max(amount) as highBid from Bids where itemId = :itemId", bid, function(err, rows) {
+  console.log(bid);
 
-    if (rows.length > 0 && ((rows[0].highBid + 1) > bid.amount)) {
-      res.send(JSON.stringify({result: false, message: 'Bid must be at least one dollar moe than the current high bid, ' + rows[0].highBid + '.'}));
-      return;
+  db.getItem(bid.itemId, function(item){
+    if (!item.bids){
+      item.bids = [];
     }
 
-    // save the bid to the database.
-    _connection.query("insert into Bids (itemId, Amount, UserName, CreatedDate) values (:itemId, :amount, :userName, now())", bid, function(err) {
-      if (err == null) {
-        res.send(JSON.stringify({result: true, message: 'Bid received.'}));
-      } else {
-        console.log(err);
-        res.send(JSON.stringify({result: false, message: 'there was a problem with the bid.' }));
-      }
-    });
-  });
+    console.log(item);
+
+    item.bids.push({itemId: bid.itemId, userName: bid.userName, amount: bid.amount, bidDate: new moment().format("YYYY-MM-DD hh:mm:ss") });
+
+    console.log(item);
+
+    db.saveItem(item, function(errors, item) {
+      res.send(JSON.stringify({result: true, message: 'Bid received.'}));
+    })
+  })
+
 });
 
 http.createServer(app).listen(8889, function() {
