@@ -117,6 +117,10 @@ silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routePa
         data.imageName = data.images[0];
       }
 
+      if (data.bids && data.bids.length > 0){
+        data.highBid = data.bids[data.bids.length - 1].amount;
+      }
+
       $scope.item = data;
     });
 

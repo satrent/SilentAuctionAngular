@@ -14,7 +14,7 @@
   Donated By: <a target="_blank" ng-href="{{item.DonatedLink}}" ng-bind='item.DonatedBy' ></a>
 </div>
 <div>
-  Current High Bid: <span ng-bind="item.HighBid | currency"></span>
+  Current High Bid: <span ng-bind="item.highBid | currency"></span>
 </div>
 
 <div>
@@ -24,3 +24,4 @@
 
 <div ng-class="{error: !bidResponse.result}" ng-bind="bidResponse.message"></div>
 
+{{ item | json }}
