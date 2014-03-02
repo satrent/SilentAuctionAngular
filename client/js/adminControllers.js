@@ -22,7 +22,7 @@ app.controller('AuthController', ['$scope', '$http', '$window', '$location',
 
 app.controller('AdminItemListController', ['$scope', '$http',
   function($scope, $http) {
-    $http.get('api/items').success(function(data){
+    $http.get('api/items/all').success(function(data){
       $scope.items = data;
     })
 

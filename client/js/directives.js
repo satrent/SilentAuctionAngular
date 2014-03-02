@@ -15,7 +15,6 @@ angular.module('directives', [])
         setTimeout(function(){
 
           var m = moment(scope.selectDate);
-          m = m.add('minutes', (m.zone() * -1));
 
           scope.selectedMonth = m.month();
           scope.selectedDay = m.date();

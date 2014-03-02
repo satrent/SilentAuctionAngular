@@ -139,12 +139,22 @@ exports.getTotalBids = function(f) {
 
 exports.getOpenItems = function(f) {
   var m = new moment();
-  db.items.find({EndDate: { $gt: m.format('YYYY-MM-DD hh:mm:ss') }}, function(err, items) {
+  console.log(m.utc().format('YYYY-MM-DDTHH:mm:ss'));
+  db.items.find({EndDate: { $gt: m.utc().format('YYYY-MM-DDTHH:mm:ss') }}, function(err, items) {
     if (!err && items) {
       f(items);
     }
   });
 };
+
+exports.getAllItems = function(f) {
+  db.items.find(function(err, items) {
+    if (!err && items) {
+      f(items);
+    }
+  });
+};
+
 
 exports.getClosedLots = function(f) {
   var d = new Date()
