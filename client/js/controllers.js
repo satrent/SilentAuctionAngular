@@ -117,6 +117,10 @@ silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routePa
         data.imageName = data.images[0];
       }
 
+      if (data.bids && data.bids.length > 0){
+        data.highBid = data.bids[data.bids.length - 1].amount;
+      }
+
       $scope.item = data;
     });
 
@@ -127,6 +131,10 @@ silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routePa
                             {'Content-Type': 'application/json'}
       ).success(function(data, status, header, config){
           $scope.bidResponse = data;
+
+          if (!$scope.bidResponse.error) {
+            $scope.item.highBid = $scope.newBidAmount;
+          }
       })
         .error(function(data, status, headers, config ){
         console.log(data);

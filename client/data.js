@@ -95,7 +95,6 @@ exports.saveBid = function(bid, f) {
       return;
     }
 
-
     if (bid.Amount < +l.MinimumBid) {
       f({errors: ['bid must be more than the minimum bid.']});
       return;
