@@ -93,6 +93,13 @@ app.get('/api/items', function(req, res) {
   })
 });
 
+app.get('/api/items/all', function(req, res){
+  db.getAllItems(function(items){
+    res.send(JSON.stringify(items));
+  })
+});
+
+
 app.post('/images', function(req, res){
   var tempPath = req.files.file.path;
   var ext = tempPath.substring(tempPath.lastIndexOf('.', tempPath) + 1, tempPath.length);
