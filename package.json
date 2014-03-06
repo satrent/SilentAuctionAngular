@@ -1,0 +1,19 @@
+{
+  "name": "silentauction",
+  "version": "0.0.1",
+  "description": "Silent auction web site for internal intranet use",
+  "main": "./client/webserver.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/satrent/SilentAuctionAngular.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/satrent/SilentAuctionAngular/issues"
+  },
+  "homepage": "https://github.com/satrent/SilentAuctionAngular"
+}
