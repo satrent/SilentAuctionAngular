@@ -33,9 +33,14 @@
 
       </div>
     </div>
-    <div id="headerMenu" class="header-left">
-      <img id="menuImage" src="../css/images/down-arrow.png" ng-click="showMenu = !showMenu" style="position: relative; z-index: 140; top: 10px">
+
+    <div id="menu-arrow" ng-click="showMenu = !showMenu" ng-class="{active: showMenu}">
+      <span></span>
     </div>
+
+    <!--div id="headerMenu" class="header-left">
+      <img id="menuImage" src="../css/images/down-arrow.png" ng-click="showMenu = !showMenu" style="position: relative; z-index: 140; top: 10px">
+    </div-->
     <div class="header-left">
       Silent Auction - 2014
     </div>
@@ -68,5 +73,9 @@
 
 </div>
 
+
+
+
 </body>
+
 </html>
