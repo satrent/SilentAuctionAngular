@@ -1,0 +1,28 @@
+{
+  "name": "silentauction",
+  "version": "0.0.1",
+  "description": "silent auction website",
+  "main": "webserver.js",
+  "dependencies": {
+    "express-jwt": "~0.1.2",
+    "express": "~3.4.8",
+    "http-server": "~0.6.1",
+    "jsonwebtoken": "~0.1.0",
+    "mongojs": "~0.10.0",
+    "mysql": "~2.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/satrent/silentauctionangular.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/satrent/silentauctionangular/issues"
+  },
+  "homepage": "https://github.com/satrent/silentauctionangular"
+}
