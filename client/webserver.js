@@ -9,7 +9,7 @@ var jwtAuth = require('express-jwt');
 var jwt = require('jsonwebtoken');
 var crypto = require('crypto');
 var moment = require("./bower_components/momentjs/moment.js");
-
+var gm = require('gm').subClass({ imageMagick: true });
 
 var app = express();
 app.use(express.multipart());
@@ -106,16 +106,25 @@ app.post('/images', function(req, res){
   var filename = Math.round(Math.random() * 10000000000) + '.' + ext;
   var targetPath = path.resolve('./images/' + filename);
 
-  console.log(filename);
-  fs.rename(tempPath, targetPath, function(err) {
+ console.log(filename);
+	fs.rename(tempPath, targetPath , function(err) {
     if (err) throw err;
 
     // save the image name to the database.
     db.saveImage(req.body.itemId, filename, function() {
       res.send("image saved");
+
+
+		gm(targetPath)
+		.resize(300, 300)
+		.write(targetPath, function (err) {
+  		if (!err) console.log('done');
+		});
+
     });
   });
 })
+
 
 var _formatDate = function(d){
   d = d.replace(/T/, ' ').
