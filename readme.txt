@@ -10,6 +10,10 @@ To get up and running...
 
 - install node and git.
 
+- install graphicsMagick (www.graphicsmagick.org)
+- install imagemagick (www.imgaemagick.org)
+ (rerun npm install to install the new gm and imagemagick modules)
+
 - open a terminal and get to the project folder.
 - navigate to the client directory.
 - run bower install to install bower dependencies (first time only)
