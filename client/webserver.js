@@ -110,17 +110,19 @@ app.post('/images', function(req, res){
 	fs.rename(tempPath, targetPath , function(err) {
     if (err) throw err;
 
-    // save the image name to the database.
-    db.saveImage(req.body.itemId, filename, function() {
-      res.send("image saved");
+  // save the image name to the database.
+  db.saveImage(req.body.itemId, filename, function() {
+    res.send("image saved");
 
-
-		gm(targetPath)
-		.resize(300, 300)
-		.write(targetPath, function (err) {
-  		if (!err) console.log('done');
-		});
-
+	//post save resize
+  gm(targetPath)
+  .resize(300, 300)
+  .write(targetPath, function (err) {
+    if (!err){
+      console.log('done');
+    } else { console.log(err)
+      };
+      });
     });
   });
 })
