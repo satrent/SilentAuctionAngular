@@ -70,7 +70,7 @@
     <h3>Existing Images</h3>
     <div ng-repeat="image in item.images">
       <img style="width: 80px; height:80px;" ng-src="./images/{{image}}" alt="existing image">
-      <a ng-click="removeImage(image)">remove</a>
+      <a ng-click="removeImage($index)">remove</a>
     </div>
   </div>
   <div style="display: inline-block; border: 1px solid black;">
