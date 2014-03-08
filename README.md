@@ -22,31 +22,31 @@ After all of the software is installed you can open a terminal and get to the pr
 Navigate to the client directory.
 
 ```
-/:~$ cd ~/path/to/client
+/yourpc:~$ cd ~/path/to/client
 ```
 
 Once you have your terminal on the client directory you can run:
 
 ```
-~/path/to/client:~$ bower install
+/yourpc:~/path/to/client$ bower install
 ```
 
 After the bower dependencies have installed(only need to run once) you can install the npm dependencies:
 
 ```
-~/path/to/client:~$ npm install
+/yourpc:~/path/to/client$ npm install
 ```
 
 Now that you have installed all of the software and the node denedencies you can start the web server:
 
 ```
-~/path/to/client:~$ node webserver.js
+/yourpc:~/path/to/client$ node webserver.js
 ```
 
 This will start the web server. You should see a message like
 
 ```
-~/path/to/client:~$ node webserver.js
+/yourpc:~/path/to/client$ node webserver.js
 'web server listening on port 8889'
 ```
 if the server is running successfully.
