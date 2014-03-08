@@ -4,25 +4,15 @@ The server folder is deprecated and will be dropped from the project soon.  It's
 
 To get up and running...
 
-![Git](http://git-scm.com/images/logos/1color-orange-lightbg@2x.png)
 
 Please install **[git](http://git-scm.com/)**. [Download](http://git-scm.com/downloads) and follow the [install](http://git-scm.com/doc) instructions.
 
-
-![Mongodb](http://media.mongodb.org/logo-mongodb-header.png)
-
 **[Mongodb](http://www.mongodb.org)** is a [nosql](http://en.wikipedia.org/wiki/NoSQL) database. Please [download](http://www.mongodb.org/downloads) it and [install](http://docs.mongodb.org/manual/installation/) it. You will need it for this project.
-
-
-![nodejs](http://nodejs.org/images/logo.svg)
 
 Please install **[Nodejs](http://nodejs.org/)**. [Download](http://nodejs.org/download/) and install, or follow the [install](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager) from package managers.
 
 
-![graphicsMagick](http://www.graphicsmagick.org/images/gm-107x76.png)
-
 [Download](http://www.graphicsmagick.org/download.html) and [install](http://www.graphicsmagick.org/README.html) graphicmagick.
-
 
 ![imagemagick](http://www.imagemagick.org/discourse-server/)
 
