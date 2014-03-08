@@ -106,8 +106,17 @@ app.post('/images', function(req, res){
   var filename = Math.round(Math.random() * 10000000000) + '.' + ext;
   var targetPath = path.resolve('./images/' + filename);
 
- console.log(filename);
-	fs.rename(tempPath, targetPath , function(err) {
+  //presave image resize
+  gm(tempPath)
+  .resize(300,300)
+  .write(tempPath, function (err) {
+    if (!err) {
+        console.log('done');
+    } else {
+        console.log(err)};
+
+  console.log(filename);
+  fs.rename(tempPath, targetPath, function(err) {
     if (err) throw err;
 
     // save the image name to the database.
