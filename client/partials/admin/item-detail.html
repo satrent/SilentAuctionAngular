@@ -62,11 +62,21 @@
 </div>
 
 <hr>
-<div ng-show="item._id">
-  <h3>Upload Image</h3>
 
-  <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/>
 
-  <div ng-bind="fileMessage">
+<div ng-show="item._id" >
+
+  <div style="width: 300px; display: inline-block; border: 1px solid black;">
+    <h3>Existing Images</h3>
+    <div ng-repeat="image in item.images">
+      <img style="width: 80px; height:80px;" ng-src="./images/{{image}}" alt="existing image">
+      <a ng-click="removeImage($index)">remove</a>
+    </div>
+  </div>
+  <div style="display: inline-block; border: 1px solid black;">
+    <h3>Upload New Image</h3>
+    <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+    <div ng-bind="fileMessage">
+    </div>
   </div>
 </div>

@@ -122,7 +122,15 @@ silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routePa
       }
 
       $scope.item = data;
+      if (data.images && data.images.length > 0) {
+        $scope.mainImage = data.images[0];
+      }
     });
+
+    $scope.switchImage = function(i){
+      console.log('switching image');
+      $scope.mainImage = $scope.item.images[i];
+    }
 
     $scope.makeBid = function() {
       $http.post('api/bid', JSON.stringify({itemId: $scope.item._id,

@@ -115,24 +115,25 @@ app.post('/images', function(req, res){
     } else {
         console.log(err)};
 
-  console.log(filename);
-  fs.rename(tempPath, targetPath, function(err) {
-    if (err) throw err;
+    console.log(filename);
+    fs.rename(tempPath, targetPath, function(err) {
+      if (err) throw err;
 
-    // save the image name to the database.
-    db.saveImage(req.body.itemId, filename, function() {
-      res.send("image saved");
+      // save the image name to the database.
+      db.saveImage(req.body.itemId, filename, function() {
+        res.send("image saved");
 
 
-		gm(targetPath)
-		.resize(300, 300)
-		.write(targetPath, function (err) {
-  		if (!err) console.log('done');
-		});
+      gm(targetPath)
+      .resize(300, 300)
+      .write(targetPath, function (err) {
+        if (!err) console.log('done');
+      });
 
+      });
     });
-  });
-})
+  })
+});
 
 
 var _formatDate = function(d){

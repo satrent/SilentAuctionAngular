@@ -50,6 +50,13 @@ app.controller('AdminItemDetailController', ['$scope', '$http', '$routeParams', 
     });
   }
 
+  $scope.removeImage = function(i){
+    $scope.item.images.splice(i, 1);
+
+    $http.post('api/item', JSON.stringify($scope.item), {'Content-Type': 'application/json'}).success(function(data){
+    });
+  }
+
   $scope.fileMessage = 'no message';
 
   $scope.updateItem = function() {
@@ -70,6 +77,8 @@ app.controller('AdminItemDetailController', ['$scope', '$http', '$routeParams', 
     }).success(
         function() {
           $scope.fileMessage = 'file uploaded successfully.';
+
+          // todo - add the new image to $scope.item.images array.
         }
       ).error(
         function() {
