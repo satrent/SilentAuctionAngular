@@ -5,18 +5,16 @@ The server folder is deprecated and will be dropped from the project soon.  It's
 To get up and running...
 
 
-Please install **[git](http://git-scm.com/)**. [Download](http://git-scm.com/downloads) and follow the [install](http://git-scm.com/doc) instructions.
+* Please install **[git](http://git-scm.com/)**. [Download](http://git-scm.com/downloads) and follow the [install](http://git-scm.com/doc) instructions.
 
-**[Mongodb](http://www.mongodb.org)** is a [nosql](http://en.wikipedia.org/wiki/NoSQL) database. Please [download](http://www.mongodb.org/downloads) it and [install](http://docs.mongodb.org/manual/installation/) it. You will need it for this project.
+* **[Mongodb](http://www.mongodb.org)** is a [nosql](http://en.wikipedia.org/wiki/NoSQL) database. Please [download](http://www.mongodb.org/downloads) it and [install](http://docs.mongodb.org/manual/installation/) it. You will need it for this project.
 
-Please install **[Nodejs](http://nodejs.org/)**. [Download](http://nodejs.org/download/) and install, or follow the [install](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager) from package managers.
+* Please install **[Nodejs](http://nodejs.org/)**. [Download](http://nodejs.org/download/) and install, or follow the [install](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager) from package managers.
 
 
-[Download](http://www.graphicsmagick.org/download.html) and [install](http://www.graphicsmagick.org/README.html) graphicmagick.
+* [Download](http://www.graphicsmagick.org/download.html) and [install](http://www.graphicsmagick.org/README.html) graphicmagick.
 
-![imagemagick](http://www.imagemagick.org/discourse-server/)
-
-[Install](http://www.imagemagick.org/script/install-source.php) imagemagick.
+* [Install](http://www.imagemagick.org/script/install-source.php) imagemagick.
 
 
 After all of the software is installed you can open a terminal and get to the project folder.
