@@ -47,11 +47,11 @@
     <div style="padding-left: 20px;" class="header-left">
       <div>
         Auction Time:
-        <span id="headerTime">--:--:--AM</span>
+        <span>--:--:--AM</span>
       </div>
       <div>
         Total Raised:
-        <span id="totalRaised">$0.00</span>
+        <span ng-bind="totalRaised | currency"></span>
       </div>
     </div>
     <div ng-show="!loggedIn" class="header-logout">

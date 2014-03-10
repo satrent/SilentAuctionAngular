@@ -180,8 +180,13 @@ app.post('/api/bid', function(req, res) {
       return;
     })
   })
-
 });
+
+app.get("/api/items/totalRaised", function(req, res){
+  db.getTotalRaised(function(total){
+    res.send({total: total});
+  })
+})
 
 http.createServer(app).listen(8889, function() {
   console.log('web server listening on port 8889');

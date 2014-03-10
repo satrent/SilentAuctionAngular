@@ -1,6 +1,7 @@
 var db = require("mongojs").connect("localhost:27017/silentauction", ["users", "items", 'bids']);
 var moment = require("./bower_components/momentjs/moment.js");
 
+
 exports.getUsers = function(f) {
   db.users.find(function(err, users) {
     if (!err && users) {
@@ -136,10 +137,44 @@ exports.getTotalBids = function(f) {
   });
 };
 
+exports.getTotalRaised = function(f) {
+
+  var map = function () {
+    var x = { bids : this.bids , _id : this._id };
+    var max = 0;
+
+    if (this.bids) {
+      for(var i=0; i<this.bids.length; i++){
+        if (this.bids[i].amount > max) {
+          max = this.bids[i].amount;
+        }
+      }
+    }
+    emit(this._id, { maxBid : max } )
+  }
+
+  var reduce = function (key, values) {
+    var res = values[0];
+    for ( var i=1; i<values.length; i++ ) {
+      res.maxBid += values[i].maxBid;
+    }
+    return res;
+  }
+
+  db.items.mapReduce(map, reduce, { out : { inline : false } }, function(errors, data){
+    var total = 0;
+    for(var i=0; i<data.length; i++){
+      total += data[i].value.maxBid;
+    }
+
+    f(total);
+  });
+
+
+}
 
 exports.getOpenItems = function(f) {
   var m = new moment();
-  console.log(m.utc().format('YYYY-MM-DDTHH:mm:ss'));
   db.items.find({EndDate: { $gt: m.utc().format('YYYY-MM-DDTHH:mm:ss') }}, function(err, items) {
     if (!err && items) {
       f(items);
