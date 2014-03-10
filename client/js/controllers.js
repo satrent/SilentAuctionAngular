@@ -85,7 +85,7 @@ silentAuctionControllers.controller('ItemListController', ['$scope', '$http',
   }
 ]);
 
-silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$location', '$rootScope', function($scope, $window, $location, $rootScope){
+silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$location', '$rootScope', '$http', function($scope, $window, $location, $rootScope, $http){
   $scope.loggedIn = false;
 
   var _checkStatus = function() {
@@ -94,6 +94,10 @@ silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$locati
       $scope.userName = $window.localStorage.userName;
     }
   }
+
+  $http.get('/api/items/totalRaised').success(function(data) {
+    $scope.totalRaised = data.total;
+  });
 
   _checkStatus();
 
