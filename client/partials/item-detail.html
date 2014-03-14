@@ -19,9 +19,13 @@
   Donated By: <a target="_blank" ng-href="{{item.DonatedLink}}" ng-bind='item.DonatedBy' ></a>
 </div>
 <div>
+  Minimum Bid: <span ng-bind="item.MinimumBid | currency"></span>
+</div>
+<div>
   Current High Bid: <span ng-bind="item.highBid | currency"></span>
 </div>
 
+<div>
 <div>
   Bid: <input ng-model="newBidAmount" type="number">
   <button ng-click="makeBid()">Submit Bid</button>

@@ -198,6 +198,10 @@ app.post('/api/bid', function(req, res) {
     if (!item.bids){
       item.bids = [];
     }
+		if (item.bids < item.MinimumBid) {
+			res.send(JSON.stringify({result: false, message: 'Bid amount must be greater than the minimum bid amount.'}));
+			return;
+		}
 
     if (item.bids.length > 0 && (item.bids[item.bids.length - 1].amount + 1) > bid.amount) {
       res.send(JSON.stringify({result: false, message: 'Bid amount must be at least one dollar more than the current high bid.'}));
