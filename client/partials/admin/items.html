@@ -6,6 +6,7 @@
     <th>Title</th>
     <th>Start Date</th>
     <th>End Date</th>
+    <th>Minimum Bid</th>
     <th></th>
   </tr>
   <tr ng-click="gotoDetails(item._id)" class="admin-item-rows" ng-repeat="item in items" >
@@ -13,6 +14,7 @@
     <td ng-bind="item.Title"></td>
     <td ng-bind="item.StartDate | date:'MM/dd/yyyy hh:mm a'"></td>
     <td ng-bind="item.EndDate | date:'MM/dd/yyyy hh:mm a'"></td>
+    <td ng-bind="item.MinimumBid | currency"></td>
   </tr>
 </table>
 
