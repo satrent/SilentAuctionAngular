@@ -198,7 +198,8 @@ app.post('/api/bid', function(req, res) {
     if (!item.bids){
       item.bids = [];
     }
-		if (item.bids < item.MinimumBid) {
+
+		if (item.bids <= item.MinimumBid) {
 			res.send(JSON.stringify({result: false, message: 'Bid amount must be greater than the minimum bid amount.'}));
 			return;
 		}
@@ -222,6 +223,12 @@ app.get("/api/items/totalRaised", function(req, res){
     res.send({total: total});
   })
 })
+
+app.get("/lots/closed", function(req, res){
+  db.getClosedLots(function(items){
+    res.send(JSON.stringify(items));
+  })
+});
 
 http.createServer(app).listen(8889, function() {
   console.log('web server listening on port 8889');

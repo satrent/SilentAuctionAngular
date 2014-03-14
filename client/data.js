@@ -193,9 +193,9 @@ exports.getAllItems = function(f) {
 
 exports.getClosedLots = function(f) {
   var d = new Date()
-  db.lots.find({EndDateTime: { $lt: d }}, function(err, lots) {
-    if (!err && lots) {
-      f(lots);
+  db.items.find({EndDateTime: { $lt: d }}, function(err, items) {
+    if (!err && items) {
+      f(items);
     }
   });
 };
