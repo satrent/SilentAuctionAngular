@@ -192,8 +192,8 @@ exports.getAllItems = function(f) {
 
 
 exports.getClosedLots = function(f) {
-  var d = new Date()
-  db.items.find({EndDateTime: { $lt: d }}, function(err, items) {
+  var d = new moment();
+  db.items.find({EndDateTime: { $lt: d.utc().format('YYYY-MM-DDTHH:mm:ss') }}, function(err, items) {
     if (!err && items) {
       f(items);
     }
