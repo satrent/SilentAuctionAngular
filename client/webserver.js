@@ -198,15 +198,22 @@ app.post('/api/bid', function(req, res) {
     if (!item.bids){
       item.bids = [];
     }
+<<<<<<< HEAD
 
 		if (item.bids <= item.MinimumBid) {
 			res.send(JSON.stringify({result: false, message: 'Bid amount must be greater than the minimum bid amount.'}));
 			return;
 		}
+=======
+>>>>>>> bd2c1c8e1a74497c29423f7e637226bd6d43a720
 
     if (item.bids.length > 0 && (item.bids[item.bids.length - 1].amount + 1) > bid.amount) {
       res.send(JSON.stringify({result: false, message: 'Bid amount must be at least one dollar more than the current high bid.'}));
       return;
+    }
+    if (item.bids <= item.MinimumBid) {
+      res.send(JSON.stringify({result: false, message: 'Bid amount must be greater than the minimum bid amount.'}));
+        return;
     }
 
     item.bids.push({itemId: bid.itemId, userName: bid.userName, amount: bid.amount, bidDate: new moment().format("YYYY-MM-DD hh:mm:ss") });
