@@ -203,10 +203,10 @@ app.post('/api/bid', function(req, res) {
       res.send(JSON.stringify({result: false, message: 'Bid amount must be at least one dollar more than the current high bid.'}));
       return;
     }
-		if (item.bids <= item.MinimumBid) {
-			res.send(JSON.stringify({result: false, message: 'Bid amount must be greater than the minimum bid amount.'}));
-			return;
-		}
+    if (item.bids <= item.MinimumBid) {
+      res.send(JSON.stringify({result: false, message: 'Bid amount must be greater than the minimum bid amount.'}));
+        return;
+    }
 
     item.bids.push({itemId: bid.itemId, userName: bid.userName, amount: bid.amount, bidDate: new moment().format("YYYY-MM-DD hh:mm:ss") });
 
