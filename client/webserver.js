@@ -77,35 +77,35 @@ app.post('/register', function(req, res) {
   db.saveUser(user, function() {
     res.json({message: '', result: true});
   })
-	// create reusable transport method (opens pool of SMTP connections)
-	var smtpTransport = nodemailer.createTransport("SMTP",{
-    	service: "Gmail",
-    	auth: {
-        	user: "",
-        	pass: ""
+  // create reusable transport method (opens pool of SMTP connections)
+  var smtpTransport = nodemailer.createTransport("SMTP",{
+  service: "Gmail",
+  auth: {
+          user: "",
+          pass: ""
     	}
-	});
+  });
 
-	// setup e-mail data with unicode symbols
-	var mailOptions = {
-    	from: "", // sender address
-    	to: userEmail, // list of receivers
-    	subject: "Silent Auction - Registration", // Subject line
-    	text: "Thanks for the registration, bro.", // plaintext body
-    	html: "" // html body
-	}
+  // setup e-mail data with unicode symbols
+  var mailOptions = {
+  from: "", // sender address
+  to: userEmail, // list of receivers
+  subject: "Silent Auction - Registration", // Subject line
+  text: "Thanks for the registration, bro.", // plaintext body
+  html: "" // html body
+  }
 
-	// send mail with defined transport object
-	smtpTransport.sendMail(mailOptions, function(error, response){
-    	if(error){
-        	console.log(error);
-    	}else{
-        	console.log("Message sent: " + response.message);
-    	}
+  // send mail with defined transport object
+  smtpTransport.sendMail(mailOptions, function(error, response){
+  if(error){
+      console.log(error);
+  }else{
+      console.log("Message sent: " + response.message);
+  }
 			
-    // if you don't want to use this transport object anymore, uncomment following line
-    //smtpTransport.close(); // shut down the connection pool, no more messages
-	});
+  // if you don't want to use this transport object anymore, uncomment following line
+  //smtpTransport.close(); // shut down the connection pool, no more messages
+  });
 })
 
 _connection.config.queryFormat = function (query, values) {
@@ -199,6 +199,11 @@ app.post('/api/bid', function(req, res) {
       item.bids = [];
     }
 
+    if (item.bids <= item.MinimumBid) {
+			res.send(JSON.stringify({result: false, message: 'Bid amount must be greater than the minimum bid amount.'}));
+			return;
+		}
+
     if (item.bids.length > 0 && (item.bids[item.bids.length - 1].amount + 1) > bid.amount) {
       res.send(JSON.stringify({result: false, message: 'Bid amount must be at least one dollar more than the current high bid.'}));
       return;
@@ -223,9 +228,12 @@ app.get("/api/items/totalRaised", function(req, res){
   })
 })
 
+app.get("/api/closed", function(req, res){
+  db.getClosedLots(function(items){
+    res.send(JSON.stringify(items));
+  })
+});
+
 http.createServer(app).listen(8889, function() {
   console.log('web server listening on port 8889');
 });
-
-
-

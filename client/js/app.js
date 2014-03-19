@@ -46,6 +46,10 @@ silentAuctionApp.config(['$routeProvider','$httpProvider',
             templateUrl: '/partials/register.html',
             controller: 'RegisterController'
           }).
+          when('/closed', {
+            templateUrl: '/partials/items-closed.html',
+            controller: 'ClosedListController'
+          }).
           otherwise({
             redirectTo: '/'
           });

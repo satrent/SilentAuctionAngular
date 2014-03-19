@@ -85,6 +85,26 @@ silentAuctionControllers.controller('ItemListController', ['$scope', '$http',
   }
 ]);
 
+silentAuctionControllers.controller('ClosedListController', ['$scope', '$http',
+  function($scope, $http) {
+
+    $http.get('api/closed')
+      .success(function (data, status, headers, config) {
+
+        angular.forEach(data, function(item){
+          if (item.images && item.images.length > 0) {
+            item.imageName = item.images[0];
+          }
+        })
+
+        $scope.items = data;
+      })
+      .error(function(e){console.log(e);});
+
+  }
+]);
+
+
 silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$location', '$rootScope', '$http', function($scope, $window, $location, $rootScope, $http){
   $scope.loggedIn = false;
 
