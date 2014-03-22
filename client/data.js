@@ -35,6 +35,8 @@ exports.saveUser = function(user, f) {
     return;
   };
 
+  console.log(user.UserName);
+
   db.users.find({UserName: user.UserName}, function(err, users) {
     if (err) {
       f({errors: err, result: false});
