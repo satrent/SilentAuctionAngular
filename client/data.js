@@ -35,8 +35,6 @@ exports.saveUser = function(user, f) {
     return;
   };
 
-  console.log(user.UserName);
-
   db.users.find({UserName: user.UserName}, function(err, users) {
     if (err) {
       f({errors: err, result: false});
@@ -197,7 +195,6 @@ exports.getClosedLots = function(f) {
   var d = new moment();
   db.items.find({EndDate: { $lt: d.utc().format('YYYY-MM-DDTHH:mm:ss') }}, function(err, items) {
     if (!err && items) {
-      console.log(items);
       f(items);
     }
   });
