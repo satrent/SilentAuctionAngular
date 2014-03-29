@@ -201,7 +201,7 @@ exports.getDashboardData = function(username, f) {
       })
 
       d.bid.highBid = highBid;
-      d.bid.userHighbid = userHighBid;
+      d.bid.userHighBid = userHighBid;
     })
 
     console.log(data);

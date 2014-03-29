@@ -12,9 +12,10 @@
   </tr>
   <tr ng-repeat="bid in bids">
     <td ng-bind="bid.item.Title"></td>
-    <td ng-bind="bid.item.ClosedDate"></td>
+    <td ng-bind="bid.item.EndDate | date: 'MMM d, yyyy'"></td>
     <td ng-bind="bid.bid.highBid | currency"></td>
     <td ng-bind="bid.bid.userHighBid | currency"></td>
     <td ng-bind="bid.bid.bidStatus"></td>
   </tr>
 </table>
+
