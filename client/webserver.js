@@ -27,17 +27,8 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.cookieParser());
 app.use(express.bodyParser({uploadDir:'./images'}));
-
 app.use('/api', jwtAuth({secret: 'fk139d0sl30sl'}));
 
-
-var _connection = mysql.createConnection({
-  host     : 'localhost',
-  port     : '3306',
-  user     : 'silentauction',
-  database : 'SilentAuction',
-  password : '11x6jcyKc08'
-});
 
 app.post('/authenticate', function (req, res) {
   //TODO - hash the password on the client.
@@ -86,6 +77,8 @@ app.post('/register', function(req, res) {
     	}
   });
 
+
+
   // setup e-mail data with unicode symbols
   var mailOptions = {
   from: "", // sender address
@@ -108,20 +101,11 @@ app.post('/register', function(req, res) {
   });
 })
 
-_connection.config.queryFormat = function (query, values) {
-  if (!values) return query;
-  return query.replace(/\:(\w+)/g, function (txt, key) {
-    if (values.hasOwnProperty(key)) {
-      return this.escape(values[key]);
-    }
-    return txt;
-  }.bind(this));
-};
-
 app.get('/api/items', function(req, res) {
-  db.getOpenItems(function(items){
+  var f = function(items){
     res.send(JSON.stringify(items));
-  })
+  }
+  db.getOpenItems(f);
 });
 
 app.get('/api/items/all', function(req, res){
@@ -130,6 +114,13 @@ app.get('/api/items/all', function(req, res){
   })
 });
 
+app.get('/api/myBids', function(req, res){
+
+  db.getDashboardData(function(data){
+    res.send(data);
+  })
+
+})
 
 app.post('/images', function(req, res){
   var tempPath = req.files.file.path;

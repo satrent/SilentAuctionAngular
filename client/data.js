@@ -172,9 +172,23 @@ exports.getTotalRaised = function(f) {
 
     f(total);
   });
+}
 
+exports.getDashboardData = function(f) {
+  var data = [{
+        item: {Id: 1, Title: 'Test Item', ClosedDate: '2014-01-01', Closed: false},
+        bid: {highBid: 20, userHighBid: 18, bidStatus: 'losing'}
+      },
+      {
+        item: {Id: 2, Title: 'Test Item 2', ClosedDate: '2014-01-01', Closed: false},
+        bid: {highBid: 20, userHighBid: 18, bidStatus: 'losing'}
+      }
+    ];
+
+  f(data);
 
 }
+
 
 exports.getOpenItems = function(f) {
   var m = new moment();

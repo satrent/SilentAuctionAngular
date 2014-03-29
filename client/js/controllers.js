@@ -81,6 +81,10 @@ silentAuctionControllers.controller('ItemListController', ['$scope', '$http',
         document.location = "#/item/" + id;
     };
 
+    $scope.addItem = function(){
+      $scope.items.push({Title: 'new item', Description: 'we are cool'});
+    }
+
 
   }
 ]);
@@ -130,6 +134,14 @@ silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$locati
     $rootScope.$broadcast('logout', []);
     $location.path('/login');
   }
+
+}])
+
+silentAuctionControllers.controller('DashboardController', ['$scope', '$http', function($scope, $http){
+
+  $http.get('/api/myBids').success(function(data){
+    $scope.bids = data;
+  })
 
 }])
 

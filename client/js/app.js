@@ -50,6 +50,10 @@ silentAuctionApp.config(['$routeProvider','$httpProvider',
             templateUrl: '/partials/items-closed.html',
             controller: 'ClosedListController'
           }).
+          when('/dashboard', {
+            templateUrl: '/partials/my-bids.html',
+            controller: 'DashboardController'
+          }).
           otherwise({
             redirectTo: '/'
           });
