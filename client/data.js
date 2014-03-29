@@ -177,24 +177,48 @@ exports.getTotalRaised = function(f) {
 exports.getDashboardData = function(username, f) {
 
   db.items.find( function(err, items){
+    var data = [];
+
     _.each(items, function(item){
-
-      //if (_.find())
-      console.log(item);
-    })
-  })
-
-  var data = [{
-        item: {Id: 1, Title: 'Test Item', ClosedDate: '2014-01-01', Closed: false},
-        bid: {highBid: 20, userHighBid: 18, bidStatus: 'losing'}
-      },
-      {
-        item: {Id: 2, Title: 'Test Item 2', ClosedDate: '2014-01-01', Closed: false},
-        bid: {highBid: 20, userHighBid: 18, bidStatus: 'losing'}
+      if (_.find(item.bids, function(bid){return (bid.userName == username);})) {
+        data.push({item: item, bid: {}});
       }
-    ];
+    })
 
-  f(data);
+    _.each(data, function(d){
+      var userHighBid = 0;
+      var highBid = 0;
+
+      _.each(d.item.bids, function(bid){
+        if (bid.amount > highBid){
+          highBid = bid.amount;
+        }
+
+        if (bid.amount > userHighBid && bid.userName == username) {
+          userHighBid = bid.amount;
+        }
+
+      })
+
+      d.bid.highBid = highBid;
+      d.bid.userHighbid = userHighBid;
+    })
+
+    console.log(data);
+    f(data);
+  })
+//
+//  var data = [{
+//        item: {Id: 1, Title: 'Test Item', ClosedDate: '2014-01-01', Closed: false},
+//        bid: {highBid: 20, userHighBid: 18, bidStatus: 'losing'}
+//      },
+//      {
+//        item: {Id: 2, Title: 'Test Item 2', ClosedDate: '2014-01-01', Closed: false},
+//        bid: {highBid: 20, userHighBid: 18, bidStatus: 'losing'}
+//      }
+//    ];
+//
+//  f(data);
 
 }
 
