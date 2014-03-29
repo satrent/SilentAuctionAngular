@@ -138,6 +138,10 @@ silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$locati
 }])
 
 silentAuctionControllers.controller('DashboardController', ['$scope', '$http', '$window', function($scope, $http, $window){
+
+  // TODO - redirect to login if not logged in.
+
+
   var user = $window.localStorage.userName;
 
   $http.get('/api/myBids/' + user).success(function(data){

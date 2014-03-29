@@ -117,6 +117,9 @@ app.get('/api/items/all', function(req, res){
 app.get('/api/myBids/:username', function(req, res){
 
   db.getDashboardData(req.params.username, function(data){
+    // TODO - loop through the data.
+    //   add a property called item.closed (true/false)
+    //    add a property called bid.bid.bidStatus (won, lost, winning, losing)
     res.send(data);
   })
 
