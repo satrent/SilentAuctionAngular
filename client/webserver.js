@@ -114,9 +114,9 @@ app.get('/api/items/all', function(req, res){
   })
 });
 
-app.get('/api/myBids', function(req, res){
+app.get('/api/myBids/:username', function(req, res){
 
-  db.getDashboardData(function(data){
+  db.getDashboardData(req.params.username, function(data){
     res.send(data);
   })
 

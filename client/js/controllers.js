@@ -137,12 +137,12 @@ silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$locati
 
 }])
 
-silentAuctionControllers.controller('DashboardController', ['$scope', '$http', function($scope, $http){
+silentAuctionControllers.controller('DashboardController', ['$scope', '$http', '$window', function($scope, $http, $window){
+  var user = $window.localStorage.userName;
 
-  $http.get('/api/myBids').success(function(data){
+  $http.get('/api/myBids/' + user).success(function(data){
     $scope.bids = data;
   })
-
 }])
 
 silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routeParams', '$http', '$window',

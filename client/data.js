@@ -1,6 +1,6 @@
 var db = require("mongojs").connect("localhost:27017/silentauction", ["users", "items", 'bids']);
 var moment = require("./bower_components/momentjs/moment.js");
-
+var _ = require('./bower_components/underscore/underscore.js');
 
 exports.getUsers = function(f) {
   db.users.find(function(err, users) {
@@ -174,7 +174,16 @@ exports.getTotalRaised = function(f) {
   });
 }
 
-exports.getDashboardData = function(f) {
+exports.getDashboardData = function(username, f) {
+
+  db.items.find( function(err, items){
+    _.each(items, function(item){
+
+      //if (_.find())
+      console.log(item);
+    })
+  })
+
   var data = [{
         item: {Id: 1, Title: 'Test Item', ClosedDate: '2014-01-01', Closed: false},
         bid: {highBid: 20, userHighBid: 18, bidStatus: 'losing'}
