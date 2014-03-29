@@ -163,6 +163,9 @@ exports.getTotalRaised = function(f) {
 
   db.items.mapReduce(map, reduce, { out : { inline : false } }, function(errors, data){
     var total = 0;
+    if (!data || data.length == 0){
+      return f(0);
+    }
     for(var i=0; i<data.length; i++){
       total += data[i].value.maxBid;
     }
