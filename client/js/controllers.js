@@ -152,7 +152,6 @@ silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routePa
     });
 
     $scope.switchImage = function(i){
-      console.log('switching image');
       $scope.mainImage = $scope.item.images[i];
     }
 
