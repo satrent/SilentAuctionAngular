@@ -1,6 +1,6 @@
 var db = require("mongojs").connect("localhost:27017/silentauction", ["users", "items", 'bids']);
 var moment = require("./bower_components/momentjs/moment.js");
-
+var _ = require('./bower_components/underscore/underscore.js');
 
 exports.getUsers = function(f) {
   db.users.find(function(err, users) {
@@ -172,9 +172,54 @@ exports.getTotalRaised = function(f) {
 
     f(total);
   });
+}
 
+exports.getDashboardData = function(username, f) {
+
+  db.items.find( function(err, items){
+    var data = [];
+
+    _.each(items, function(item){
+      if (_.find(item.bids, function(bid){return (bid.userName == username);})) {
+        data.push({item: item, bid: {}});
+      }
+    })
+
+    _.each(data, function(d){
+      var userHighBid = 0;
+      var highBid = 0;
+
+      _.each(d.item.bids, function(bid){
+        if (bid.amount > highBid){
+          highBid = bid.amount;
+        }
+
+        if (bid.amount > userHighBid && bid.userName == username) {
+          userHighBid = bid.amount;
+        }
+      })
+
+      d.bid.highBid = highBid;
+      d.bid.userHighBid = userHighBid;
+    })
+
+    f(data);
+  })
+//
+//  var data = [{
+//        item: {Id: 1, Title: 'Test Item', ClosedDate: '2014-01-01', Closed: false},
+//        bid: {highBid: 20, userHighBid: 18, bidStatus: 'losing'}
+//      },
+//      {
+//        item: {Id: 2, Title: 'Test Item 2', ClosedDate: '2014-01-01', Closed: false},
+//        bid: {highBid: 20, userHighBid: 18, bidStatus: 'losing'}
+//      }
+//    ];
+//
+//  f(data);
 
 }
+
 
 exports.getOpenItems = function(f) {
   var m = new moment();

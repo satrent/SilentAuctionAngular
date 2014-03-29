@@ -81,6 +81,10 @@ silentAuctionControllers.controller('ItemListController', ['$scope', '$http',
         document.location = "#/item/" + id;
     };
 
+    $scope.addItem = function(){
+      $scope.items.push({Title: 'new item', Description: 'we are cool'});
+    }
+
 
   }
 ]);
@@ -131,6 +135,18 @@ silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$locati
     $location.path('/login');
   }
 
+}])
+
+silentAuctionControllers.controller('DashboardController', ['$scope', '$http', '$window', function($scope, $http, $window){
+
+  // TODO - redirect to login if not logged in.
+
+
+  var user = $window.localStorage.userName;
+
+  $http.get('/api/myBids/' + user).success(function(data){
+    $scope.data = data;
+  })
 }])
 
 silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routeParams', '$http', '$window',

@@ -98,7 +98,6 @@ body {
   font-weight: bolder;
 }
 
-
 .content-box {
   width: 800px;
   margin: auto;
@@ -280,3 +279,13 @@ body {
   -o-transition: all 500ms ease-in-out;
 }
 
+
+.dashboard-data tr th {
+  background-color: #0066CC;
+  color: white;
+  min-width: 150px;
+}
+
+.dashboard-data {
+  border: 1px solid black;
+}

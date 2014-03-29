@@ -1,0 +1,21 @@
+<h1>
+  My Bids
+</h1>
+
+<table class="dashboard-data">
+  <tr>
+    <th>Item</th>
+    <th>Closed</th>
+    <th>High Bid</th>
+    <th>My Bid</th>
+    <th>Bid Status</th>
+  </tr>
+  <tr ng-repeat="row in data">
+    <td ng-bind="row.item.Title"></td>
+    <td ng-bind="row.item.EndDate | date: 'MMM d, yyyy'"></td>
+    <td ng-bind="row.bid.highBid | currency"></td>
+    <td ng-bind="row.bid.userHighBid | currency"></td>
+    <td ng-bind="row.bid.bidStatus"></td>
+  </tr>
+</table>
+

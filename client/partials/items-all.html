@@ -2,9 +2,14 @@
 
 <div class='lot-container'>
 	<div ng-repeat="item in items" class='lot-box' ng-click="gotoDetails(item._id)">
-		<div class='title'>{{item.Title}}</div>
-		<div>{{item.Description}}</div>
+		<div class='title' ng-bind="item.Title"></div>
+		<div ng-bind="item.Descripiton"></div>
 		<img ng-src='images/{{item.imageName}}' alt='{{item.Title}} pic' />
 	</div>
 </div>
+
+<div style="clear: both;">
+  <button  ng-click="addItem()">Add A Item</button>
+</div>
+
 
