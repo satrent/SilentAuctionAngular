@@ -145,7 +145,7 @@ silentAuctionControllers.controller('DashboardController', ['$scope', '$http', '
   var user = $window.localStorage.userName;
 
   $http.get('/api/myBids/' + user).success(function(data){
-    $scope.bids = data;
+    $scope.data = data;
   })
 }])
 

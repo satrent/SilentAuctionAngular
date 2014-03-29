@@ -197,14 +197,12 @@ exports.getDashboardData = function(username, f) {
         if (bid.amount > userHighBid && bid.userName == username) {
           userHighBid = bid.amount;
         }
-
       })
 
       d.bid.highBid = highBid;
       d.bid.userHighBid = userHighBid;
     })
 
-    console.log(data);
     f(data);
   })
 //

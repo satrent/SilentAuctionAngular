@@ -11,6 +11,7 @@ var crypto = require('crypto');
 var moment = require("./bower_components/momentjs/moment.js");
 var gm = require('gm').subClass({ imageMagick: true });
 var nodemailer = require("nodemailer");
+var _ = require("./bower_components/underscore/underscore.js");
 
 var app = express();
 app.use(express.multipart());
@@ -117,9 +118,28 @@ app.get('/api/items/all', function(req, res){
 app.get('/api/myBids/:username', function(req, res){
 
   db.getDashboardData(req.params.username, function(data){
-    // TODO - loop through the data.
-    //   add a property called item.closed (true/false)
-    //    add a property called bid.bid.bidStatus (won, lost, winning, losing)
+
+    _.each(data, function(d){
+      d.bid.bidStatus = '';
+      var now = new moment();
+      var enddate = new moment(d.item.EndDate);
+
+
+      if (enddate > now && d.bid.userHighBid == d.bid.highBid){
+        d.bid.bidStatus = 'winning';
+      }
+      if (enddate > now && d.bid.userHighBid < d.bid.highBid){
+        d.bid.bidStatus = 'losing';
+      }
+      if (enddate <= now && d.bid.userHighBid == d.bid.highBid){
+        d.bid.bidStatus = 'won';
+      }
+      if (enddate <= now && d.bid.userHighBid < d.bid.highBid){
+        d.bid.bidStatus = 'lost';
+      }
+
+    })
+
     res.send(data);
   })
 
