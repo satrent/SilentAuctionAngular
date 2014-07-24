@@ -73,14 +73,14 @@
 
 <div ng-show="item._id" >
 
-  <div style="width: 300px; display: inline-block; border: 1px solid black;">
+  <div>
     <h3>Existing Images</h3>
-    <div ng-repeat="image in item.images">
+    <div ng-repeat="image in item.images" class="admin-item-image">
       <img style="width: 80px; height:80px;" ng-src="./images/{{image}}" alt="existing image">
-      <a ng-click="removeImage($index)">remove</a>
+      <a ng-click="removeImage($index)" title="remove image" class="image-remove">x</a>
     </div>
   </div>
-  <div style="display: inline-block; border: 1px solid black;">
+  <div>
     <h3>Upload New Image</h3>
     <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/>
     <div ng-bind="fileMessage">

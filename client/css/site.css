@@ -289,3 +289,22 @@ body {
 .dashboard-data {
   border: 1px solid black;
 }
+
+.admin-item-image {
+  display:inline-block;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #444;
+  margin: 2px;
+  position: relative;
+}
+
+.image-remove {
+  color: #444;
+  font-size: 28px;
+  display: block;
+  cursor: pointer;
+  position: absolute;
+  top: 1px;
+  right: 1px;
+}
