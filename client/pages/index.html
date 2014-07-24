@@ -49,7 +49,7 @@
     <div style="padding-left: 20px;" class="header-left">
       <div>
         Auction Time:
-        <span>--:--:--AM</span>
+        <span ng-how="systemTime">{{systemTime | date : "medium"}}</span>
       </div>
       <div>
         Total Raised:

@@ -109,7 +109,18 @@ silentAuctionControllers.controller('ClosedListController', ['$scope', '$http',
 ]);
 
 
-silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$location', '$rootScope', '$http', function($scope, $window, $location, $rootScope, $http){
+silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$location', '$rootScope', '$http', '$timeout', function($scope, $window, $location, $rootScope, $http, $timeout){
+
+  $scope.systemTime = Date.now();
+  $scope.tickInterval = 1000 //ms
+
+  var tick = function() {
+      $scope.systemTime = Date.now();
+      $timeout(tick, $scope.tickInterval); // reset the timer
+  }
+
+  $timeout(tick, $scope.tickInterval);
+
   $scope.loggedIn = false;
 
   var _checkStatus = function() {
