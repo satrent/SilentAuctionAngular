@@ -32,7 +32,7 @@ app.controller('AdminItemListController', ['$scope', '$http',
   }
 ]);
 
-app.controller('AdminItemDetailController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams){
+app.controller('AdminItemDetailController', ['$scope', '$http', '$routeParams', '$timeout', function($scope, $http, $routeParams, $timeout){
 
   if ($routeParams.id == 'new') {
    var m = moment();
@@ -78,7 +78,12 @@ app.controller('AdminItemDetailController', ['$scope', '$http', '$routeParams', 
         function() {
           $scope.fileMessage = 'file uploaded successfully.';
 
-          // todo - add the new image to $scope.item.images array.
+          $timeout(function(){
+            $http.get('api/item/' + $routeParams.id).success(function(data){
+              $scope.item = data;
+            });
+          }, 1000);
+
         }
       ).error(
         function() {
