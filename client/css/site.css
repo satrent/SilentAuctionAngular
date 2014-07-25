@@ -204,6 +204,10 @@ body {
 
 }
 
+.admin-item-rows:hover {
+  background-color: #ffd;
+}
+
 .admin-item-rows > td {
   border-left: none;
   border-right: none;
