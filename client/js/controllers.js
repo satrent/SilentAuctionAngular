@@ -170,6 +170,7 @@ silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routePa
 
       if (data.bids && data.bids.length > 0){
         data.highBid = data.bids[data.bids.length - 1].amount;
+        data.highBidUserName = data.bids[data.bids.length - 1].userName;
       }
 
       $scope.item = data;
