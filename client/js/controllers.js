@@ -104,6 +104,11 @@ silentAuctionControllers.controller('ClosedListController', ['$scope', '$http',
           if (item.images && item.images.length > 0) {
             item.imageName = item.images[0];
           }
+
+          if (item.bids && item.bids.length > 0){
+              item.highBid = item.bids[item.bids.length - 1].amount;
+              item.highBidUsername = item.bids[item.bids.length - 1].userName;
+          }
         })
 
         $scope.items = data;

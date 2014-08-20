@@ -5,6 +5,11 @@
 		<div class='title'>{{item.Title}}</div>
 		<div>{{item.Description}}</div>
 		<img ng-src='images/{{item.imageName}}' alt='{{item.Title}} pic' />
+        <div class="lot-details">
+            <div>Winning Bidder: <span ng-bind="item.highBidUsername"></span></div>
+            <div>Winning Bid: <span ng-bind="item.highBid | currency"></span></div>
+            <div>Donated By: <a target="_blank" ng-href="{{item.DonatedLink}}" ng-bind='item.DonatedBy' ></a></div>
+        </div>
 	</div>
 </div>
 
