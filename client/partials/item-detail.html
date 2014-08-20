@@ -8,7 +8,7 @@
 </div>
 <div>
   <div ng-repeat="image in item.images" style="display: inline-block; border: 1px solid black;">
-    <img ng-click="switchImage($index)" style="width: 50px; height: 50px;" ng-src="images/{{image}}">
+    <img ng-mouseover="switchImage($index)" style="width: 50px; height: 50px;" ng-src="images/{{image}}">
   </div>
 </div>
 

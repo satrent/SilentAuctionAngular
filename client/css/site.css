@@ -116,6 +116,7 @@ body {
 .lot-box:hover {
   border: 2px solid #444;
   margin: 9px;
+  cursor: default;
 }
 
 
