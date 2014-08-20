@@ -196,7 +196,7 @@ silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routePa
       ).success(function(data, status, header, config){
           $scope.bidResponse = data;
 
-          if (!$scope.bidResponse.error) {
+          if ($scope.bidResponse.result) {
             $scope.item.highBid = $scope.newBidAmount;
           }
       })
