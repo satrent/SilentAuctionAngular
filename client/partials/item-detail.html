@@ -24,8 +24,9 @@
 <div>
   Current High Bid: <span ng-bind="item.highBid | currency"></span>
 </div>
-
 <div>
+    Current High Bidder: <span ng-bind="item.highBidUserName"></span>
+</div>
 <div>
   Bid: <input ng-model="newBidAmount" type="number">
   <button ng-click="makeBid()">Submit Bid</button>
