@@ -116,6 +116,7 @@ body {
 .lot-box:hover {
   border: 2px solid #444;
   margin: 9px;
+  cursor: default;
 }
 
 
@@ -153,6 +154,15 @@ body {
   position: absolute;
   left: 0px;
   bottom: 0px;
+}
+
+.lot-box .lot-details {
+    background-color: #c8c8c8;
+    color: #000000;
+    width: 190px;
+    position: absolute;
+    bottom: 0px;
+    padding: 5px;
 }
 
 .createDetails .row {

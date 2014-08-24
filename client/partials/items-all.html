@@ -5,6 +5,16 @@
 		<div class='title' ng-bind="item.Title"></div>
 		<div ng-bind="item.Descripiton"></div>
 		<img ng-src='images/{{item.imageName}}' alt='{{item.Title}} pic' />
+        <div class="lot-details">
+            <div ng-if="item.highBid == Null">
+                <div>Minimum Bid: <span ng-bind="item.MinimumBid | currency"></span></div>
+            </div>
+            <div ng-if="item.highBid != Null">
+                <div>High Bidder: <span ng-bind="item.highBidUserName"></span></div>
+                <div>High Bid: <span ng-bind="item.highBid | currency"></span></div>
+            </div>
+            <div>Closes: <span ng-bind="item.EndDate | date: 'short'"></span></div>
+        </div>
 	</div>
 </div>
 
