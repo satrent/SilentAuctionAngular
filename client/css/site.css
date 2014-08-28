@@ -105,6 +105,7 @@ body {
 
 .lot-box {
   border: 1px solid #888888;
+  background-color: #c8c8c8;
   float: left;
   width: 200px;
   height: 275px;
@@ -132,10 +133,16 @@ body {
 }
 
 .lot-box img {
-  width: 180px;
-  height: 180px;
-  padding-left: 10px;
+  border: 1px solid #444;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
+
+
 
 .lot-box .label {
   margin-left: 10px;

@@ -150,6 +150,7 @@ app.post('/images', function(req, res){
   var ext = tempPath.substring(tempPath.lastIndexOf('.', tempPath) + 1, tempPath.length);
   var filename = Math.round(Math.random() * 10000000000) + '.' + ext;
   var targetPath = path.resolve(__dirname + '/images/' + filename);
+  var thumbnailPath = path.resolve(__dirname + '/images/thumbnails/' + filename);
 
   //presave image resize
   gm(tempPath)
@@ -167,15 +168,21 @@ app.post('/images', function(req, res){
       // save the image name to the database.
       db.saveImage(req.body.itemId, filename, function() {
         res.send("image saved");
-
-
-      gm(targetPath)
-      .resize(300, 300)
-      .write(targetPath, function (err) {
-        if (!err) console.log('done');
       });
+    });
 
-      });
+  var cpyDir = fs.createReadStream(targetPath);
+  var outDir = fs.createWriteStream(thumbnailPath);
+  cpyDir.pipe(outDir);
+
+  gm(targetPath)
+  .resize(180,180)
+  .write(thumbnailPath, function(err) {
+    if(!err) {
+      console.log('done');
+      } else {
+      console.log(err);
+      }
     });
   })
 });
