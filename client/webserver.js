@@ -9,7 +9,7 @@ var jwtAuth = require('express-jwt');
 var jwt = require('jsonwebtoken');
 var crypto = require('crypto');
 var moment = require("./bower_components/momentjs/moment.js");
-var gm = require('gm').subClass({ imageMagick: true });
+var gm = require('gm');
 var nodemailer = require("nodemailer");
 var _ = require("./bower_components/underscore/underscore.js");
 
@@ -149,7 +149,7 @@ app.post('/images', function(req, res){
   var tempPath = req.files.file.path;
   var ext = tempPath.substring(tempPath.lastIndexOf('.', tempPath) + 1, tempPath.length);
   var filename = Math.round(Math.random() * 10000000000) + '.' + ext;
-  var targetPath = path.resolve('./images/' + filename);
+  var targetPath = path.resolve(__dirname + '/images/' + filename);
 
   //presave image resize
   gm(tempPath)
