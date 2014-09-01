@@ -86,11 +86,6 @@ silentAuctionControllers.controller('ItemListController', ['$scope', '$http',
         document.location = "#/item/" + id;
     };
 
-    $scope.addItem = function(){
-      $scope.items.push({Title: 'new item', Description: 'we are cool'});
-    }
-
-
   }
 ]);
 
