@@ -23,40 +23,61 @@ silentAuctionControllers.controller('AuthController', ['$scope', '$http', '$wind
     $scope.$on('loutout', function(event, date){$scope.userName = '';});
 
   }
-])
+]);
+
+silentAuctionControllers.controller('ActivateController', ['$scope', '$http', '$location', function($scope, $http, $location) {
+
+  var user = {userName: $location.search().username, activationKey: $location.search().key};
+
+  $scope.activate = {};
+
+  $http.post('/activate', JSON.stringify({user: user}), {'Content-Type': 'application/json'})
+    .success(function(data) {
+      $scope.activate.message = "your account has been activated.";
+    })
+    .error(function(){
+      $scope.activate.message = 'sorry... something went wrong.';
+    })
+
+
+}]);
+
 
 silentAuctionControllers.controller('RegisterController', ['$scope', '$http', '$location', function($scope, $http, $location){
 
   $scope.userData = {
     userName: '',
     password: '',
-    password2: '',
-    email: '',
+    password2: ''
   };
-
 
   $scope.register = function(){
     if ($scope.userData.password != $scope.userData.password2) {
-      $scope.message = 'passwords do not match, homie'; 
+      $scope.message = 'passwords do not match';
       return;
     }
 
     var user = {
       userName: $scope.userData.userName,
       password: $scope.userData.password,
-      email: $scope.userData.email,
-      isAdmin: false,
-
+      email: $scope.userData.userName + '@porticobenefits.org',
+      isAdmin: false
     };
 
     $http.post('/register', JSON.stringify({user: user}), {'Content-Type': 'application/json'})
       .success(function(data){
-        $location.path('/login');
+
+        console.log(data);
+
+        if (data.result) {
+          $scope.message = 'registration successful. Please check your email to activate your account.';
+        } else {
+          $scope.message = data.messages.errors.join(" ");
+        }
       })
       .error(function(){
         $scope.message = 'register failed.';
       });
-
   }
 
 }])

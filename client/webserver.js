@@ -19,6 +19,7 @@ app.use(express.multipart());
 app.use("/", express.static(__dirname + '/pages'));
 app.use('/js', express.static(__dirname + '/js'));
 app.use('/images', express.static(__dirname + '/images'));
+app.use('/outbid', express.static(__dirname + '/outbid'));
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/partials', express.static(__dirname + '/partials'));
 app.use('/templates', express.static(__dirname + '/templates'));
@@ -31,6 +32,28 @@ app.use(express.bodyParser({uploadDir:'./images'}));
 app.use('/api', jwtAuth({secret: 'fk139d0sl30sl'}));
 
 
+var appSettings = {};
+var emailSettings = {};
+
+fs.readFile('app-settings.json', 'utf8', function (err, data) {
+  if (err) {
+    console.log('Error: ' + err);
+    return;
+  }
+
+  appSettings = JSON.parse(data);
+});
+
+fs.readFile('email-config.json', 'utf8', function (err, data) {
+  if (err) {
+    console.log('Error: ' + err);
+    return;
+  }
+
+  emailSettings = JSON.parse(data);
+});
+
+
 app.post('/authenticate', function (req, res) {
   //TODO - hash the password on the client.
   //if is invalid, return 401
@@ -38,7 +61,7 @@ app.post('/authenticate', function (req, res) {
   var password = crypto.createHash('md5').update(req.body.password).digest('hex');
 
   db.getUser(req.body.userName, password, function(result){
-    if (result.result) {
+    if (result.result && result.user.isActive) {
       var profile = {
         userName: result.user.userName ,
         isAdmin: result.user.IsAdmin,
@@ -54,53 +77,77 @@ app.post('/authenticate', function (req, res) {
   })
 });
 
+app.post('/activate', function(req, res) {
+  var user = req.body.user;
+
+
+  db.getUserByUserName(user.userName, function(result){
+    if (result && result.result && result.user && result.user.activationKey == user.activationKey){
+
+      result.user.activatedOn = new Date();
+      result.user.isActive = true;
+
+      db.saveUser(result.user, function(errors, result){
+        res.json({messages: '', result: true});
+      }, true);
+
+    } else {
+      res.json({messages: 'user could not be found', result: false});
+    }
+  })
+});
+
+var sendEmail = function(args) {
+  var file =  'email-config.json';
+
+  var smtpTransport = nodemailer.createTransport("SMTP", emailSettings);
+
+  var mailOptions = {
+    from: "silentauction@porticobenefits.org",
+    to: args.to,
+    subject: args.subject, // Subject line
+    text: args.plainText,
+    html: args.htmlText
+  }
+
+  smtpTransport.sendMail(mailOptions, function (error, response) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Message sent: " + response.message);
+    }
+
+    smtpTransport.close(); // shut down the connection pool, no more messages
+  });
+}
 
 app.post('/register', function(req, res) {
 
   var user = req.body.user;
-	var userEmail = user.email;
+  var userEmail = user.email;
 
+  user.isActive = false;
   user.password = crypto.createHash('md5').update(user.password).digest('hex');
+  user.activationKey = parseInt(Math.random() * 1000000000);
 
-  if (!user.activatedOn) {
-    user.activatedOn = new Date();
-  }
+  db.saveUser(user, function(errors, result) {
 
-  db.saveUser(user, function() {
-    res.json({message: '', result: true});
+    if (!result) {
+      res.json({messages: errors, result: false});
+      return;
+    } else {
+
+      sendEmail({
+        to: userEmail,
+        subject:'Silent Auction - Registration',
+        plainText: 'Please click to activate your account. ' + appSettings.siteUrl + '/#/activate',
+        htmlText: "Please <a href='" + appSettings.siteUrl + "/#/activate?username="+user.userName+"&key=" + user.activationKey + "'>click</a> to activate your account."
+      });
+
+      res.json({messages: [], result: true});
+    }
   })
-  // create reusable transport method (opens pool of SMTP connections)
-  var smtpTransport = nodemailer.createTransport("SMTP",{
-  service: "Gmail",
-  auth: {
-          user: "",
-          pass: ""
-    	}
-  });
-
-
-
-  // setup e-mail data with unicode symbols
-  var mailOptions = {
-  from: "", // sender address
-  to: userEmail, // list of receivers
-  subject: "Silent Auction - Registration", // Subject line
-  text: "Thanks for the registration, bro.", // plaintext body
-  html: "" // html body
-  }
-
-  // send mail with defined transport object
-  smtpTransport.sendMail(mailOptions, function(error, response){
-  if(error){
-      console.log(error);
-  }else{
-      console.log("Message sent: " + response.message);
-  }
-			
-  // if you don't want to use this transport object anymore, uncomment following line
-  //smtpTransport.close(); // shut down the connection pool, no more messages
-  });
-})
+});
 
 app.get('/api/items', function(req, res) {
   var f = function(items){
@@ -215,8 +262,6 @@ app.post('/api/item', function(req, res){
 app.post('/api/bid', function(req, res) {
   var bid = req.body;
 
-  //console.log(req);
-
   db.getItem(bid.itemId, function(item){
     if (!item.bids){
       item.bids = [];
@@ -236,6 +281,20 @@ app.post('/api/bid', function(req, res) {
     if (currentTime > moment(item.EndDate).format("YYYY-MM-DD hh:mm:ss")){
       res.send(JSON.stringify({result: false, message: 'Bid too late! This item\'s bidding time is up.'}));
       return;
+    }
+
+    // send an email to the previous high bidder.
+    if (item.bids.length > 0 && item.bids[item.bids.length - 1].userName != bid.userName) {
+      var randomImage = parseInt(Math.random() * 20) + 1;
+
+      db.getUserByUserName(item.bids[item.bids.length - 1].userName, function(result){
+        sendEmail({
+          to: result.user.email,
+          subject:"You've been outbid! - Silent Auction",
+          plainText: "oh no! you've been outbid",
+          htmlText: "<div><img src='" + appSettings.siteUrl + "/outbid/" + randomImage + ".jpg'></div>You've been outbid! Click <a href='" + appSettings.siteUrl + "/#/item/"+item._id+"'>here</a> to fix it."
+        });
+      });
     }
 
     item.bids.push({itemId: bid.itemId, userName: bid.userName, amount: bid.amount, bidDate: new moment().format("YYYY-MM-DD hh:mm:ss") });

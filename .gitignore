@@ -4,4 +4,5 @@
 /client/node_modules
 /client/.DS_Store
 .DS_Store
+/client/email-config.json
 *~
