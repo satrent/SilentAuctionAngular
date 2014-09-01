@@ -1,3 +1,4 @@
 {
-  "siteUrl": "http://localhost:8889"
+  "siteUrl": "http://localhost:8889",
+  "domain": "porticobenefits.org"
 }
