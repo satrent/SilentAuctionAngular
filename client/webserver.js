@@ -53,6 +53,9 @@ fs.readFile('email-config.json', 'utf8', function (err, data) {
   emailSettings = JSON.parse(data);
 });
 
+app.get("/domain", function(req, res){
+  res.json({'domain': appSettings.domain});
+})
 
 app.post('/authenticate', function (req, res) {
   //TODO - hash the password on the client.

@@ -6,6 +6,12 @@ var silentAuctionControllers = angular.module('silentAuctionControllers', []);
 
 silentAuctionControllers.controller('AuthController', ['$scope', '$http', '$window', '$location', '$rootScope',
   function($scope, $http, $window, $location, $rootScope) {
+    $scope.domain = '';
+
+    $http.get('/domain', {'Content-Type': 'application/json'})
+      .success(function(data) {
+        $scope.domain = data.domain;
+      });
 
     $scope.login = function() {
       var login = {userName: $scope.userName, password: $scope.password};
@@ -51,6 +57,13 @@ silentAuctionControllers.controller('RegisterController', ['$scope', '$http', '$
     password2: ''
   };
 
+  $scope.domain = '';
+
+  $http.get('/domain', {'Content-Type': 'application/json'})
+    .success(function(data) {
+      $scope.domain = data.domain;
+    });
+
   $scope.register = function(){
     if ($scope.userData.password != $scope.userData.password2) {
       $scope.message = 'passwords do not match';
@@ -66,8 +79,6 @@ silentAuctionControllers.controller('RegisterController', ['$scope', '$http', '$
 
     $http.post('/register', JSON.stringify({user: user}), {'Content-Type': 'application/json'})
       .success(function(data){
-
-        console.log(data);
 
         if (data.result) {
           $scope.message = 'registration successful. Please check your email to activate your account.';
