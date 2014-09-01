@@ -38,7 +38,7 @@ app.post('/authenticate', function (req, res) {
   var password = crypto.createHash('md5').update(req.body.password).digest('hex');
 
   db.getUser(req.body.userName, password, function(result){
-    if (result.result) {
+    if (result.result && result.user.isActive) {
       var profile = {
         userName: result.user.userName ,
         isAdmin: result.user.IsAdmin,
@@ -54,52 +54,80 @@ app.post('/authenticate', function (req, res) {
   })
 });
 
+app.post('/activate', function(req, res) {
+  var user = req.body.user;
+
+
+  db.getUserByUserName(user.userName, function(result){
+    if (result && result.result && result.user && result.user.activationKey == user.activationKey){
+
+      result.user.activatedOn = new Date();
+      result.user.isActive = true;
+
+      db.saveUser(result.user, function(errors, result){
+        res.json({messages: '', result: true});
+      }, true);
+
+    } else {
+      res.json({messages: 'user could not be found', result: false});
+    }
+  })
+});
+
 
 app.post('/register', function(req, res) {
 
   var user = req.body.user;
 	var userEmail = user.email;
 
+  user.isActive = false;
   user.password = crypto.createHash('md5').update(user.password).digest('hex');
+  user.activationKey = parseInt(Math.random() * 1000000000);
 
-  if (!user.activatedOn) {
-    user.activatedOn = new Date();
-  }
+  //if (!user.activatedOn) {
+  //  user.activatedOn = new Date();
+  //}
 
-  db.saveUser(user, function() {
-    res.json({message: '', result: true});
+  db.saveUser(user, function(errors, result) {
+
+    if (!result) {
+      res.json({messages: errors, result: false});
+      return;
+    } else {
+
+      var file =  'email-config.json';
+
+      fs.readFile(file, 'utf8', function (err, data) {
+        if (err) {
+          console.log('Error: ' + err);
+          return;
+        }
+
+        var emailSettings = JSON.parse(data);
+        var smtpTransport = nodemailer.createTransport("SMTP", emailSettings);
+
+        var mailOptions = {
+          from: "silentauction@porticobenefits.org",
+          to: userEmail,
+          subject: "Silent Auction - Registration", // Subject line
+          text: "Please click to activate your account. http://localhost:8889/#/activate",
+          html: "Please <a href='http://localhost:8889/#/activate?username="+user.userName+"&key=" + user.activationKey + "'>click</a> to activate your account."
+        }
+
+        smtpTransport.sendMail(mailOptions, function(error, response){
+          if(error){
+            console.log(error);
+          }else{
+            console.log("Message sent: " + response.message);
+          }
+
+          smtpTransport.close(); // shut down the connection pool, no more messages
+        });
+
+        res.json({messages: [], result: true});
+      });
+    }
   })
-  // create reusable transport method (opens pool of SMTP connections)
-  var smtpTransport = nodemailer.createTransport("SMTP",{
-  service: "Gmail",
-  auth: {
-          user: "",
-          pass: ""
-    	}
-  });
-
-
-
-  // setup e-mail data with unicode symbols
-  var mailOptions = {
-  from: "", // sender address
-  to: userEmail, // list of receivers
-  subject: "Silent Auction - Registration", // Subject line
-  text: "Thanks for the registration, bro.", // plaintext body
-  html: "" // html body
-  }
-
-  // send mail with defined transport object
-  smtpTransport.sendMail(mailOptions, function(error, response){
-  if(error){
-      console.log(error);
-  }else{
-      console.log("Message sent: " + response.message);
-  }
-			
-  // if you don't want to use this transport object anymore, uncomment following line
-  //smtpTransport.close(); // shut down the connection pool, no more messages
-  });
 })
 
 app.get('/api/items', function(req, res) {
@@ -207,8 +235,6 @@ app.post('/api/item', function(req, res){
 
 app.post('/api/bid', function(req, res) {
   var bid = req.body;
-
-  console.log(req);
 
   db.getItem(bid.itemId, function(item){
     if (!item.bids){

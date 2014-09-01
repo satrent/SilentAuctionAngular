@@ -10,6 +10,20 @@ exports.getUsers = function(f) {
   });
 };
 
+exports.getUserByUserName = function(username, f) {
+  db.users.find({userName: username}, function(err, users) {
+    if (err) {
+      f({errors: err, result: false});
+    }
+    else if (users && users.length > 0) {
+      f({errors: [], result: true, user: users[0]});
+    }
+    else {
+      f({errors: ['no user found'], result: false});
+    }
+  });
+}
+
 exports.getUser = function(username, password, f) {
   db.users.find({userName: username, password: password}, function(err, users) {
     if (err) {
@@ -24,24 +38,26 @@ exports.getUser = function(username, password, f) {
   });
 };
 
-exports.saveUser = function(user, f) {
+exports.saveUser = function(user, f, update) {
   var saveCallback = function(errors, user) {
+
     if (errors && errors.length > 0) {
       f({result:false, errors: errors});
       return;
     }
 
-    f({result: true});
+    f([], true);
     return;
   };
 
-  db.users.find({UserName: user.UserName}, function(err, users) {
+  db.users.find({userName: user.userName}, function(err, users) {
+
     if (err) {
       f({errors: err, result: false});
       return;
     }
 
-    if (users && users.length > 0) {
+    if (users && users.length > 0 && !update) {
       f({errors: ['user name already exists'], result: false});
       return;
     }
@@ -57,9 +73,6 @@ exports.saveImage = function(itemId, imageName, f){
     }
 
     item.images.push(imageName);
-
-    console.log(item);
-
 
     exports.saveItem(item, function() {
       f();
