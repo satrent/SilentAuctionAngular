@@ -215,7 +215,7 @@ app.post('/api/item', function(req, res){
 app.post('/api/bid', function(req, res) {
   var bid = req.body;
 
-  console.log(req);
+  //console.log(req);
 
   db.getItem(bid.itemId, function(item){
     if (!item.bids){
@@ -229,6 +229,12 @@ app.post('/api/bid', function(req, res) {
 
     if (item.bids.length > 0 && (item.bids[item.bids.length - 1].amount + 1) > bid.amount) {
       res.send(JSON.stringify({result: false, message: 'Bid amount must be at least one dollar more than the current high bid.'}));
+      return;
+    }
+    
+    var currentTime = new moment().format("YYYY-MM-DD hh:mm:ss");
+    if (currentTime > moment(item.EndDate).format("YYYY-MM-DD hh:mm:ss")){
+      res.send(JSON.stringify({result: false, message: 'Bid too late! This item\'s bidding time is up.'}));
       return;
     }
 
