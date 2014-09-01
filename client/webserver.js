@@ -197,6 +197,7 @@ app.post('/images', function(req, res){
   var ext = tempPath.substring(tempPath.lastIndexOf('.', tempPath) + 1, tempPath.length);
   var filename = Math.round(Math.random() * 10000000000) + '.' + ext;
   var targetPath = path.resolve(__dirname + '/images/' + filename);
+  var thumbnailPath = path.resolve(__dirname + '/images/thumbnails/' + filename);
 
   //presave image resize
   gm(tempPath)
@@ -214,15 +215,21 @@ app.post('/images', function(req, res){
       // save the image name to the database.
       db.saveImage(req.body.itemId, filename, function() {
         res.send("image saved");
-
-
-      gm(targetPath)
-      .resize(300, 300)
-      .write(targetPath, function (err) {
-        if (!err) console.log('done');
       });
+    });
 
-      });
+  var cpyDir = fs.createReadStream(targetPath);
+  var outDir = fs.createWriteStream(thumbnailPath);
+  cpyDir.pipe(outDir);
+
+  gm(targetPath)
+  .resize(180,180)
+  .write(thumbnailPath, function(err) {
+    if(!err) {
+      console.log('done');
+      } else {
+      console.log(err);
+      }
     });
   })
 });
@@ -267,6 +274,12 @@ app.post('/api/bid', function(req, res) {
 
     if (item.bids.length > 0 && (item.bids[item.bids.length - 1].amount + 1) > bid.amount) {
       res.send(JSON.stringify({result: false, message: 'Bid amount must be at least one dollar more than the current high bid.'}));
+      return;
+    }
+    
+    var currentTime = new moment().format("YYYY-MM-DD hh:mm:ss");
+    if (currentTime > moment(item.EndDate).format("YYYY-MM-DD hh:mm:ss")){
+      res.send(JSON.stringify({result: false, message: 'Bid too late! This item\'s bidding time is up.'}));
       return;
     }
 
