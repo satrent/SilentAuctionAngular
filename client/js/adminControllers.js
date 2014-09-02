@@ -32,7 +32,7 @@ app.controller('AdminItemListController', ['$scope', '$http',
   }
 ]);
 
-app.controller('AdminItemDetailController', ['$scope', '$http', '$routeParams', '$timeout', function($scope, $http, $routeParams, $timeout){
+app.controller('AdminItemDetailController', ['$scope', '$http', '$routeParams', '$timeout', '$location', function($scope, $http, $routeParams, $timeout, $location){
 
   if ($routeParams.id == 'new') {
    var m = moment();
@@ -50,19 +50,39 @@ app.controller('AdminItemDetailController', ['$scope', '$http', '$routeParams', 
     });
   }
 
+
   $scope.removeImage = function(i){
     $scope.item.images.splice(i, 1);
 
-    $http.post('api/item', JSON.stringify($scope.item), {'Content-Type': 'application/json'}).success(function(data){
-    });
+    $http.post('api/item', JSON.stringify($scope.item), {'Content-Type': 'application/json'})
+      .success(function(data){
+
+      })
+      .error(function(data, status){
+        if (status == 401){
+          alert('failed. unauthorized.')
+          $location.path("#");
+        }
+      });
+
   }
 
   $scope.fileMessage = 'no message';
 
   $scope.updateItem = function() {
-    $http.post('api/item', JSON.stringify($scope.item), {'Content-Type': 'application/json'}).success(function(data){
-      $scope.message = "item updated."
-    });
+    $http.post('api/item', JSON.stringify($scope.item), {'Content-Type': 'application/json'})
+      .success(function(data){
+        $scope.message = "item updated."
+      })
+      .error(function(data, status){
+        if (status == 401) {
+          alert('failed. unauthorized.')
+          $location.path("#");
+        } else {
+          $scope.message = "error occurred";
+        }
+
+      });
   };
 
   $scope.uploadFile = function(files) {

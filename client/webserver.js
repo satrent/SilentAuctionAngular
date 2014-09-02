@@ -53,6 +53,10 @@ fs.readFile('email-config.json', 'utf8', function (err, data) {
   emailSettings = JSON.parse(data);
 });
 
+var isAdmin = function(userName){
+  return _.contains(appSettings.admins, userName);
+};
+
 app.get("/domain", function(req, res){
   res.json({'domain': appSettings.domain});
 })
@@ -153,6 +157,10 @@ app.post('/register', function(req, res) {
 });
 
 app.get('/api/items', function(req, res) {
+
+  console.log('user name...');
+  console.log(req.user);
+
   var f = function(items){
     res.send(JSON.stringify(items));
   }
@@ -196,6 +204,12 @@ app.get('/api/myBids/:username', function(req, res){
 })
 
 app.post('/images', function(req, res){
+
+  if (!isAdmin(req.user.userName)){
+    res.send(401, 'not authorized');
+    return;
+  }
+
   var tempPath = req.files.file.path;
   var ext = tempPath.substring(tempPath.lastIndexOf('.', tempPath) + 1, tempPath.length);
   var filename = Math.round(Math.random() * 10000000000) + '.' + ext;
@@ -237,7 +251,6 @@ app.post('/images', function(req, res){
   })
 });
 
-
 var _formatDate = function(d){
   d = d.replace(/T/, ' ').
         replace(/\..+/, '');  // replace everything after the dot.
@@ -252,6 +265,12 @@ app.get('/api/item/:id', function(req, res) {
 });
 
 app.post('/api/item', function(req, res){
+
+  if (!isAdmin(req.user.userName)){
+    res.send(401, 'not authorized');
+    return;
+  }
+
   var item = req.body;
 
   item._id = db.createObjectId(item._id);
