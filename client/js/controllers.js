@@ -71,9 +71,9 @@ silentAuctionControllers.controller('RegisterController', ['$scope', '$http', '$
     }
 
     var user = {
-      userName: $scope.userData.userName,
+      userName: $scope.userData.userName.toLowerCase(),
       password: $scope.userData.password,
-      email: $scope.userData.userName + '@porticobenefits.org',
+      email: $scope.userData.userName.toLowerCase() + '@porticobenefits.org',
       isAdmin: false
     };
 
