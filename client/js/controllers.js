@@ -93,8 +93,8 @@ silentAuctionControllers.controller('RegisterController', ['$scope', '$http', '$
 
 }])
 
-silentAuctionControllers.controller('ItemListController', ['$scope', '$http',
-  function($scope, $http) {
+silentAuctionControllers.controller('ItemListController', ['$scope', '$http', '$location',
+  function($scope, $http, $location) {
 
     $http.get('api/items')
         .success(function (data, status, headers, config) {
@@ -115,7 +115,7 @@ silentAuctionControllers.controller('ItemListController', ['$scope', '$http',
         .error(function(e){console.log(e);});
 
     $scope.gotoDetails = function(id){
-        document.location = "#/item/" + id;
+        $location.path('item/' + id).replace();
     };
 
   }

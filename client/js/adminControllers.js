@@ -20,14 +20,14 @@ app.controller('AuthController', ['$scope', '$http', '$window', '$location',
 ]);
 
 
-app.controller('AdminItemListController', ['$scope', '$http',
-  function($scope, $http) {
+app.controller('AdminItemListController', ['$scope', '$http', '$location',
+  function($scope, $http, $location) {
     $http.get('api/items/all').success(function(data){
       $scope.items = data;
     })
 
     $scope.gotoDetails = function(id){
-      document.location = "#/item/" + id;
+      $location.path('item/' + id).replace();
     };
   }
 ]);
@@ -67,7 +67,7 @@ app.controller('AdminItemDetailController', ['$scope', '$http', '$routeParams', 
 
   }
 
-  $scope.fileMessage = 'no message';
+  $scope.fileMessage = '';
 
   $scope.updateItem = function() {
     $http.post('api/item', JSON.stringify($scope.item), {'Content-Type': 'application/json'})
@@ -90,7 +90,7 @@ app.controller('AdminItemDetailController', ['$scope', '$http', '$routeParams', 
     fd.append("file", files[0]);
     fd.append("itemId", $scope.item._id);
 
-    $http.post('images', fd, {
+    $http.post('api/images', fd, {
       withCredentials: true,
       headers: {'Content-Type': undefined },
       transformRequest: angular.identity
