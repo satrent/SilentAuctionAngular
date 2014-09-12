@@ -145,6 +145,29 @@ silentAuctionControllers.controller('ClosedListController', ['$scope', '$http',
   }
 ]);
 
+silentAuctionControllers.controller('UpcomingListController', ['$scope', '$http',
+  function($scope, $http) {
+
+    $http.get('api/upcoming')
+    .success(function (data, status, headers, config) {
+
+      angular.forEach(data, function(item){
+        if (item.images && item.images.length > 0){
+          item.imageName = item.images[0];
+        }
+      })
+
+      $scope.items = data;
+    })
+    .error(function(e){console.log(e);});
+
+  $scope.gotoDetails = function(id){
+    document.location = "#/upcoming/" + id;
+  };
+
+  }
+]);
+
 
 silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$location', '$rootScope', '$http', '$timeout', function($scope, $window, $location, $rootScope, $http, $timeout){
 

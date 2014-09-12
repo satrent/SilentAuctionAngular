@@ -58,6 +58,14 @@ silentAuctionApp.config(['$routeProvider','$httpProvider',
             templateUrl: '/partials/my-bids.html',
             controller: 'DashboardController'
           }).
+          when('/upcoming', {
+            templateUrl: '/partials/items-upcoming.html',
+            controller: 'UpcomingListController'
+          }).
+          when('/upcoming/:itemId', {
+            templateUrl: '/partials/upcoming-item-detail.html',
+            controller: 'ItemDetailController'
+          }).
           otherwise({
             redirectTo: '/'
           });
