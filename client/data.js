@@ -261,6 +261,15 @@ exports.getClosedLots = function(f) {
   });
 };
 
+exports.getUpcomingLots = function(f) {
+  var d = new moment();
+  db.items.find({StartDate: { $gt: d.utc().format('YYYY-MM-DDTHH:mm:ss')}}, function(err, items) {
+    if (!err && items) {
+      f(items);
+    }
+  });
+};
+
 exports.getItem = function(id, f) {
   db.items.find({_id: db.ObjectId(id)}, function(err, lot) {
 

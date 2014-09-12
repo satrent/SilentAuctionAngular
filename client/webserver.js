@@ -343,6 +343,12 @@ app.get("/api/closed", function(req, res){
   })
 });
 
+app.get("/api/upcoming", function(req, res){
+  db.getUpcomingLots(function(items){
+    res.send(JSON.stringify(items));
+  })
+});
+
 http.createServer(app).listen(8889, function() {
   console.log('web server listening on port 8889');
 });

@@ -1,0 +1,20 @@
+<a style="float: right;" href="/#/upcoming">back to upcoming items</a>
+<h2>
+  {{item.Title}}
+</h2>
+
+<div>
+  <img style="width: auto; height: 300px;" ng-src='images/{{mainImage}}' alt='{{item.Title}} pic' />
+</div>
+<div>
+  <div ng-repeat="image in item.images" style="display: inline-block; border: 1px solid black;">
+    <img ng-mouseover="switchImage($index)" style="width: 50px; height: 50px;" ng-src="images/{{image}}">
+  </div>
+</div>
+
+<div>
+  <span ng-bind="item.Description"></span>
+</div>
+<div>
+  Donated By: <a target="_blank" ng-href="{{item.DonatedLink}}" ng-bind='item.DonatedBy' ></a>
+</div>
