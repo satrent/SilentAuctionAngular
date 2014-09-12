@@ -161,10 +161,6 @@ silentAuctionControllers.controller('UpcomingListController', ['$scope', '$http'
     })
     .error(function(e){console.log(e);});
 
-  $scope.gotoDetails = function(id){
-    document.location = "#/upcoming/" + id;
-  };
-
   }
 ]);
 
@@ -231,7 +227,11 @@ silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routePa
       if (data.bids && data.bids.length > 0){
         data.highBid = data.bids[data.bids.length - 1].amount;
         data.highBidUserName = data.bids[data.bids.length - 1].userName;
+        $scope.newBidAmount = data.highBid + 1;
+      } else {
+        $scope.newBidAmount = data.minimumBid + 1;
       }
+
 
       $scope.item = data;
       if (data.images && data.images.length > 0) {

@@ -105,46 +105,45 @@ body {
 }
 
 .lot-box {
-  border: 1px solid #888888;
-  background-color: #c8c8c8;
+  border: 5px solid #eee;
   float: left;
-  width: 200px;
   height: 275px;
   margin: 10px;
   position: relative;
   cursor: pointer;
+  background-color: #eee;
+  width: 200px;
+  text-align: center;
 }
 
-.lot-box:hover {
-  border: 2px solid #444;
-  margin: 9px;
-  cursor: default;
+.site-logo {
+  position: absolute;
+  left: -200px;
 }
-
 
 .lot-box .title {
-  background-color: #888888;
-  color: #ffffff;
+  background-color: #eee;
+  color: #333;
   font-size: 18px;
   font-weight: bold;
   width: 200px;
   text-align: center;
   padding-top: 5px;
   padding-bottom: 5px;
+  font-family: Helvetica, Arial;
 }
 
 .lot-box img {
-  border: 1px solid #444;
   margin: auto;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+  width: 180px;
+  height: auto;
+  border: 5px solid #eee;
+  margin: auto;
 }
 
 .lot-box .label {
   margin-left: 10px;
+
 }
 
 .lot-box .details-link {
@@ -163,14 +162,16 @@ body {
 }
 
 .lot-box .lot-details {
-    background-color: #c8c8c8;
-    border-top: 1px solid #888888;
+    background-color: #ffffff;
+    border-top: 1px solid #ddd;
     color: #000000;
     width: 188px;
     position: absolute;
     bottom: 1px;
     left: 1px;
     padding: 5px;
+    font-size: 13px;
+    font-family: Helvetica Neue, Helvetica, Arial;
 }
 
 .closed-lot-box {
@@ -267,6 +268,20 @@ body {
   padding: 12px;
   cursor: pointer;
   font-weight: bold;
+}
+
+.item-details {
+  font-size: 13px;
+  font-family: Helvetica Neue, Helvetica, Arial;
+}
+
+.item-details input {
+  width: 50px;
+}
+
+.item-details button {
+  background-color: #8dc53e;
+  color: black;
 }
 
 .admin-list-box:hover {
@@ -372,7 +387,7 @@ body {
 
 
 .dashboard-data tr th {
-  background-color: #0066CC;
+  background-color: #444;
   color: white;
   min-width: 150px;
 }

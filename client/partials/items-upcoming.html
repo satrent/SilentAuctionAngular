@@ -3,7 +3,6 @@
 <div class='lot-container'>
 	<div ng-repeat="item in items" class='lot-box' ng-click="gotoDetails(item._id)">
 		<div class='title'>{{item.Title}}</div>
-		<div>{{item.Description}}</div>
 		<img ng-src='images/{{item.imageName}}' alt='{{item.Title}} pic' />
         <div class="lot-details">
             <div>Donated By: <a target="_blank" ng-href="{{item.DonatedLink}}" ng-bind='item.DonatedBy' ></a></div>

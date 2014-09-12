@@ -19,6 +19,7 @@ app.use(express.multipart());
 app.use("/", express.static(__dirname + '/pages'));
 app.use('/js', express.static(__dirname + '/js'));
 app.use('/images', express.static(__dirname + '/images'));
+app.use('/site-images', express.static(__dirname + '/site-images'));
 app.use('/outbid', express.static(__dirname + '/outbid'));
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/partials', express.static(__dirname + '/partials'));

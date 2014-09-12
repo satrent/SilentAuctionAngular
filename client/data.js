@@ -236,7 +236,7 @@ exports.getDashboardData = function(username, f) {
 
 exports.getOpenItems = function(f) {
   var m = new moment();
-  db.items.find({EndDate: { $gt: m.utc().format('YYYY-MM-DDTHH:mm:ss') }}, function(err, items) {
+  db.items.find({EndDate: { $gt: m.utc().format('YYYY-MM-DDTHH:mm:ss') }, StartDate: {$lt: m.utc().format('YYYY-MM-DDTHH:mm:ss')}}, function(err, items) {
     if (!err && items) {
       f(items);
     }

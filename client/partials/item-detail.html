@@ -1,37 +1,43 @@
 
 <a style="float: right;" href="/">back to all items</a>
-<h2>
-  {{item.Title}}
-</h2>
+  <div style="width: 600px; margin-left: 100px;">
+    <h2>
+      {{item.Title}}
+    </h2>
 
-<div>
-  <img style="width: auto; height: 300px;" ng-src='images/{{mainImage}}' alt='{{item.Title}} pic' />
-</div>
-<div>
-  <div ng-repeat="image in item.images" style="display: inline-block; border: 1px solid black;">
-    <img ng-mouseover="switchImage($index)" style="width: 50px; height: 50px;" ng-src="images/{{image}}">
+    <div>
+      <img style="width: auto; height: 300px;" ng-src='images/{{mainImage}}' alt='{{item.Title}} pic' />
+    </div>
+    <div>
+      <div ng-repeat="image in item.images" style="display: inline-block; padding: 10px;">
+        <img ng-mouseover="switchImage($index)" style="width: 60px; height: 60px;" ng-src="images/{{image}}">
+      </div>
+    </div>
+
+    <div class="item-details">
+      <div>
+        Donated By: <a target="_blank" ng-href="{{item.DonatedLink}}" ng-bind='item.DonatedBy' ></a>
+      </div>
+      <div>
+        Bid: <input ng-model="newBidAmount" type="number">
+        <button ng-click="makeBid()">Submit Bid</button>
+      </div>
+      <div ng-class="{error: !bidResponse.result}" ng-bind="bidResponse.message"></div>
+      <div>
+        Minimum Bid: <span ng-bind="item.MinimumBid | currency"></span>
+      </div>
+      <div>
+        Current High Bid: <span ng-bind="item.highBid | currency"></span>
+      </div>
+      <div>
+        Current High Bidder: <span ng-bind="item.highBidUserName"></span>
+      </div>
+
+      <div>
+        <span ng-bind="item.Description"></span>
+      </div>
+    </div>
   </div>
-</div>
 
-<div>
-  <span ng-bind="item.Description"></span>
-</div>
-<div>
-  Donated By: <a target="_blank" ng-href="{{item.DonatedLink}}" ng-bind='item.DonatedBy' ></a>
-</div>
-<div>
-  Minimum Bid: <span ng-bind="item.MinimumBid | currency"></span>
-</div>
-<div>
-  Current High Bid: <span ng-bind="item.highBid | currency"></span>
-</div>
-<div>
-    Current High Bidder: <span ng-bind="item.highBidUserName"></span>
-</div>
-<div>
-  Bid: <input ng-model="newBidAmount" type="number">
-  <button ng-click="makeBid()">Submit Bid</button>
-</div>
 
-<div ng-class="{error: !bidResponse.result}" ng-bind="bidResponse.message"></div>
 
