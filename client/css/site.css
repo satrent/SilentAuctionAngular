@@ -172,6 +172,7 @@ body {
     padding: 5px;
     font-size: 13px;
     font-family: Helvetica Neue, Helvetica, Arial;
+    cursor: default;
 }
 
 .closed-lot-box {
