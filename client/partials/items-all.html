@@ -13,6 +13,10 @@
                 <div>High Bid: <span ng-bind="item.highBid | currency"></span></div>
             </div>
             <div>Closes: <span ng-bind="item.EndDate | date: 'short'"></span></div>
+          <div>
+            <input ng-model="newBidAmount" type="number" style='width: 50px;'>
+            <button ng-click="makeBid()" style='background-color: #8dc53e;color: black;'>Submit Bid</button>
+          </div>
         </div>
 	</div>
 </div>
