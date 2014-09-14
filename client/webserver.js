@@ -344,6 +344,44 @@ app.get("/api/closed", function(req, res){
   })
 });
 
+app.get("/api/closedItemsForDate", function(req, res){
+  if (!req.query.endDate) {
+    res.send(JSON.stringify({error:'invalid request', result: false}));
+  }
+
+  db.getClosedForDate(req.query.endDate, function(items){
+    res.send(JSON.stringify(items));
+  })
+});
+
+app.get("/api/closedItemsEmails", function(req, res){
+  if (!req.query.endDate) {
+    res.send(JSON.stringify({error:'invalid request', result: false}));
+  }
+
+  db.getClosedForDate(req.query.endDate, function(items){
+
+    _.each(items, function(item) {
+
+      if (item.bids && item.bids.length > 0) {
+
+        var userName = item.bids[item.bids.length - 1].userName;
+
+        sendEmail({
+          to: userName + '@' + appSettings.domain,
+          subject:'Silent Auction - Winning Item',
+          plainText: 'You have placed the winning bid for ' + item.Title + '. Please see the silent auction team to pick up your item.',
+          htmlText: 'You have placed the winning bid for ' + item.Title + '. Please see the silent auction team to pick up your item.'
+        });
+
+      }
+    });
+
+    res.send(JSON.stringify({result: true}));
+  })
+});
+
+
 app.get("/api/upcoming", function(req, res){
   db.getUpcomingLots(function(items){
     res.send(JSON.stringify(items));
