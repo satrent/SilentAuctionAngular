@@ -107,6 +107,9 @@ silentAuctionControllers.controller('ItemListController', ['$scope', '$http', '$
             if (item.bids && item.bids.length > 0){
                 item.highBid = item.bids[item.bids.length - 1].amount;
                 item.highBidUserName = item.bids[item.bids.length - 1].userName;
+                $scope.newBidAmount = item.highBid + 1;
+              } else {
+                $scope.newBidAmount = item.minimumBid + 1;
             }
           })
 

@@ -1,9 +1,11 @@
 <h1>Open Items</h1>
 
 <div class='lot-container'>
-	<div ng-repeat="item in items" class='lot-box' ng-click="gotoDetails(item._id)">
-		<div class='title' ng-bind="item.Title"></div>
-		<img ng-src='images/thumbnails/{{item.imageName}}' alt='{{item.Title}} pic' />
+	<div ng-repeat="item in items" class='lot-box'>
+        <div  ng-click="gotoDetails(item._id)">
+    		<div class='title' ng-bind="item.Title"></div>
+    		<img ng-src='images/thumbnails/{{item.imageName}}' alt='{{item.Title}} pic' />
+        </div>
         <div class="lot-details">
             <div ng-if="item.highBid == Null">
                 <div>Minimum Bid: <span ng-bind="item.MinimumBid | currency"></span></div>
@@ -13,6 +15,10 @@
                 <div>High Bid: <span ng-bind="item.highBid | currency"></span></div>
             </div>
             <div>Closes: <span ng-bind="item.EndDate | date: 'short'"></span></div>
+          <div>
+            <input ng-model="newBidAmount" type="number" style='width: 50px;'>
+            <button ng-click="makeBid()" style='background-color: #8dc53e;color: black;'>Submit Bid</button>
+          </div>
         </div>
 	</div>
 </div>
