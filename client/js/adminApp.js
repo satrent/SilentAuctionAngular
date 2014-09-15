@@ -34,6 +34,10 @@ app.config(['$routeProvider', '$httpProvider',
             templateUrl: '/partials/admin/item-detail.html',
             controller: 'AdminItemDetailController'
           }).
+          when('/closedItems', {
+            templateUrl: '/partials/admin/closed-items.html',
+            controller: 'AdminClosedItemsController'
+          }).
           otherwise({
             redirectTo: '/'
           });

@@ -251,6 +251,13 @@ exports.getAllItems = function(f) {
   });
 };
 
+exports.getClosedForDate = function(endDate, f) {
+  db.items.find({EndDate: endDate}, function(err, items){
+    if (!err && items){
+      f(items);
+    }
+  });
+}
 
 exports.getClosedLots = function(f) {
   var d = new moment();

@@ -63,9 +63,24 @@
 	</div>
 <div>
   <button ng-click='updateItem()'>Update Item</button>
+  <button ng-click="showBids = true;">Show Bids</button>
 </div>
 <div ng-bind="message">
 
+</div>
+
+<div ng-show="showBids" class="modal-background"></div>
+<div ng-show="showBids" class="bids-modal">
+  <span ng-click="showBids = false;" class="close-x">x</span>
+  <h3>bids</h3>
+  <table>
+    <tr ng-repeat="bid in item.bids">
+      <td ng-bind="bid.userName"></td>
+      <td ng-bind="bid.bidDate | date:'MM/dd/yyyy hh:mm a'"></td>
+      <td ng-bind="bid.amount | currency"></td>
+      <td ng-click="deleteBid(bid)" class="delete-link">delete</td>
+    </tr>
+  </table>
 </div>
 
 <hr>

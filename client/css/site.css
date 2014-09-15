@@ -419,3 +419,53 @@ body {
   top: 1px;
   right: 1px;
 }
+
+table th {
+  color: #333;
+  background-color: #eee;
+  font-weight: bold;
+}
+
+table td {
+  color: #333;
+  background-color: #eee;
+  font-weight: normal;
+  font-size: 12px;
+  min-width: 200px;
+  padding: 4px;
+}
+
+.delete-link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.bids-modal {
+  position: fixed;
+  background-color: white;
+  border: 1px solid black;
+  top: 40px;
+  left: 150px;
+  box-shadow: 3px 3px 1px 1px;
+  z-index: 100;
+  min-width: 600px;
+  min-height: 250px;
+}
+
+.bids-modal .close-x {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.modal-background {
+  z-index: 50;
+  position: absolute;
+  width: 1000px;
+  height: 2000px;
+  background-color: white;
+  opacity: .8;
+  top: 0px;
+}
