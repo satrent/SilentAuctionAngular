@@ -4,7 +4,9 @@
 	<div ng-repeat="item in items" class='lot-box'>
         <div  ng-click="gotoDetails(item._id)">
     		<div class='title' ng-bind="item.Title"></div>
-    		<img ng-src='images/thumbnails/{{item.imageName}}' alt='{{item.Title}} pic' />
+        <div style="height: 240px; overflow: hidden;">
+          <img ng-src='images/thumbnails/{{item.imageName}}' alt='{{item.Title}} pic' />
+        </div>
         </div>
         <div class="lot-details">
             <div ng-if="item.highBid == Null">
