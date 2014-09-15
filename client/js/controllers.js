@@ -232,7 +232,7 @@ silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routePa
         data.highBidUserName = data.bids[data.bids.length - 1].userName;
         $scope.newBidAmount = data.highBid + 1;
       } else {
-        $scope.newBidAmount = data.minimumBid + 1;
+        $scope.newBidAmount = parseInt(data.MinimumBid) + 1;
       }
 
 

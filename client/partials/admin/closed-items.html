@@ -1,0 +1,26 @@
+<label for="endDate" >Closed Date:</label>
+<input id="endDate" date-selects="" select-date="endDate">
+
+<button ng-click="findClosedItems()" >Search</button>
+
+
+
+<div ng-show="items">
+
+  <table>
+    <tr>
+      <th>Item</th>
+      <th>High Bidder</th>
+      <th>High Bid</th>
+    </tr>
+    <tr ng-repeat="item in items">
+      <td ng-bind="item.Title"></td>
+      <td ng-bind="item.highBidder"></td>
+      <td ng-bind="item.highBid | currency"></td>
+    </tr>
+  </table>
+
+  <button ng-click="sendEmails()" >Send Emails</button>
+  <div ng-bind="emailResult"></div>
+
+</div>

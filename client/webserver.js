@@ -120,9 +120,8 @@ var sendEmail = function(args) {
 
   smtpTransport.sendMail(mailOptions, function (error, response) {
     if (error) {
+      console.log('error sending email');
       console.log(error);
-    } else {
-      console.log("Message sent: " + response.message);
     }
 
     smtpTransport.close(); // shut down the connection pool, no more messages
@@ -158,10 +157,6 @@ app.post('/register', function(req, res) {
 });
 
 app.get('/api/items', function(req, res) {
-
-  console.log('user name...');
-  console.log(req.user);
-
   var f = function(items){
     res.send(JSON.stringify(items));
   }
@@ -215,32 +210,21 @@ app.post('/api/images', function(req, res){
     var tempPath = req.files.file.path;
     var ext = tempPath.substring(tempPath.lastIndexOf('.', tempPath) + 1, tempPath.length);
     var filename = Math.round(Math.random() * 10000000000) + '.' + ext;
-    console.log('file name is ' + filename); var targetPath = path.resolve(__dirname + '/images/' + filename);
+    var targetPath = path.resolve(__dirname + '/images/' + filename);
     var thumbnailPath = path.resolve(__dirname + '/images/thumbnails/' + filename);
-
-    console.log(filename);
-
 
     gm(tempPath)
       .resize(300,300)
       .write(targetPath, function (err) {
 
-        console.log('inside the callback');
-        console.log(err);
-        console.log('_________');
-
-        if (!err) {
-          console.log('done');
-        } else {
+        if (err) {
           console.log(err)
         }
 
         gm(tempPath)
           .resize(180,180)
           .write(thumbnailPath, function(err) {
-            if(!err) {
-              console.log('done');
-            } else {
+            if(err) {
               console.log(err);
             }
 
@@ -283,6 +267,28 @@ app.post('/api/item', function(req, res){
     res.send(JSON.stringify({message: 'all good', result: true}));
   });
 
+});
+
+app.post('/api/deleteBid', function(req, res){
+
+  if (!isAdmin(req.user.userName)) {
+    res.send(401, 'not authorized');
+    return;
+  }
+  var bid = req.body;
+
+  db.getItem(bid.itemId, function(item){
+
+    item.bids = _.filter(item.bids, function(b){return (b.amount != bid.amount || b.userName != bid.userName)});
+
+    db.saveItem(item, function(errors) {
+      if (errors && errors.length > 0){
+        res.send(JSON.stringify({result: false, errors: errors}));
+      } else {
+        res.send(JSON.stringify({result: true, bids: item.bids}));
+      }
+    });
+  });
 });
 
 app.post('/api/bid', function(req, res) {

@@ -40,8 +40,7 @@ app.controller('AdminItemDetailController', ['$scope', '$http', '$routeParams', 
       Id: -1,
       StartDate: new Date(m.year(), m.month(), m.date(), 10 + (m.zone() / 60), 0, 0),
       EndDate: new Date(m.year(), m.month(), m.date(), 15 + (m.zone() / 60), 0, 0)
-    }
-
+    };
     $scope.item = item;
 
   } else {
@@ -49,7 +48,6 @@ app.controller('AdminItemDetailController', ['$scope', '$http', '$routeParams', 
       $scope.item = data;
     });
   }
-
 
   $scope.removeImage = function(i){
     $scope.item.images.splice(i, 1);
@@ -68,6 +66,20 @@ app.controller('AdminItemDetailController', ['$scope', '$http', '$routeParams', 
   }
 
   $scope.fileMessage = '';
+
+  $scope.showBids = false;
+
+  $scope.deleteBid = function(bid){
+    $http.post('/api/deleteBid', JSON.stringify(bid), {'Content-Type': 'application/json'})
+      .success(function(data){
+        if (data.result){
+          $scope.item.bids = data.bids;
+        } else {
+          alert('something went wrong');
+        }
+      });
+  };
+
 
   $scope.updateItem = function() {
     $http.post('api/item', JSON.stringify($scope.item), {'Content-Type': 'application/json'})
