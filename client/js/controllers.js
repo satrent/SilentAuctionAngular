@@ -45,7 +45,6 @@ silentAuctionControllers.controller('ActivateController', ['$scope', '$http', '$
       $scope.activate.message = 'sorry... something went wrong.';
     })
 
-
 }]);
 
 
