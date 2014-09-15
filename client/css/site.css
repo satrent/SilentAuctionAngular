@@ -111,10 +111,13 @@ body {
   height: 275px;
   margin: 10px;
   position: relative;
-  cursor: pointer;
   background-color: #eee;
   width: 200px;
   text-align: center;
+}
+
+.open-items .lot-box {
+  cursor: pointer;
 }
 
 .site-logo {
