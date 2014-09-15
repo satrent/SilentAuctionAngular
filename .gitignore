@@ -5,4 +5,6 @@
 /client/.DS_Store
 .DS_Store
 /client/email-config.json
+/client/css/images/Thumbs.db
+/client/site-images/Thumbs.db
 *~
