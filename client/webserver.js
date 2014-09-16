@@ -311,7 +311,7 @@ app.post('/api/bid', function(req, res) {
     
     var currentTime = new moment();
 
-    if (currentTime > moment(item.EndDate).toString()){
+    if (currentTime.isAfter(item.EndDate)){
       res.send(JSON.stringify({result: false, message: 'Bid too late! This item\'s bidding time is up.'}));
       return;
     }
