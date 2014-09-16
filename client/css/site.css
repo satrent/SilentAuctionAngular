@@ -114,6 +114,7 @@ body {
   background-color: #eee;
   width: 200px;
   text-align: center;
+  overflow: hidden;
 }
 
 .open-items .lot-box {
