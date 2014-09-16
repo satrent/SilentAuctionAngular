@@ -255,7 +255,7 @@ silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routePa
 
           if ($scope.bidResponse.result) {
             $scope.item.highBid = $scope.newBidAmount;
-            $scope.item.highBidder = $window.localStorage.userName;
+            $scope.item.highBidUserName = $window.localStorage.userName;
           }
       })
         .error(function(data, status, headers, config ){
