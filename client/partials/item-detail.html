@@ -23,17 +23,17 @@
         <button ng-click="makeBid()">Submit Bid</button>
       </div>
       <div ng-class="{error: !bidResponse.result}" ng-bind="bidResponse.message"></div>
-      <div>
+      <div ng-show="!item.bids || item.bids.length == 0">
         Minimum Bid: <span ng-bind="item.MinimumBid | currency"></span>
       </div>
-      <div>
-        Current High Bid: <span ng-bind="item.highBid | currency"></span>
+      <div ng-show="item.bids && item.bids.length > 0">
+        Current High Bid: <span ng-bind="item.highBidUserName"></span> at <span ng-bind="item.highBid | currency"></span>
       </div>
       <div>
-        Current High Bidder: <span ng-bind="item.highBidUserName"></span>
+        Close Date: <span ng-bind="item.EndDate | date: 'short'"></span>
       </div>
 
-      <div>
+      <div style="margin-top: 10px;">
         <span ng-bind="item.Description"></span>
       </div>
     </div>

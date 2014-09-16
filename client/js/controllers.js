@@ -95,7 +95,8 @@ silentAuctionControllers.controller('RegisterController', ['$scope', '$http', '$
 silentAuctionControllers.controller('ItemListController', ['$scope', '$http', '$location',
   function($scope, $http, $location) {
 
-    $http.get('api/items')
+    var r = Math.floor(Math.random() * 100000000);
+    $http.get('api/items?r=' + r)
         .success(function (data, status, headers, config) {
 
           angular.forEach(data, function(item){
@@ -220,7 +221,8 @@ silentAuctionControllers.controller('DashboardController', ['$scope', '$http', '
 
 silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routeParams', '$http', '$window',
   function($scope, $routeParams, $http, $window) {
-    $http.get('api/item/' + $routeParams.itemId).success(function(data) {
+    var r = Math.floor(Math.random() * 10000000);
+    $http.get('api/item/' + $routeParams.itemId + '?n=' + r).success(function(data) {
 
       if (data.images && data.images.length > 0) {
         data.imageName = data.images[0];
@@ -231,7 +233,7 @@ silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routePa
         data.highBidUserName = data.bids[data.bids.length - 1].userName;
         $scope.newBidAmount = data.highBid + 1;
       } else {
-        $scope.newBidAmount = parseInt(data.MinimumBid) + 1;
+        $scope.newBidAmount = parseInt(data.MinimumBid);
       }
 
 
@@ -254,6 +256,10 @@ silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routePa
           $scope.bidResponse = data;
 
           if ($scope.bidResponse.result) {
+            if (!$scope.item.bids) {
+              $scope.item.bids = [];
+            }
+            $scope.item.bids.push({userName: newBidAmount, amount: $window.localStorage.userName});
             $scope.item.highBid = $scope.newBidAmount;
             $scope.item.highBidUserName = $window.localStorage.userName;
           }

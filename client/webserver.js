@@ -158,6 +158,7 @@ app.post('/register', function(req, res) {
 
 app.get('/api/items', function(req, res) {
   var f = function(items){
+    items = _.sortBy(items, function(item){return moment(item.EndDate).date();})
     res.send(JSON.stringify(items));
   }
   db.getOpenItems(f);
@@ -263,7 +264,12 @@ app.post('/api/item', function(req, res){
 
   item._id = db.createObjectId(item._id);
 
+  console.log(item);
+
   db.saveItem(item, function(errors, item){
+    if (errors){
+      console.log(errors);
+    }
     res.send(JSON.stringify({message: 'all good', result: true}));
   });
 
@@ -299,7 +305,7 @@ app.post('/api/bid', function(req, res) {
       item.bids = [];
     }
 
-    if (bid.amount <= item.MinimumBid) {
+    if (bid.amount < item.MinimumBid) {
 			res.send(JSON.stringify({result: false, message: 'Bid amount must be greater than the minimum bid amount.'}));
 			return;
 		}
