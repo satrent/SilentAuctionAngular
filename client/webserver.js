@@ -309,8 +309,9 @@ app.post('/api/bid', function(req, res) {
       return;
     }
     
-    var currentTime = new moment().format("YYYY-MM-DD hh:mm:ss");
-    if (currentTime > moment(item.EndDate).format("YYYY-MM-DD hh:mm:ss")){
+    var currentTime = new moment();
+
+    if (currentTime > moment(item.EndDate).toString()){
       res.send(JSON.stringify({result: false, message: 'Bid too late! This item\'s bidding time is up.'}));
       return;
     }
