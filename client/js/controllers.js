@@ -259,7 +259,7 @@ silentAuctionControllers.controller('ItemDetailController', ['$scope', '$routePa
             if (!$scope.item.bids) {
               $scope.item.bids = [];
             }
-            $scope.item.bids.push({userName: newBidAmount, amount: $window.localStorage.userName});
+            $scope.item.bids.push({userName: $scope.newBidAmount, amount: $window.localStorage.userName});
             $scope.item.highBid = $scope.newBidAmount;
             $scope.item.highBidUserName = $window.localStorage.userName;
           }
