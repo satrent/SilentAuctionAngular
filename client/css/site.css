@@ -470,3 +470,26 @@ table td {
   opacity: .8;
   top: 0px;
 }
+
+p.about_us {
+  font-size: 18px;
+  font-family: Helvetica, Arial;
+}
+
+p.about_us a {
+  text-decoration: none;
+  color: #444;  
+}
+p.about_us a:hover {
+  color: #666;  
+  font-weight: bold;
+}
+
+ul.faq {
+  font-family: Helvetica, Arial;
+}
+
+ul.faq li {
+  font-size: 18px;
+  font-weight: bold;
+}
