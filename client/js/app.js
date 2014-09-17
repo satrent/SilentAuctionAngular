@@ -66,6 +66,12 @@ silentAuctionApp.config(['$routeProvider','$httpProvider',
             templateUrl: '/partials/upcoming-item-detail.html',
             controller: 'ItemDetailController'
           }).
+          when('/about', {
+            templateUrl: 'partials/about.html'
+          }).
+          when('/faq', {
+            templateUrl: 'partials/faq.html'
+          }).
           otherwise({
             redirectTo: '/'
           });
