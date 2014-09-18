@@ -379,12 +379,13 @@ app.get("/api/closedItemsEmails", function(req, res){
       if (item.bids && item.bids.length > 0) {
 
         var userName = item.bids[item.bids.length - 1].userName;
+        var highBid = item.bids[item.bids.length - 1].amount;
 
         sendEmail({
           to: userName + '@' + appSettings.domain,
           subject:'Silent Auction - Winning Item',
-          plainText: 'You have placed the winning bid for ' + item.Title + '. Please see the silent auction team to pick up your item.',
-          htmlText: 'You have placed the winning bid for ' + item.Title + '. Please see the silent auction team to pick up your item.'
+          plainText: 'Congrats! You have placed the winning bid ($' + highBid + ') for ' + item.Title + '. Please see Kaitlyn Pommrehn to pick up your item.',
+          htmlText: 'Congrats! You have placed the winning bid ($' + highBid + ') for ' + item.Title + '. Please see <a href="mailto:kpommrehn@porticobenefits.org">Kaitlyn Pommrehn</a> to pick up your item.'
         });
 
       }
