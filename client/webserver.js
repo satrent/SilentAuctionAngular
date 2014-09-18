@@ -324,7 +324,7 @@ app.post('/api/bid', function(req, res) {
 
     // send an email to the previous high bidder.
     if (item.bids.length > 0 && item.bids[item.bids.length - 1].userName != bid.userName) {
-      var randomImage = parseInt(Math.random() * 20) + 1;
+      var randomImage = parseInt(Math.random() * 18) + 1;
 
       db.getUserByUserName(item.bids[item.bids.length - 1].userName, function(result){
         sendEmail({
