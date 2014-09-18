@@ -213,8 +213,9 @@ silentAuctionControllers.controller('DashboardController', ['$scope', '$http', '
 
 
   var user = $window.localStorage.userName;
+  var r = Math.floor(Math.random() * 10000000);
 
-  $http.get('/api/myBids/' + user).success(function(data){
+  $http.get('/api/myBids/' + user + '?r=' + r).success(function(data){
     $scope.data = data;
   })
 }])
