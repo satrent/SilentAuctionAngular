@@ -171,7 +171,7 @@ silentAuctionControllers.controller('UpcomingListController', ['$scope', '$http'
 silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$location', '$rootScope', '$http', '$timeout', function($scope, $window, $location, $rootScope, $http, $timeout){
 
   $scope.systemTime = Date.now();
-  $scope.tickInterval = 1000 //ms
+  $scope.tickInterval = 1000; //ms
 
   var tick = function() {
       $scope.systemTime = Date.now();
@@ -189,11 +189,17 @@ silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$locati
     }
   }
 
-  $http.get('/api/items/totalRaised').success(function(data) {
-    $scope.totalRaised = data.total;
-  });
 
-  _checkStatus();
+  var updateTotalRaised = function(){
+    $http.get('/api/items/totalRaised').success(function(data) {
+      $scope.totalRaised = data.total;
+    });
+    $timeout(updateTotalRaised, 10000);
+  };
+
+  updateTotalRaised();
+
+ _checkStatus();
 
   $scope.$on('login', function(event, date){_checkStatus();});
 
