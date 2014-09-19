@@ -148,8 +148,8 @@ silentAuctionControllers.controller('ClosedListController', ['$scope', '$http',
   }
 ]);
 
-silentAuctionControllers.controller('UpcomingListController', ['$scope', '$http',
-  function($scope, $http) {
+silentAuctionControllers.controller('UpcomingListController', ['$scope', '$http', '$location',
+  function($scope, $http, $location) {
 
     $http.get('api/upcoming')
     .success(function (data, status, headers, config) {
@@ -163,6 +163,11 @@ silentAuctionControllers.controller('UpcomingListController', ['$scope', '$http'
       $scope.items = data;
     })
     .error(function(e){console.log(e);});
+
+
+    $scope.gotoDetails = function(id) {
+      $location.path('upcoming/' + id).replace();
+    }
 
   }
 ]);

@@ -117,7 +117,8 @@ body {
   overflow: hidden;
 }
 
-.open-items .lot-box {
+.open-items .lot-box,
+.upcoming-items .lot-box{
   cursor: pointer;
 }
 
