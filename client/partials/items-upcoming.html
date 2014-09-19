@@ -7,6 +7,7 @@
       <img ng-src='images/{{item.imageName}}' alt='{{item.Title}} pic' />
       <div class="lot-details">
         <div>Donated By: <a target="_blank" ng-href="{{item.DonatedLink}}" ng-bind='item.DonatedBy' ></a></div>
+        <div>Starts: <span ng-bind="item.StartDate | date: 'short'"></span></div>
         <div>Minimum Bid: <span ng-bind="item.MinimumBid | currency"></span>
         </div>
       </div>
