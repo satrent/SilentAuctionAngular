@@ -91,7 +91,7 @@
   <div>
     <h3>Existing Images</h3>
     <div ng-repeat="image in item.images" class="admin-item-image">
-      <img style="width: 80px; height:80px;" ng-src="./images/{{image}}" alt="existing image">
+      <img style="height:80px;" ng-src="./images/{{image}}" alt="existing image">
       <a ng-click="removeImage($index)" title="remove image" class="image-remove">x</a>
     </div>
   </div>

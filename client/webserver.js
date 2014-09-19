@@ -111,7 +111,7 @@ var sendEmail = function(args) {
   var smtpTransport = nodemailer.createTransport("SMTP", emailSettings);
 
   var mailOptions = {
-    from: "silentauction@porticobenefits.org",
+    from: args.from || "silentauction@porticobenefits.org",
     to: args.to,
     subject: args.subject, // Subject line
     text: args.plainText,
@@ -311,7 +311,8 @@ app.post('/api/bid', function(req, res) {
 		}
 
     if (item.bids.length > 0 && (item.bids[item.bids.length - 1].amount + 1) > bid.amount) {
-      res.send(JSON.stringify({result: false, message: 'Bid amount must be at least one dollar more than the current high bid.'}));
+      var currentBid = item.bids[item.bids.length -1];
+      res.send(JSON.stringify({currentBid: currentBid, result: false, message: 'Bid amount must be at least one dollar more than the current high bid.'}));
       return;
     }
     
@@ -326,8 +327,10 @@ app.post('/api/bid', function(req, res) {
     if (item.bids.length > 0 && item.bids[item.bids.length - 1].userName != bid.userName) {
       var randomImage = parseInt(Math.random() * 18) + 1;
 
+
       db.getUserByUserName(item.bids[item.bids.length - 1].userName, function(result){
         sendEmail({
+          from: result.user.email,
           to: result.user.email,
           subject:"You've been outbid! - Silent Auction",
           plainText: "oh no! you've been outbid",

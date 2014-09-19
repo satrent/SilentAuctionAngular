@@ -91,10 +91,6 @@ exports.saveItem = function(item, f) {
       f({errors: errors});
     }
 
-    console.log('insde the save');
-    console.log(errors);
-    console.log(item);
-
     if (!item) {
       f({errors: ['no item object returned'], id: ''});
       return;
