@@ -173,17 +173,24 @@ silentAuctionControllers.controller('UpcomingListController', ['$scope', '$http'
 ]);
 
 
-silentAuctionControllers.controller('headerCtrl', ['$scope', '$window', '$location', '$rootScope', '$http', '$timeout', function($scope, $window, $location, $rootScope, $http, $timeout){
+silentAuctionControllers.controller('headerCtrl',
+  ['$scope', '$window', '$location', '$rootScope', '$http', '$timeout',
+  function($scope, $window, $location, $rootScope, $http, $timeout){
 
-  $scope.systemTime = Date.now();
-  $scope.tickInterval = 1000; //ms
+  var TICK_INTERVAl = 1000; //ms
+
+  $http.get('/systemTime')
+    .success(function (data) {
+      // Get UTC time from server and convert to client time
+      $scope.systemTime = new Date(data.current_time_utc);
+    });
 
   var tick = function() {
       $scope.systemTime = Date.now();
-      $timeout(tick, $scope.tickInterval); // reset the timer
+      $timeout(tick, TICK_INTERVAl); // reset the timer
   }
 
-  $timeout(tick, $scope.tickInterval);
+  $timeout(tick, TICK_INTERVAl);
 
   $scope.loggedIn = false;
 

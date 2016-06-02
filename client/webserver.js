@@ -60,7 +60,11 @@ var isAdmin = function(userName){
 
 app.get("/domain", function(req, res){
   res.json({'domain': appSettings.domain});
-})
+});
+
+app.get('/systemTime', function (req, res) {
+  res.json({'current_time_utc': Date.now()});
+});
 
 app.post('/authenticate', function (req, res) {
   //TODO - hash the password on the client.
