@@ -15,7 +15,7 @@
 
 <div ng-controller="headerCtrl">
   <div class="header-outer"><div class="header-inner">
-    <div class="header-menu" ng-show="showMenu" ng-mouseleave="showMenu=false" ng-click="showMenu=false">
+    <div class="header-menu" ng-class="{hidden: !showMenu}" ng-mouseleave="showMenu=false" ng-click="showMenu=false">
       <div class="menu-item">
         <a href="/">Open Items</a>
       </div>
