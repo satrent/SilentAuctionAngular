@@ -144,7 +144,8 @@ app.post('/register', function(req, res) {
   db.saveUser(user, function(errors, result) {
 
     if (!result) {
-      res.json({messages: errors, result: false});
+      console.log(errors);
+      res.json({messages: ['save failed'], result: false});
       return;
     } else {
 

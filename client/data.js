@@ -1,4 +1,4 @@
-var db = require("mongojs").connect("localhost:27017/silentauction", ["users", "items", 'bids']);
+var db = require("mongojs")("mongodb://auction1:auction1@ds019033.mlab.com:19033/silentauction", ["users", "items", 'bids']);
 var moment = require("./bower_components/momentjs/moment.js");
 var _ = require('./bower_components/underscore/underscore.js');
 
