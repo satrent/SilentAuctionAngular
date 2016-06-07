@@ -75,7 +75,7 @@ angular.module('directives', [])
           i += 1;
         }
 
-        scope.years = [2013, 2014, 2015];
+        scope.years = [2015, 2016];
 
         scope.hours = [
           {value:8, name: "8am"},
